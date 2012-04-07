@@ -18,8 +18,8 @@ class ApplicationController < ActionController::Base
     end
 
     def oauth_auth!
-      sign_in(oauth_user, :bypass => true) if valid_oauth?
+      ::Opro.login(current_user)  if valid_oauth?
       yield
-      sign_out(oauth_user) if valid_oauth?
+      ::Opro.logout(current_user) if valid_oauth?
     end
 end
