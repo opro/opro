@@ -1,0 +1,13 @@
+<h2>Create An App</h2>
+<div>
+  <%= form_for @client_app do |f| %>
+    <%= f.label :name %>:
+    <%= f.text_field :name, :placeholder => 'App Name' %>
+    <%= f.submit 'Create Oauth Client' %>
+  <%- end -%>
+</div>
+
+
+<div>
+  <%= link_to 'My Aplications', oauth_client_applications_path %>
+</div>

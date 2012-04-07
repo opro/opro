@@ -1,0 +1,18 @@
+<%- if @client_apps.blank? -%>
+  <h2>You have no Apps</h2>
+<%- else -%>
+  <h2>Your Apps</h2>
+  <% @client_apps.each do |client_app| %>
+    <table>
+      <tr><td>Name:   </td><td> <%= client_app.name       %></td></tr>
+      <tr><td>id:     </td><td> <%= client_app.app_id     %></td></tr>
+      <tr><td>Secret: </td><td> <%= client_app.app_secret %></td></tr>
+    </table>
+    <hr />
+  <%- end -%>
+<%- end -%>
+
+
+<div>
+  <%= link_to 'Register an New App', new_oauth_client_application_path %>
+</div>

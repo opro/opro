@@ -1,0 +1,11 @@
+<h2>Success! Here is your App</h2>
+<table>
+  <tr><td>Name:  </td><td><%= @client_app.name       %></td></tr>
+  <tr><td>id:    </td><td><%= @client_app.app_id     %></td></tr>
+  <tr><td>Secret:</td><td><%= @client_app.app_secret %></td></tr>
+</table>
+
+<div>
+  <%= link_to 'Register an New App', new_oauth_client_application_path %>
+</div>
+

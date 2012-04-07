@@ -1,0 +1,8 @@
+<h2><%= @client_app.name %> Would like to access your Data</h2>
+Do not accept if you do not know them or you would not like to authorize this url: <%= @redirect_uri %>
+
+<%= form_for @client_app, :url => oauth_authorize_path(:client_id => @client_app.client_id, :redirect_uri => @redirect_uri), :method => :post do |f| %>
+  <%= f.submit 'I Authorize This Application' %>
+<%- end -%>
+
+<%= button_to 'I Do Not Authorize This Application', request.referrer %>
