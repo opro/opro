@@ -1,5 +1,4 @@
 module Opro
-
   def self.setup
     yield self
     set_login_logout_methods
@@ -8,8 +7,9 @@ module Opro
   def self.set_login_logout_methods
     case auth_strategy
     when :devise
-      login_method  {|current_user| sign_in(current_user, :bypass => true)}
-      logout_method {|current_user| sign_out(current_user) }
+      login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
+      logout_method            { |controller, current_user| context.sign_out(current_user) }
+      authenticate_user_method { |controller| controller.authenticate_user! }
     else
       # nothing
       # TODO, be smart here, if they have devise gem in Gemfile and haven't specified auth_strategy use devise
@@ -37,6 +37,10 @@ module Opro
     end
   end
 
+  def self.auth_strategy=(auth_strategy)
+    @auth_strategy = auth_strategy
+  end
+
 
   def self.login_method(&block)
     if block.present?
@@ -52,6 +56,14 @@ module Opro
       @logout_method = block
     else
       @logout_method or raise 'login method not set, please specify Opro auth_strategy'
+    end
+  end
+
+  def self.authenticate_user_method(&block)
+    if block.present?
+      @authenticate_user_method = block
+    else
+      @authenticate_user_method or raise 'authenticate user method not set, please specify Opro auth_strategy'
     end
   end
 end
