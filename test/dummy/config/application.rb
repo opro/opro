@@ -9,6 +9,10 @@ require "action_mailer/railtie"
 Bundler.require
 require "opro"
 
+
+require "devise"
+
+
 module Dummy
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
