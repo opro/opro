@@ -21,7 +21,5 @@ class AuthControllerTest < ActiveSupport::IntegrationCase
     assert Oauth::AccessGrant.where(:user_id => user.id, :application_id => app.id).present?
     
     code = Oauth::AccessGrant.last.code
-    puts "========="
-    puts system %Q{curl -I 'http://localhost:3000?client_id=#{app.client_id}&client_secret=#{app.client_secret}&code=#{code}'}
   end
 end

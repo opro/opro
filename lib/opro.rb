@@ -5,9 +5,6 @@ module Opro
   # Include helpers in the given scope to AC and AV.
   def self.include_helpers(scope)
     ActiveSupport.on_load(:action_controller) do
-      puts 'foooooooooooo'
-      puts self.inspect
-      puts scope::ApplicationControllerHelper
       include scope::ApplicationControllerHelper if defined?(scope::ApplicationControllerHelper)
     end
   end
