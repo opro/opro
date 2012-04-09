@@ -19,7 +19,5 @@ class AuthControllerTest < ActiveSupport::IntegrationCase
     click_button 'oauthAuthorize'
     assert_equal '/', current_path
     assert Oauth::AccessGrant.where(:user_id => user.id, :application_id => app.id).present?
-    
-    code = Oauth::AccessGrant.last.code
   end
 end
