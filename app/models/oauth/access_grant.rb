@@ -16,7 +16,7 @@ class Oauth::AccessGrant < ActiveRecord::Base
   end
 
   def self.find_user_for_token(token)
-    self.where(:access_token => token).first.user
+    self.where(:access_token => token).first.try(:user)
   end
 
   def self.authenticate(code, application_id)
