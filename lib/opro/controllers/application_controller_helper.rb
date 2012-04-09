@@ -28,9 +28,9 @@ module Opro
       end
 
       def oauth_auth!
-        ::Opro.login(self, current_user)  if valid_oauth?
+        ::Opro.login(self, oauth_user)  if valid_oauth?
         yield
-        ::Opro.logout(self, current_user) if valid_oauth?
+        ::Opro.logout(self, oauth_user) if valid_oauth?
       end
 
     end
