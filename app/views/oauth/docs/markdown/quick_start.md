@@ -1,0 +1,72 @@
+## Quick Start Guide
+
+This site is providing OAuth through [Opro](http://github.com/schneems/opro). If this is your first time using Oauth, please visit [What is Oauth]() or follow along with this guide.
+
+## Step 1: Register your Application
+
+Sign in as a registered user then visit the [new client application page](/oauth_client_applications/new). Enter in the name of your application for this example we can use `foo`, you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`, these behave like a username and password for your OAuth application.
+
+
+    Name:       foo
+    client id:  3234myClientId5678
+    Secret:     14321myClientSecret8765
+
+
+Once you've registered an app successfully we can start to build an OAuth application
+
+
+## Step 2: As a User Grant access to your App
+
+Now that you have a client id, you'll want to give it access to a  user account. Open a new browser window with your currently logged in account, then give your application permission by visiting the url below (please swap out '3234myClientId5678' for your client id)
+
+    <%= "http://#{'thisApp}/oauth/authorize?" %>client_id=3234myClientId5678&redirect_uri=/
+
+This should land you on a page asking if you would like to grant permission to the application. If not, make sure you're logged in and you put the correct client id in the url.
+
+Once you grant your application permission, you will be redirected back to the url provided. In this case we will go back to the home page of our app.
+
+Once redirected to the home page take a look in the address bar, we should see a `code` parameter. Copy this for use later:
+
+    <%= "http://#{'thisApp}?" %>?code=4857goldfish827423
+
+In the url above the `code` would be `4857goldfish827423`. This code can be used to obtain an access token for the user. Once you have a user's access token, you can perform actions for the user as if they were logged in. If you accidentally close this page, don't worry just visit first url and we'll show you the code again.
+
+
+
+## Step 3: Get AccessToken for User with Curl
+
+We'll be using [Curl]() to go through the process of getting an access for our first user, you'll likely use http client libraries in your actual applications, but most systems come with curl and it is a fairly easy way to get started. If you've never used it before read our [curl documentation]()
+
+(Note in all code examples the $ character indicates we are on the command line, it does not need to be coppied)
+
+
+    $ curl '<%= "http://#{'thisApp}/oauth/access_token?" %>?client_id=3234myClientId5678&client_secret=14321myClientSecret8765&code=4857goldfish827423'
+
+You'll want to make sure to replace `client_id`, `client_secret`, and `code` with your values.
+
+You should get back a response that looks like this
+
+    $ {"access_token":"9693accessTokena7ca570bbaf","refresh_token":"3a3c129ad02b573de78e65af06c293f1","expires_in":null}
+
+
+If not, double check the previous steps and ensure you are using the correct values in the query. Copy the `access_token` we'll use it for the rest of our application, in this example it is `9693accessTokena7ca570bbaf`. Treat this access_token as if it were the user's password. It is sensitive information.
+
+
+Step 4: Use the access token
+
+Now we've gone through all the hard work of getting this token, you can use it to make authenticated requests to the server. You'll just need to include the correct `access_token` parameter in your query and you'll be logged in as that user for that request.
+
+
+Try it out for yourself open up a browser and go to
+
+
+    <%= "http://#{'thisApp}/oauth/access_token?" %>
+
+
+## Security
+
+
+Don't share your client application's secret or any user's access_token with unknown or untrusted parties. Always use https when available and don't write any of these values to your application's logs.
+
+
+This code and guide are MIT licensed, use at your own risk.
