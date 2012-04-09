@@ -19,7 +19,7 @@ module Opro
     case auth_strategy
     when :devise
       login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
-      logout_method            { |controller, current_user| context.sign_out(current_user) }
+      logout_method            { |controller, current_user| controller.sign_out(current_user) }
       authenticate_user_method { |controller| controller.authenticate_user! }
     else
       # nothing
