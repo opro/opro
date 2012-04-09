@@ -3,7 +3,7 @@
   <%= form_for @client_app do |f| %>
     <%= f.label :name %>:
     <%= f.text_field :name, :placeholder => 'App Name' %>
-    <%= f.submit 'Create Oauth Client' %>
+    <%= f.submit 'Create Oauth Client', :id => 'submitApp' %>
   <%- end -%>
 </div>
 
