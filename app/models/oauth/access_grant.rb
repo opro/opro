@@ -1,9 +1,10 @@
 class Oauth::AccessGrant < ActiveRecord::Base
 
-  set_table_name :opro_access_grants
+  self.table_name = :opro_access_grants
 
   belongs_to :user
-  belongs_to :application, :class_name => "Oauth::ClientApplication"
+  belongs_to :client_application, :class_name => "Oauth::ClientApplication"
+  belongs_to :application,        :class_name => "Oauth::ClientApplication"
 
   validates :application_id, :uniqueness => {:scope => :user_id, :message => "Applicaiton is already authed for this user"}, :presence => true
 

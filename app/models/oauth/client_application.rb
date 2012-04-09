@@ -1,12 +1,14 @@
 class Oauth::ClientApplication < ActiveRecord::Base
-
-  set_table_name :opro_client_applications
+  self.table_name = :opro_client_applications
 
   belongs_to :user
   validates  :app_id, :uniqueness => true
   validates  :name,   :uniqueness => true
 
   alias_attribute :client_id, :app_id
+
+  alias_attribute :client_secret, :app_secret
+  alias_attribute :secret,        :app_secret
 
   def self.authenticate(app_id, app_secret)
     where(["app_id = ? AND app_secret = ?", app_id, app_secret]).first
