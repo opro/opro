@@ -8,7 +8,13 @@
 </head>
 <body>
 
+<%- if current_user -%>
+  User is logged in
+<%- else -%>
+  There be NO logged in users here
+<%- end -%>
 <%= yield %>
+
 
 </body>
 </html>
