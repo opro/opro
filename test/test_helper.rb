@@ -67,8 +67,9 @@ def user_with_client_app
   user
 end
 
-def create_auth_grant_for_user(user, app = nil)
-  app ||= create_client_app
+def create_auth_grant_for_user(user = nil, app = nil)
+  app  ||= create_client_app
+  user ||= create_user
   Oauth::AccessGrant.create(:user => user, :application => app)
 end
 
