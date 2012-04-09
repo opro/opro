@@ -1,5 +1,5 @@
 class Oauth::ClientApplicationController < ApplicationController
-  before_filter :authenticate_user!
+  before_filter :opro_authenticate_user!
 
   def new
     @client_app = Oauth::ClientApplication.new

@@ -1,5 +1,5 @@
 class Oauth::AuthController < ApplicationController
-  before_filter      :authenticate_user!,         :except => [:access_token]
+  before_filter      :opro_authenticate_user!,    :except => [:access_token]
   skip_before_filter :verify_authenticity_token,  :only => [:access_token, :user]
   before_filter      :ask_user!,                  :only => :authorize
 
@@ -10,8 +10,8 @@ class Oauth::AuthController < ApplicationController
 
   def authorize
     application  =   Oauth::ClientApplication.find_by_app_id(params[:client_id])
-    access_grant =   current_user.access_grants.where(:application_id => application.id).first
-    access_grant ||= current_user.access_grants.create(:application => application)
+    access_grant =   Oauth::AccessGrant.where( :user_id => current_user.id, :application_id => application.id).first
+    access_grant ||= Oauth::AccessGrant.create(:user => current_user,       :application => application)
     redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
   end
 
