@@ -3,6 +3,10 @@ class ApplicationController < ActionController::Base
   skip_before_filter :verify_authenticity_token, :if => :valid_oauth?
 
 
+  def opro_authenticate_user!
+    Opro.authenticate_user_method.call(self)
+  end
+
   protected
 
     def oauth?
@@ -18,8 +22,8 @@ class ApplicationController < ActionController::Base
     end
 
     def oauth_auth!
-      ::Opro.login(current_user)  if valid_oauth?
+      ::Opro.login(self, current_user)  if valid_oauth?
       yield
-      ::Opro.logout(current_user) if valid_oauth?
+      ::Opro.logout(self, current_user) if valid_oauth?
     end
 end
