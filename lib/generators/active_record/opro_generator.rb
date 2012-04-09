@@ -20,7 +20,7 @@ module ActiveRecord
 
 
       def copy_migrations
-        migration_template "access_grants.rb",       "db/migrate/opro_access_grants.rb"
+        migration_template "access_grants.rb",       "db/migrate/create_opro_access_grants.rb"
         migration_template "client_applications.rb", "db/migrate/create_opro_client_applications.rb"
       end
     end

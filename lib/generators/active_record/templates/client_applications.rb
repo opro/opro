@@ -1,6 +1,6 @@
-class CreateClientApplications < ActiveRecord::Migration
+class CreateOproClientApplications < ActiveRecord::Migration
   def change
-    create_table :opro_access_grants do |t|
+    create_table :opro_client_applications do |t|
       t.string  :name
       t.string  :app_id
       t.string  :app_secret
