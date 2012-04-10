@@ -4,6 +4,8 @@ gem "activesupport" , ">= 3.0.7"
 gem "rails"         , ">= 3.0.7"
 
 
+gem 'bluecloth'
+
 group :development, :test do
   gem 'jeweler',  "~> 1.6.4"
   gem "bundler",  ">= 1.1.3"
