@@ -5,9 +5,9 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = ""
+  s.version = "0.0.1.pre"
 
-  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
   s.date = "2012-04-10"
   s.description = " Enable oauth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
@@ -47,6 +47,7 @@ Gem::Specification.new do |s|
     "lib/opro.rb",
     "lib/opro/controllers/application_controller_helper.rb",
     "lib/opro/engine.rb",
+    "opro.gemspec",
     "test/dummy/Rakefile",
     "test/dummy/app/controllers/application_controller.rb",
     "test/dummy/app/controllers/pages_controller.rb",
