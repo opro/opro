@@ -9,7 +9,9 @@ A Rails Engine that turns your app into an [Oauth](http://oauth.net/2/) Provider
 
 ## What is an Oauth Provider
 
-Oauth is used all over the web by companies that need to authenticate users or restrict access to information in a secure fashion. Twitter and Facebook are the best known Oauth Providers. You click "connect to Twitter" then you're sent over to Twitter's site where you can accept or deny. From there you're sent back from where you came, but now they have any information you granted them. Most users understand the flow pretty well, it's a fairly standard process, and is secure. Unfortunately it's not super easy to implement. Since I hate writing code twice, I decided to take an Oauth Provider and turn it into a Rails Engine so anyone could implement an Oauth Provider on their site. 
+Oauth is used all over the web by apps that need to authenticate users or restrict access to information in a secure fashion. Twitter and Facebook are the best known Oauth Providers. Users click "connect to Twitter" in an iPhone app, then they're sent over to Twitter's site where they can accept or deny access. From there they're sent back to the iPhone app where they can do anything through the API that they would be allowed to do in the website.
+
+Most users understand the flow pretty well, it's a fairly standard process, and is secure. While there are plenty of Oauth client libraries unfortunately it's not super easy to implement from a provider standpoint. Since I hate writing code twice, I decided to take an Oauth Provider and turn it into a Rails Engine so anyone could implement an Oauth Provider on their site.
 
 ## Why would I use this?
 
@@ -34,10 +36,55 @@ Gemfile
 ```
 
 ```shell
-  $ #
+  $ opro:install
 ```
+
+This will put a file in `initializers/opro.rb` and generate some migrations.
+
+Go to `initializers/opro.rb` and configure your app for your authentication scheme.
+
+```ruby
+  Opro.setup do |config|
+    config.auth_strategy = :devise
+  end
+```
+
+If you're not using devise you can manually configure your own auth strategy. In the future I plan on adding more auth strategies, ping me or submit a pull request for your desired authentication scheme.
+
+```ruby
+  Opro.setup do |config|
+    config.login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
+    config.logout_method            { |controller, current_user| controller.sign_out(current_user) }
+    config.authenticate_user_method { |controller| controller.authenticate_user! }
+  end
+```
+
+Now we're ready to migrate the database
+
+```shell
+  $ rake db:migrate
+````
+
+
+
+That should be all you need to do to get setup, congrats you're now able to authenticate users using OAuth!!
+
 
 ## Use it
 
+Opro comes with built in documentation, so if you start your server you can view them at `/docs/oauth`. If you're reading this on Github you can jump right to the [Quick Start](/app/views/docs/markdown/quick_start.md) guide. This guide will walk you through creating your first Oauth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
 
-TODO
+
+## Assumptions
+
+* You have a user model and that is what your authenticating
+* You're using Active::Record
+
+If you submit a _good_ pull request for other adapters, or for generalizing the resource we're authenticating, you'll make me pretty happy.
+
+
+## About
+
+If you have a question file an issue or, find me on the Twitters [@schneems](http://twitter.com/schneems).
+
+This project rocks and uses MIT-LICENSE.
