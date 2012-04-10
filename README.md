@@ -1,6 +1,6 @@
 ## Stop, Read This
 
-This is my first time writing and OAuth Provider, so there may be buggy or insecure code. If you want to use this, do so at your own risk. I'm vetting it on some development and production applications, when it is ready for consumption and contribution, I'll remove this. If you want to be notified when that happens let me know [@schneems](http://twitter.com/schneems). For now this should be considered a toy, and enjoyed as such :)
+If you want to use this, do so at your own risk. I'm vetting it on some development and production applications, when it is ready for consumption and contribution, I'll remove this. If you want to be notified when that happens let me know [@schneems](http://twitter.com/schneems). For now this should be considered a toy, and enjoyed as such :)
 
 ## Opro
 
