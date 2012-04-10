@@ -4,7 +4,7 @@ module Opro
   module Controllers
     module ApplicationControllerHelper
       extend ActiveSupport::Concern
-      
+
       included do
         around_filter      :oauth_auth!
         skip_before_filter :verify_authenticity_token, :if => :valid_oauth?
@@ -14,9 +14,33 @@ module Opro
         Opro.authenticate_user_method.call(self)
       end
 
+      module ClassMethods
+        def allow_oauth!(options = {})
+          prepend_before_filter :allow_oauth, options
+        end
+
+        def disallow_oauth!(options = {})
+          prepend_before_filter :disallow_oauth,  options
+          skip_before_filter    :allow_oauth,     options
+        end
+      end
+
       protected
+
+      def allow_oauth?
+        @use_oauth ||= false
+      end
+
+      def disallow_oauth
+        @use_oauth = false
+      end
+
+      def allow_oauth
+        @use_oauth = true
+      end
+
       def oauth?
-        params[:access_token].present?
+        allow_oauth? && params[:access_token].present?
       end
 
       def oauth_user
