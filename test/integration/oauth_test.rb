@@ -14,4 +14,8 @@ class OauthTest < ActiveSupport::IntegrationCase
     visit "/?access_token=#{access_token}"
     assert has_content?('User is logged in')
   end
+
+  test 'blacklisted route should not show user logged in' do
+    #TODO
+  end
 end

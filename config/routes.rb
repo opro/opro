@@ -5,5 +5,6 @@ Rails.application.routes.draw do
   match '/oauth/access_token' => 'oauth/auth#access_token', :as => 'oauth_token'
 
   resources :oauth_docs,                :controller => 'oauth/docs'
+  resources :oauth_tests,               :controller => 'oauth/tests'
   resources :oauth_client_applications, :controller => 'oauth/client_application'
 end
