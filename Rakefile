@@ -40,7 +40,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage    = "http://github.com/schneems/opro"
   gem.license     = "MIT"
   gem.summary     = %Q{ Opro turns your Rails application into an OAuth Provider }
-  gem.description = %Q{ Enable oauth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you}
+  gem.description = %Q{ Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you}
   gem.email       = "richard.schneeman@gmail.com"
   gem.authors     = ["schneems"]
   # dependencies defined in Gemfile
