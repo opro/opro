@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.0.1.pre"
+  s.version = "0.0.1.pre1.0.1"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
@@ -26,6 +26,7 @@ Gem::Specification.new do |s|
     "app/controllers/oauth/auth_controller.rb",
     "app/controllers/oauth/client_application_controller.rb",
     "app/controllers/oauth/docs_controller.rb",
+    "app/controllers/oauth/tests_controller.rb",
     "app/controllers/opro_application_controller.rb",
     "app/models/oauth/access_grant.rb",
     "app/models/oauth/client_application.rb",
@@ -38,6 +39,7 @@ Gem::Specification.new do |s|
     "app/views/oauth/docs/markdown/oauth.md.erb",
     "app/views/oauth/docs/markdown/quick_start.md.erb",
     "app/views/oauth/docs/show.html.erb",
+    "app/views/oauth/tests/index.html.erb",
     "config/routes.rb",
     "lib/generators/active_record/opro_generator.rb",
     "lib/generators/active_record/templates/access_grants.rb",
