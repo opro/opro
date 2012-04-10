@@ -1,5 +1,14 @@
-<h2>TODO</h2>
+<h2>Oauth Docs</h2>
 
-<p>Standardize getting started and developer docs</p>
 
-<p>Oauth shouldn't be hard, and apps implementing standards shouldn't have to duplicate docs</p>
+<p>Oauth shouldn't be hard, and neither should docs</p>
+
+<h2>Quick Links</h2>
+
+<ul>
+  <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
+  <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
+  <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
+</ul>
+
+<%= render_doc(:quick_start) %>
