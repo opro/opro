@@ -1,6 +1,42 @@
-This document explains what curl is and how to use it. 
+# Curl
 
-TODO
+[Curl](http://curl.haxx.se/) is a command line tool for transfering data with a url syntax. Most systems should have curl installed. Open up terminal on OS X or command prompt on windows and type in `curl`. There are parts of the OAuth process that were not intended for direct human interaction such as exchanging the code from the Provider for an access_token. Because of this, it can be easier to use `curl` to talk to a server directly instead of using a web browser.
+
+## What is it good for?
+
+With curl we're able to arbitrarily add parameters to our requests and to send using arbitrary HTTP status codes (GET/POST/DELETE) that are difficult to simulate in the browser. If you need to `POST` data to a url doing so with curl is much easier than constructing a form for testing.
+
+## How do I use it?
+
+On the command line you should be able to get get help by typing `man curl` if your system supports man pages. Below are some simple and common use cases
+
+### Get Webpage
+
+You can get the entire contents of a web document by simply issuing curl to that url
+
+    $ curl https://www.google.com
 
 
-In the future I would love to include Hurl in this project. If that interests you, submit a pull request ;)
+### Get Headers
+
+
+You can ask for the headers of a request by adding the `-I` flag to a curl command
+
+    $ curl https://www.google.com -I
+    HTTP/1.1 200 OK
+    Expires: -1
+    Cache-Control: private, max-age=0
+    Content-Type: text/html; charset=ISO-8859-1
+    Server: gws
+    X-XSS-Protection: 1; mode=block
+    X-Frame-Options: SAMEORIGIN
+    Transfer-Encoding: chunked
+
+
+
+# Hurl
+
+[Hurl](http://hurl.it/) is an open sourced browser based `curl` implementation. If you're going to do quite a few curl requests, using it can be easier than the command line.
+
+
+
