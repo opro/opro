@@ -1,6 +1,6 @@
 ## Quick Start Guide
 
-This site is providing OAuth through [Opro](http://github.com/schneems/opro). If this is your first time using Oauth, please visit [What is Oauth]() or follow along with this guide.
+This site is providing OAuth through [Opro](http://github.com/schneems/opro). If this is your first time using Oauth, please visit [What is Oauth](<%= oauth_doc_path(:oauth) %>) or follow along with this guide.
 
 
 ## Step 1: Register your Application
@@ -28,14 +28,14 @@ Once you grant your application permission, you will be redirected back to the u
 
 Once redirected to the home page, take a look in the address bar, we should see a `code` parameter. Copy this for use later:
 
-    <%= "#{request.base_url}?" %>?code=4857goldfish827423
+    <%= "#{request.base_url}" %>?code=4857goldfish827423
 
 In the url above the `code` would be `4857goldfish827423`. This code can be used to obtain an access token for the user. Once you have a user's access token, you can perform actions for the user as if they were logged in. If you accidentally close this page, don't worry just visit first url and we'll show you the code again.
 
 
 ## Step 3: Get AccessToken for User with Curl
 
-We'll be using [Curl]() to go through the process of getting an access for our first user, you'll likely use http client libraries in your actual applications, but most systems come with curl and it is a fairly easy way to get started. If you've never used it before read our [curl documentation]()
+We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of getting an access for our first user, you'll likely use http client libraries in your actual applications, but most systems come with curl and it is a fairly easy way to get started. If you've never used it before read our [curl documentation](<%= oauth_doc_path(:curl) %>)
 
 (Note in all code examples the $ character indicates we are on the command line, it does not need to be coppied)
 
@@ -68,4 +68,3 @@ You should see a successful result ( again don't forget to replace the example a
 Don't share your client application's secret or any user's access_token with unknown or untrusted parties. Always use https when available and don't write any of these values to your application's logs.
 
 
-<%= view_context.link_to ' ← back',  oauth_docs_path %>
