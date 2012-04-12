@@ -1,4 +1,6 @@
 require 'erb'
+require 'bluecloth'
+
 OPRO_MD_ROOT=File.join(File.dirname(__FILE__), '../../views/oauth/docs/markdown/')
 
 
