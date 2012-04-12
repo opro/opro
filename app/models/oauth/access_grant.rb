@@ -10,6 +10,8 @@ class Oauth::AccessGrant < ActiveRecord::Base
 
   before_create :generate_tokens
 
+  alias_attribute :token, :access_token
+
   def self.prune!
     # UPDATEME
     # delete_all(["created_at < ?", 3.days.ago])
