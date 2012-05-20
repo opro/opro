@@ -23,6 +23,14 @@ module Opro
           prepend_before_filter :disallow_oauth,  options
           skip_before_filter    :allow_oauth,     options
         end
+
+        # call this to remove permissions
+        def require_oauth_permissions(*permissions)
+          prepend_before_filter do
+            @oauth_required_permissions = permissions
+          end
+        end
+        alias :require_oauth_permission :require_oauth_permissions
       end
 
       protected
@@ -43,12 +51,34 @@ module Opro
         allow_oauth? && params[:access_token].present?
       end
 
+      def oauth_access_grant
+        @oauth_access_grant ||= Oauth::AccessGrant.find_for_token(params[:access_token])
+      end
+
+      def oauth_client_app
+        @oauth_client_app   ||= oauth_access_grant.client_application
+      end
+
       def oauth_user
-        @oauth_user ||= Oauth::AccessGrant.find_user_for_token(params[:access_token])
+        @oauth_user         ||= oauth_access_grant.user
       end
 
       def valid_oauth?
-        oauth? && oauth_user.present?
+        oauth? && oauth_user.present? && has_permission?
+      end
+
+      def oauth_required_permissions
+        @oauth_required_permissions || []
+      end
+
+
+      def has_permission?
+        if Opro.request_permissions.include?(:write) && !oauth_access_grant.can_write?
+          return false if env['REQUEST_METHOD'] != 'GET'
+        end
+
+        return false if (oauth_required_permissions - oauth_access_grant.permissions.keys).present?
+        true
       end
 
       def oauth_auth!

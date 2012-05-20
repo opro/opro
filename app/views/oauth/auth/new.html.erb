@@ -2,6 +2,10 @@
 Do not accept if you do not know them or you would not like to authorize this url: <%= @redirect_uri %>
 
 <%= form_for @client_app, :url => oauth_authorize_path(:client_id => @client_app.client_id, :redirect_uri => @redirect_uri), :method => :post do |f| %>
+  <% Opro.request_permissions.each do |permission| %>
+    <%= f.label permission %>
+    <%= f.radio_button permission, false %>
+  <%- end -%>
   <%= f.submit 'I Authorize This Application', :id => 'oauthAuthorize' %>
 <%- end -%>
 

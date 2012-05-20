@@ -16,6 +16,8 @@ class AuthControllerTest < ActiveSupport::IntegrationCase
 
     assert_equal '/oauth/new', current_path
 
+    save_and_open_page
+
     click_button 'oauthAuthorize'
     assert_equal '/', current_path
     assert Oauth::AccessGrant.where(:user_id => user.id, :application_id => app.id).present?
