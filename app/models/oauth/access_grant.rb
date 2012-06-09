@@ -14,8 +14,8 @@ class Oauth::AccessGrant < ActiveRecord::Base
 
   serialize :permissions, Hash
 
-  def can_write?
-    permissions['write']
+  def can?(value)
+    permissions[value.to_sym]
   end
 
   def self.prune!

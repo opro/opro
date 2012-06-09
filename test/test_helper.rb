@@ -2,13 +2,11 @@
 ENV["RAILS_ENV"] = "test"
 
 
-
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 
-
-
+require 'mocha'
 
 ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.perform_deliveries = true

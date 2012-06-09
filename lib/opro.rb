@@ -1,7 +1,9 @@
 module Opro
-
   module Controllers
+    module Concerns
+    end
   end
+
   # Include helpers in the given scope to AC and AV.
   def self.include_helpers(scope)
     ActiveSupport.on_load(:action_controller) do
@@ -87,5 +89,7 @@ module Opro
   end
 end
 
+require 'opro/controllers/concerns/error_messages'
+require 'opro/controllers/concerns/permissions'
 require 'opro/controllers/application_controller_helper'
 require 'opro/engine'
