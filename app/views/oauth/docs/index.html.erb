@@ -9,6 +9,10 @@
   <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
   <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
   <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
+  <% if ::Opro.request_permissions.present? %>
+    <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
+  <% end %>
+
 </ul>
 
 <%= render_doc(:quick_start) %>
