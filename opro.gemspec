@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.0.1.pre1.0.2"
+  s.version = "0.0.1"
 
-  s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
+  s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-04-13"
+  s.date = "2012-06-14"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -48,15 +48,20 @@ Gem::Specification.new do |s|
     "lib/generators/templates/opro.rb",
     "lib/opro.rb",
     "lib/opro/controllers/application_controller_helper.rb",
+    "lib/opro/controllers/concerns/error_messages.rb",
+    "lib/opro/controllers/concerns/permissions.rb",
     "lib/opro/engine.rb",
     "opro.gemspec",
+    "test/controllers/permissions_test.rb",
     "test/dummy/Rakefile",
     "test/dummy/app/controllers/application_controller.rb",
     "test/dummy/app/controllers/pages_controller.rb",
+    "test/dummy/app/controllers/products_controller.rb",
     "test/dummy/app/helpers/application_helper.rb",
     "test/dummy/app/models/user.rb",
     "test/dummy/app/views/layouts/application.html.erb",
     "test/dummy/app/views/pages/index.html.erb",
+    "test/dummy/app/views/products/create.html.erb",
     "test/dummy/config.ru",
     "test/dummy/config/application.rb",
     "test/dummy/config/boot.rb",
@@ -76,8 +81,8 @@ Gem::Specification.new do |s|
     "test/dummy/config/locales/en.yml",
     "test/dummy/config/routes.rb",
     "test/dummy/db/migrate/20120408163038_devise_create_users.rb",
-    "test/dummy/db/migrate/20120408165729_create_opro_access_grants.rb",
-    "test/dummy/db/migrate/20120408165730_create_opro_client_applications.rb",
+    "test/dummy/db/migrate/20120514060322_create_opro_access_grants.rb",
+    "test/dummy/db/migrate/20120514060323_create_opro_client_applications.rb",
     "test/dummy/db/schema.rb",
     "test/dummy/public/404.html",
     "test/dummy/public/422.html",
@@ -112,6 +117,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<activesupport>, [">= 3.0.7"])
       s.add_runtime_dependency(%q<rails>, [">= 3.0.7"])
       s.add_runtime_dependency(%q<bluecloth>, [">= 0"])
+      s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<bundler>, [">= 1.1.3"])
       s.add_development_dependency(%q<capybara>, [">= 0.4.0"])
@@ -124,6 +130,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<activesupport>, [">= 3.0.7"])
       s.add_dependency(%q<rails>, [">= 3.0.7"])
       s.add_dependency(%q<bluecloth>, [">= 0"])
+      s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<bundler>, [">= 1.1.3"])
       s.add_dependency(%q<capybara>, [">= 0.4.0"])
@@ -137,6 +144,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<activesupport>, [">= 3.0.7"])
     s.add_dependency(%q<rails>, [">= 3.0.7"])
     s.add_dependency(%q<bluecloth>, [">= 0"])
+    s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<bundler>, [">= 1.1.3"])
     s.add_dependency(%q<capybara>, [">= 0.4.0"])
