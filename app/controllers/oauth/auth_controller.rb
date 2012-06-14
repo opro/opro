@@ -40,6 +40,7 @@ class Oauth::AuthController < ApplicationController
   # When a user is sent to authorize an application they must first accept the authorization
   # if they've already authed the app, they skip this section
   def ask_user!
+    params.delete(:permissions) ## Delete permissions supplied by client app, this was a security hole
     if user_granted_access_before?(current_user, params)
       # Re-Authorize the application, do not ask the user
       return true
@@ -60,11 +61,19 @@ class Oauth::AuthController < ApplicationController
     Oauth::AccessGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
   end
 
+
+  # take params[:scope] = [:write, :read, :etc] or
+  # take params[:scope] = "write, read, etc"
+  # compare against available scopes ::Opro.request_permissions
+  # return the intersecting set. or the default scope if n
   def scope_from_params(params)
-    requested_scope = (params[:scope]||[]).map(&:downcase)
     default_scope   = ::Opro.request_permissions.map(&:to_s).map(&:downcase)
-    return default_scope if requested_scope.blank?
-    requested_scope & default_scope
+    return default_scope if params[:scope].blank?
+
+    scope = params[:scope].is_a?(Array) ? params[:scope] : params[:scope].split(',')
+    raise "Params #{params[:scope]} improperly formatted " unless scope.is_a?(Array)
+    requested_scope = scope.map(&:downcase).map(&:strip)
+    return requested_scope & default_scope
   end
 
 
