@@ -4,6 +4,7 @@ class CreateOproClientApplications < ActiveRecord::Migration
       t.string  :name
       t.string  :app_id
       t.string  :app_secret
+      t.text    :permissions
       t.integer :user_id
       t.timestamps
     end

@@ -15,7 +15,7 @@
 <h2>Test OAuth Disallow</h2>
 <p>
   If you send a valid OAuth request using the 'DELETE' HTTP method to <%=  oauth_test_path(:show_me_the_money) %> you should see a response like below.</p>
-  <%= button_to oauth_test_path(:show_me_the_money), oauth_test_path(:show_me_the_money), :method => :delete %>
+  <%= button_to oauth_test_path(:show_me_the_money), oauth_test_path(:show_me_the_money), :method => :delete, :id => 'deleteButton' %>
   <pre><code><%= {:status => 401, :message => 'Oauth is Disabled on this Action, this is the correct result!', :params => {:id => 'show_me_the_money', :access_token => '3948fuAlo10gnsu'}}.to_json %></code></pre>
 
 <p>

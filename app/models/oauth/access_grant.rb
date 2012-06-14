@@ -12,13 +12,23 @@ class Oauth::AccessGrant < ActiveRecord::Base
 
   alias_attribute :token, :access_token
 
+  serialize :permissions, Hash
+
+  def can?(value)
+    permissions[value.to_s]
+  end
+
   def self.prune!
     # UPDATEME
     # delete_all(["created_at < ?", 3.days.ago])
   end
 
+  def self.find_for_token(token)
+    self.where(:access_token => token).includes(:user, :client_application).first
+  end
+
   def self.find_user_for_token(token)
-    self.where(:access_token => token).first.try(:user)
+    find_app_for_token.try(:user)
   end
 
   def self.authenticate(code, application_id)
