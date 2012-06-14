@@ -1,9 +1,28 @@
-<h2><%= @client_app.name %> Would like to access your Data</h2>
-Do not accept if you do not know them or you would not like to authorize this url: <%= @redirect_uri %>
+<h2>Authorization Request</h2>
+
+
+<p>
+<%= @client_app.name %>  would like to access your Data. Only accept if you know them, you will then be redirected back to: "<%= @redirect_uri %>".
+</p>
 
 <%= form_for @client_app, :url => oauth_authorize_path(:client_id => @client_app.client_id, :redirect_uri => @redirect_uri), :method => :post do |f| %>
 
-  <%= f.submit 'I Authorize This Application', :id => 'oauthAuthorize' %>
+
+I Authorize <%= @client_app.name %> to:
+
+
+  <ul>
+
+    <li><%= check_box_tag 'permissions[read]', 1, true, {:disabled => true} %> Read</li>
+
+    <% @scopes.each do |permission| %>
+      <% is_checked =  @client_app.permissions.key?(permission) ? @client_app.permissions[permission] : true %>
+      <li><%= check_box_tag "permissions[#{permission}]", 1, is_checked %> <%= permission.capitalize %></li>
+    <% end %>
+  </ul>
+
+  <%= f.submit 'Authorize This Application', :id => 'oauthAuthorize' %>
 <%- end -%>
 
-<%= button_to 'I Do Not Authorize This Application', request.referrer, :id => 'oauthNoAuthorize' %>
+<%= button_to 'Decline this Request', request.referrer, :id => 'oauthNoAuthorize' %>
+

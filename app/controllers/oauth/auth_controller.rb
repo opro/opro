@@ -6,12 +6,15 @@ class Oauth::AuthController < ApplicationController
   def new
     @redirect_uri = params[:redirect_uri]
     @client_app   = Oauth::ClientApplication.find_by_app_id(params[:client_id])
+    @scopes       = scope_from_params(params)
   end
 
   def authorize
     application  =   Oauth::ClientApplication.find_by_app_id(params[:client_id])
+    permissions  =   params[:permissions]
     access_grant =   Oauth::AccessGrant.where( :user_id => current_user.id, :application_id => application.id).first
     access_grant ||= Oauth::AccessGrant.create(:user => current_user,       :application => application)
+    access_grant.update_attributes(:permissions => permissions) if access_grant.permissions != permissions
     redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
   end
 
@@ -55,6 +58,13 @@ class Oauth::AuthController < ApplicationController
   def user_granted_access_before?(user, params)
     @client_app ||= Oauth::ClientApplication.find_by_app_id(params[:client_id])
     Oauth::AccessGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
+  end
+
+  def scope_from_params(params)
+    requested_scope = (params[:scope]||[]).map(&:downcase)
+    default_scope   = ::Opro.request_permissions.map(&:to_s).map(&:downcase)
+    return default_scope if requested_scope.blank?
+    requested_scope & default_scope
   end
 
 
