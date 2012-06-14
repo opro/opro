@@ -1,7 +1,9 @@
 module Opro
-
   module Controllers
+    module Concerns
+    end
   end
+
   # Include helpers in the given scope to AC and AV.
   def self.include_helpers(scope)
     ActiveSupport.on_load(:action_controller) do
@@ -39,7 +41,7 @@ module Opro
     logout_method.call(*args)
   end
 
-
+  # Used by set_login_logout_methods to pre-define login, logout, and authenticate methods
   def self.auth_strategy(auth_strategy = nil)
     if auth_strategy.present?
       @auth_strategy = auth_strategy
@@ -61,6 +63,14 @@ module Opro
     end
   end
 
+  def self.request_permissions=(permissions)
+    @request_permissions = permissions
+  end
+
+  def self.request_permissions
+    @request_permissions || []
+  end
+
 
   def self.logout_method(&block)
     if block.present?
@@ -79,8 +89,7 @@ module Opro
   end
 end
 
-# require 'opro/controller/concerns/render_redirect'
-# require 'opro/controller/concerns/steps'
-# require 'opro/controller/concerns/path'
+require 'opro/controllers/concerns/error_messages'
+require 'opro/controllers/concerns/permissions'
 require 'opro/controllers/application_controller_helper'
 require 'opro/engine'

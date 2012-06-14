@@ -10,6 +10,10 @@ class Oauth::ClientApplication < ActiveRecord::Base
   alias_attribute :client_secret, :app_secret
   alias_attribute :secret,        :app_secret
 
+  serialize :permissions, Hash
+
+
+
   def self.authenticate(app_id, app_secret)
     where(["app_id = ? AND app_secret = ?", app_id, app_secret]).first
   end

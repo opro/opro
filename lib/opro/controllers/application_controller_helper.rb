@@ -5,6 +5,9 @@ module Opro
     module ApplicationControllerHelper
       extend ActiveSupport::Concern
 
+      include Opro::Controllers::Concerns::Permissions
+      include Opro::Controllers::Concerns::ErrorMessages
+
       included do
         around_filter      :oauth_auth!
         skip_before_filter :verify_authenticity_token, :if => :valid_oauth?
@@ -23,12 +26,18 @@ module Opro
           prepend_before_filter :disallow_oauth,  options
           skip_before_filter    :allow_oauth,     options
         end
+
       end
 
       protected
 
       def allow_oauth?
         @use_oauth ||= false
+      end
+
+      # returns boolean if oauth request
+      def valid_oauth?
+        oauth? && oauth_user.present? && oauth_client_has_permissions?
       end
 
       def disallow_oauth
@@ -43,12 +52,16 @@ module Opro
         allow_oauth? && params[:access_token].present?
       end
 
-      def oauth_user
-        @oauth_user ||= Oauth::AccessGrant.find_user_for_token(params[:access_token])
+      def oauth_access_grant
+        @oauth_access_grant ||= Oauth::AccessGrant.find_for_token(params[:access_token])
       end
 
-      def valid_oauth?
-        oauth? && oauth_user.present?
+      def oauth_client_app
+        @oauth_client_app   ||= oauth_access_grant.client_application
+      end
+
+      def oauth_user
+        @oauth_user         ||= oauth_access_grant.user
       end
 
       def oauth_auth!
