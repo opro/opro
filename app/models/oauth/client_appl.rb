@@ -1,4 +1,4 @@
-class Oauth::ClientApplication < ActiveRecord::Base
+class Oauth::ClientApp < ActiveRecord::Base
   self.table_name = :opro_client_applications
 
   belongs_to :user

@@ -1,4 +1,4 @@
-class Oauth::TestsController < ApplicationController
+class Oauth::TestsController < OproController
   allow_oauth!
   disallow_oauth! :only => [:destroy]
 

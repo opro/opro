@@ -10,6 +10,10 @@ Dummy::Application.configure do
   # Log error messages when you accidentally call methods on nil.
   config.whiny_nils = true
 
+
+  config.log_level = :debug
+
+
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false

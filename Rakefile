@@ -32,6 +32,14 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
 
+namespace :opro do
+  desc "Install opro in dummy app"
+  task :install do
+    cd 'test/dummy'
+    system 'bundle exec rails g opro:install --force'
+  end
+end
+
 
 require 'jeweler'
 Jeweler::Tasks.new do |gem|

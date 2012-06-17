@@ -1,4 +1,4 @@
-class CreateOproAccessGrants < ActiveRecord::Migration
+class CreateOproAuthGrants < ActiveRecord::Migration
   def change
     create_table  :opro_access_grants do |t|
       t.string    :code

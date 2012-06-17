@@ -1,14 +1,14 @@
-class Oauth::AccessGrant < ActiveRecord::Base
+class Oauth::AuthGrant < ActiveRecord::Base
 
   self.table_name = :opro_access_grants
 
   belongs_to :user
-  belongs_to :client_application, :class_name => "Oauth::ClientApplication"
-  belongs_to :application,        :class_name => "Oauth::ClientApplication"
+  belongs_to :client_application, :class_name => "Oauth::ClientApp"
+  belongs_to :application,        :class_name => "Oauth::ClientApp"
 
-  validates :application_id, :uniqueness => {:scope => :user_id, :message => "Applicaiton is already authed for this user"}, :presence => true
+  validates :application_id, :uniqueness => {:scope => :user_id, :message => "Application is already authed for this user"}, :presence => true
 
-  before_create :generate_tokens
+  before_create :generate_tokens!, :generate_expires_at!
 
   alias_attribute :token, :access_token
 
@@ -19,8 +19,27 @@ class Oauth::AccessGrant < ActiveRecord::Base
   end
 
   def self.prune!
-    # UPDATEME
-    # delete_all(["created_at < ?", 3.days.ago])
+    return false unless ::Opro.require_refresh_within.present?
+
+    time_to_expire = ::Opro.require_refresh_within.ago.in_time_zone
+    find_each(:conditions => ["created_at < ?", time_to_expire]) do |grant|
+      # grant.
+    end
+  end
+
+  def expired?
+    return false unless ::Opro.require_refresh_within.present?
+    return expires_in < 0
+  end
+
+  def not_expired?
+    !expired?
+  end
+
+  def expires_in
+    return false unless access_token_expires_at.present?
+    time = access_token_expires_at - Time.now
+    time.to_i
   end
 
   def self.find_for_token(token)
@@ -32,10 +51,29 @@ class Oauth::AccessGrant < ActiveRecord::Base
   end
 
   def self.authenticate(code, application_id)
-    self.where("code = ? AND application_id = ?", code, application_id).first
+    auth_grant = self.where("code = ? AND application_id = ?", code, application_id).first
   end
 
-  def generate_tokens
+  def self.refresh_tokens!(refresh_token, application_id)
+    auth_grant = self.where("refresh_token = ? AND application_id = ?", refresh_token, application_id).first
+    if auth_grant.present?
+      auth_grant.generate_tokens!
+      auth_grant.generate_expires_at!
+      auth_grant.save!
+    end
+    auth_grant
+  end
+
+  def generate_expires_at!
+    if ::Opro.require_refresh_within.present?
+      self.access_token_expires_at = Time.now + ::Opro.require_refresh_within
+    else
+      self.access_token_expires_at = nil
+    end
+    true
+  end
+
+  def generate_tokens!
     self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), SecureRandom.hex(16), SecureRandom.hex(16)
   end
 
@@ -45,10 +83,5 @@ class Oauth::AccessGrant < ActiveRecord::Base
     else
       redirect_uri + "?code=#{code}&response_type=code"
     end
-  end
-
-  def start_expiry_period!
-    # UPDATEME
-    # self.update_attribute(:access_token_expires_at, 2.days.from_now)
   end
 end

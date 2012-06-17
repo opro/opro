@@ -1,0 +1,18 @@
+<%= "# Refresh Tokens are not required in this application" if ::Opro.require_refresh_within.blank? %>
+
+# Refresh Tokens
+
+Refresh tokens can be used to refresh an expiring `access_token`. When you receive your initial `access_token` you will receive a `request_token` in the json as well as an `expires_in` value. The `expires_in` value marks the seconds that the current `access_token` is still valid. After this value reaches zero a client application will not be able to use the existing `access_token`.
+
+## Refreshing an Access Token
+
+If a token has expired or you simply wish to receive a new `access_token` you can send your `refresh_token` along with your `app_id` and `app_secret` to `/oauth/token` and your access_token will be refreshed.
+
+
+    $ curl '<%= "#{request.base_url}/oauth/token?" %>?client_id=3234myClientId5678&client_secret=14321myClientSecret8765&refresh_token=4857goldfish827423'
+
+You'll want to make sure to replace `client_id`, `client_secret`, and `refresh_token` with your values.
+
+You should get back a response that looks like this
+
+    $ {"access_token":"9693accessTokena7ca570bbaf","refresh_token":"3a3c129ad02b573de78e65af06c293f1","expires_in":7300 }

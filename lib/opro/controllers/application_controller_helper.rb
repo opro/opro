@@ -15,6 +15,7 @@ module Opro
 
       def opro_authenticate_user!
         Opro.authenticate_user_method.call(self)
+        true
       end
 
       module ClassMethods
@@ -37,7 +38,11 @@ module Opro
 
       # returns boolean if oauth request
       def valid_oauth?
-        oauth? && oauth_user.present? && oauth_client_has_permissions?
+        oauth? && oauth_user.present? && oauth_client_not_expired? && oauth_client_has_permissions?
+      end
+
+      def oauth_client_not_expired?
+        oauth_access_grant.not_expired?
       end
 
       def disallow_oauth
@@ -53,7 +58,7 @@ module Opro
       end
 
       def oauth_access_grant
-        @oauth_access_grant ||= Oauth::AccessGrant.find_for_token(params[:access_token])
+        @oauth_access_grant ||= Oauth::AuthGrant.find_for_token(params[:access_token])
       end
 
       def oauth_client_app

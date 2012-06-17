@@ -4,7 +4,7 @@ require 'bluecloth'
 OPRO_MD_ROOT=File.join(File.dirname(__FILE__), '../../views/oauth/docs/markdown/')
 
 
-class Oauth::DocsController < ApplicationController
+class Oauth::DocsController < OproController
   helper_method :render_doc
 
   def index

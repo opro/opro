@@ -1,0 +1,4 @@
+class OproController < ApplicationController
+
+
+end

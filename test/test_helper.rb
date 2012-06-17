@@ -7,6 +7,9 @@ require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 
 require 'mocha'
+require 'timecop'
+require 'database_cleaner'
+DatabaseCleaner.strategy = :truncation
 
 ActionMailer::Base.delivery_method = :test
 ActionMailer::Base.perform_deliveries = true
@@ -45,7 +48,7 @@ include Warden::Test::Helpers
 Warden.test_mode!
 
 def rand_name
-  'foo' + Time.now.to_f.to_s
+  'foo' + Time.now.to_f.to_s + rand(10000).to_s
 end
 
 
@@ -56,7 +59,7 @@ end
 def create_client_app(options= {})
   user = options[:user] || create_user
   name = options[:name] || rand_name
-  Oauth::ClientApplication.create_with_user_and_name(user, name)
+  Oauth::ClientApp.create_with_user_and_name(user, name)
 end
 
 def user_with_client_app
@@ -68,8 +71,9 @@ end
 def create_auth_grant_for_user(user = nil, app = nil)
   app  ||= create_client_app
   user ||= create_user
-  Oauth::AccessGrant.create(:user => user, :application => app)
+  Oauth::AuthGrant.create(:user => user, :application => app)
 end
+
 
 # Will run the given code as the user passed in
 def as_user(user=nil, &block)

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class AuthControllerTest < ActiveSupport::IntegrationCase
+class CapybaraAuthControllerTest < ActiveSupport::IntegrationCase
 
   setup do
     @app           = create_client_app
@@ -14,13 +14,14 @@ class AuthControllerTest < ActiveSupport::IntegrationCase
   end
 
   test 'auth entry point is accessible to logged IN users' do
+    as_user(@user) do
+      visit oauth_new_path(:client_id => @app.client_id, :redirect_uri => @redirect_uri)
 
-    as_user(@user).visit oauth_new_path(:client_id => @app.client_id, :redirect_uri => @redirect_uri)
+      assert_equal '/oauth/new', current_path
+      click_button 'oauthAuthorize'
+    end
 
-    assert_equal '/oauth/new', current_path
-
-    click_button 'oauthAuthorize'
-    access_grant = Oauth::AccessGrant.where(:user_id => @user.id, :application_id => @app.id).first
+    access_grant = Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
     assert_equal @redirect_uri, current_path
     assert access_grant.present?
     assert access_grant.can?(:write) # write access is checked by default
@@ -31,7 +32,7 @@ class AuthControllerTest < ActiveSupport::IntegrationCase
 
     uncheck('permissions_write') # uncheck write access
     click_button 'oauthAuthorize'
-    access_grant = Oauth::AccessGrant.where(:user_id => @user.id, :application_id => @app.id).first
+    access_grant = Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
     refute access_grant.can?(:write)
   end
 end

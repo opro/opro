@@ -25,7 +25,6 @@ module Opro
       authenticate_user_method { |controller| controller.authenticate_user! }
     else
       # nothing
-      # TODO, be smart here, if they have devise gem in Gemfile and haven't specified auth_strategy use devise
     end
   end
 
@@ -71,6 +70,13 @@ module Opro
     @request_permissions || []
   end
 
+  def self.require_refresh_within=(require_refresh_within)
+    @require_refresh_within = require_refresh_within
+  end
+
+  def self.require_refresh_within
+    @require_refresh_within
+  end
 
   def self.logout_method(&block)
     if block.present?

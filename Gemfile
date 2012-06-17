@@ -8,6 +8,7 @@ gem 'bluecloth'
 
 group :development, :test do
   gem 'mocha'
+  gem 'timecop'
   gem 'jeweler',  "~> 1.6.4"
   gem "bundler",  ">= 1.1.3"
 
@@ -17,6 +18,9 @@ group :development, :test do
   gem "launchy"
 end
 
+group :test do
+  gem 'database_cleaner'
+end
 
 group :test, :development do
   gem 'devise'

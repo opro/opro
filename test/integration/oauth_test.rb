@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OauthTest < ActiveSupport::IntegrationCase
+class CapybaraOauthTest < ActiveSupport::IntegrationCase
 
   test 'invalid auth_token should do nothing' do
     visit '/'
@@ -15,7 +15,4 @@ class OauthTest < ActiveSupport::IntegrationCase
     assert has_content?('User is logged in')
   end
 
-  test 'blacklisted route should not show user logged in' do
-    #TODO
-  end
 end

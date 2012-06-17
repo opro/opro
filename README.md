@@ -45,7 +45,7 @@ Now we're ready to migrate the database
     $ rake db:migrate
 ````
 
-This will add `Oauth::AccessGrant` and `Oauth::ClientApplication` to your database
+This will add `Oauth::AuthGrant` and `Oauth::ClientApp` to your database
 
 ## Setup
 

@@ -40,7 +40,7 @@ We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of
 (Note in all code examples the $ character indicates we are on the command line, it does not need to be coppied)
 
 
-    $ curl '<%= "#{request.base_url}/oauth/access_token?" %>?client_id=3234myClientId5678&client_secret=14321myClientSecret8765&code=4857goldfish827423'
+    $ curl '<%= "#{request.base_url}/oauth/token?" %>?client_id=3234myClientId5678&client_secret=14321myClientSecret8765&code=4857goldfish827423'
 
 You'll want to make sure to replace `client_id`, `client_secret`, and `code` with your values.
 
