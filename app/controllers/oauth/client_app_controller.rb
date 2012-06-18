@@ -5,6 +5,12 @@ class Oauth::ClientAppController < OproController
     @client_app = Oauth::ClientApp.new
   end
 
+  # Show all client applications belonging to the current user
+  def index
+    @client_apps = Oauth::ClientApp.where(:user_id => current_user.id)
+  end
+
+
   def create
     @client_app = Oauth::ClientApp.find_by_user_id_and_name(current_user.id, params[:oauth_client_app][:name])
     @client_app ||= Oauth::ClientApp.create_with_user_and_name(current_user, params[:oauth_client_app][:name])
@@ -15,7 +21,4 @@ class Oauth::ClientAppController < OproController
     end
   end
 
-  def index
-    @client_apps = Oauth::ClientApp.where(:user_id => current_user.id)
-  end
 end
