@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-06-14"
+  s.date = "2012-06-18"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -24,20 +24,23 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "app/controllers/oauth/auth_controller.rb",
-    "app/controllers/oauth/client_application_controller.rb",
+    "app/controllers/oauth/client_app_controller.rb",
     "app/controllers/oauth/docs_controller.rb",
     "app/controllers/oauth/tests_controller.rb",
-    "app/controllers/opro_application_controller.rb",
+    "app/controllers/oauth/token_controller.rb",
+    "app/controllers/opro_controller.rb",
     "app/models/oauth/access_grant.rb",
-    "app/models/oauth/client_application.rb",
+    "app/models/oauth/client_appl.rb",
     "app/views/oauth/auth/new.html.erb",
-    "app/views/oauth/client_application/create.html.erb",
-    "app/views/oauth/client_application/index.html.erb",
-    "app/views/oauth/client_application/new.html.erb",
+    "app/views/oauth/client_app/create.html.erb",
+    "app/views/oauth/client_app/index.html.erb",
+    "app/views/oauth/client_app/new.html.erb",
     "app/views/oauth/docs/index.html.erb",
     "app/views/oauth/docs/markdown/curl.md.erb",
     "app/views/oauth/docs/markdown/oauth.md.erb",
+    "app/views/oauth/docs/markdown/permissions.md.erb",
     "app/views/oauth/docs/markdown/quick_start.md.erb",
+    "app/views/oauth/docs/markdown/refresh_tokens.md.erb",
     "app/views/oauth/docs/show.html.erb",
     "app/views/oauth/tests/index.html.erb",
     "config/routes.rb",
@@ -51,8 +54,10 @@ Gem::Specification.new do |s|
     "lib/opro/controllers/concerns/error_messages.rb",
     "lib/opro/controllers/concerns/permissions.rb",
     "lib/opro/engine.rb",
+    "lib/opro/rails/routes.rb",
     "opro.gemspec",
     "test/controllers/permissions_test.rb",
+    "test/controllers/refresh_token_test.rb",
     "test/dummy/Rakefile",
     "test/dummy/app/controllers/application_controller.rb",
     "test/dummy/app/controllers/pages_controller.rb",
@@ -96,10 +101,14 @@ Gem::Specification.new do |s|
     "test/dummy/public/javascripts/rails.js",
     "test/dummy/public/stylesheets/.gitkeep",
     "test/dummy/script/rails",
+    "test/integration/action_dispatch/auth_controller_test.rb",
+    "test/integration/action_dispatch/oauth_flow_test.rb",
+    "test/integration/action_dispatch/refresh_token_test.rb",
     "test/integration/auth_controller_test.rb",
-    "test/integration/client_application_controller_test.rb",
+    "test/integration/client_app_controller_test.rb",
     "test/integration/docs_controller_test.rb",
     "test/integration/oauth_test.rb",
+    "test/integration/refresh_token_test.rb",
     "test/opro_test.rb",
     "test/support/integration_case.rb",
     "test/test_helper.rb"
@@ -114,10 +123,11 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<activesupport>, [">= 3.0.7"])
-      s.add_runtime_dependency(%q<rails>, [">= 3.0.7"])
+      s.add_runtime_dependency(%q<activesupport>, [">= 3.1.0"])
+      s.add_runtime_dependency(%q<rails>, [">= 3.1.0"])
       s.add_runtime_dependency(%q<bluecloth>, [">= 0"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
+      s.add_development_dependency(%q<timecop>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_development_dependency(%q<bundler>, [">= 1.1.3"])
       s.add_development_dependency(%q<capybara>, [">= 0.4.0"])
@@ -127,10 +137,11 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<rcov>, [">= 0"])
       s.add_development_dependency(%q<simplecov>, [">= 0"])
     else
-      s.add_dependency(%q<activesupport>, [">= 3.0.7"])
-      s.add_dependency(%q<rails>, [">= 3.0.7"])
+      s.add_dependency(%q<activesupport>, [">= 3.1.0"])
+      s.add_dependency(%q<rails>, [">= 3.1.0"])
       s.add_dependency(%q<bluecloth>, [">= 0"])
       s.add_dependency(%q<mocha>, [">= 0"])
+      s.add_dependency(%q<timecop>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<bundler>, [">= 1.1.3"])
       s.add_dependency(%q<capybara>, [">= 0.4.0"])
@@ -141,10 +152,11 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<simplecov>, [">= 0"])
     end
   else
-    s.add_dependency(%q<activesupport>, [">= 3.0.7"])
-    s.add_dependency(%q<rails>, [">= 3.0.7"])
+    s.add_dependency(%q<activesupport>, [">= 3.1.0"])
+    s.add_dependency(%q<rails>, [">= 3.1.0"])
     s.add_dependency(%q<bluecloth>, [">= 0"])
     s.add_dependency(%q<mocha>, [">= 0"])
+    s.add_dependency(%q<timecop>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<bundler>, [">= 1.1.3"])
     s.add_dependency(%q<capybara>, [">= 0.4.0"])
