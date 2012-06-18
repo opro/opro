@@ -1,7 +1,7 @@
 source "http://rubygems.org"
 
-gem "activesupport" , ">= 3.0.7"
-gem "rails"         , ">= 3.0.7"
+gem "activesupport" , ">= 3.1.0"
+gem "rails"         , ">= 3.1.0"
 
 
 gem 'bluecloth'
