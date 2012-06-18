@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
     "README.md"
   ]
   s.files = [
+    ".travis.yml",
     "CHANGELOG.md",
     "Gemfile",
     "Gemfile.lock",
@@ -30,7 +31,7 @@ Gem::Specification.new do |s|
     "app/controllers/oauth/token_controller.rb",
     "app/controllers/opro_controller.rb",
     "app/models/oauth/access_grant.rb",
-    "app/models/oauth/client_appl.rb",
+    "app/models/oauth/client_app.rb",
     "app/views/oauth/auth/new.html.erb",
     "app/views/oauth/client_app/create.html.erb",
     "app/views/oauth/client_app/index.html.erb",
