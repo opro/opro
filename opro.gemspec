@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
     "app/controllers/oauth/tests_controller.rb",
     "app/controllers/oauth/token_controller.rb",
     "app/controllers/opro_controller.rb",
-    "app/models/oauth/access_grant.rb",
+    "app/models/oauth/auth_grant.rb",
     "app/models/oauth/client_app.rb",
     "app/views/oauth/auth/new.html.erb",
     "app/views/oauth/client_app/create.html.erb",
