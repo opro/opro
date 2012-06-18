@@ -12,7 +12,7 @@
   <% if ::Opro.request_permissions.present? %>
     <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
   <% end %>
-  <% if ::Opro.require_refresh_within.blank? %>
+  <% if ::Opro.require_refresh_within.present? %>
     <li><%= link_to 'Refresh Tokens',  oauth_doc_path(:refresh_tokens) %></li>
   <% end %>
 
