@@ -1,6 +1,6 @@
 class CreateOproAuthGrants < ActiveRecord::Migration
   def change
-    create_table  :opro_access_grants do |t|
+    create_table  :opro_auth_grants do |t|
       t.string    :code
       t.string    :access_token
       t.string    :refresh_token

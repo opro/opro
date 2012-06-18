@@ -1,5 +1,5 @@
 class Oauth::ClientApp < ActiveRecord::Base
-  self.table_name = :opro_client_applications
+  self.table_name = :opro_client_apps
 
   belongs_to :user
   validates  :app_id, :uniqueness => true

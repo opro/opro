@@ -1,6 +1,6 @@
 class Oauth::AuthGrant < ActiveRecord::Base
 
-  self.table_name = :opro_access_grants
+  self.table_name = :opro_auth_grants
 
   belongs_to :user
   belongs_to :client_application, :class_name => "Oauth::ClientApp"
