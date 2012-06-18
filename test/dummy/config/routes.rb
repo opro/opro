@@ -1,4 +1,6 @@
 Dummy::Application.routes.draw do
+  mount_opro_oauth
+
   devise_for :users
 
   resources :foo

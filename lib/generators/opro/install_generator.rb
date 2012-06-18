@@ -15,6 +15,11 @@ module Opro
       def run_other_generators
         generate "active_record:opro"
       end
+
+      def add_opro_routes
+        opro_routes = "mount_opro_oauth"
+        route opro_routes
+      end
     end
   end
 end

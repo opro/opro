@@ -1,10 +1,5 @@
-Rails.application.routes.draw do
-
-  match 'oauth/new'           => 'oauth/auth#new',          :as => 'oauth_new'
-  match '/oauth/authorize'    => 'oauth/auth#create',       :as => 'oauth_authorize'
-  match '/oauth/token'        => 'oauth/token#create',      :as => 'oauth_token'
-
-  resources :oauth_docs,        :controller => 'oauth/docs'
-  resources :oauth_tests,       :controller => 'oauth/tests'
-  resources :oauth_client_apps, :controller => 'oauth/client_app'
-end
+# look in lib/opro/rails/routes.rb
+  # they get added to a users config/routes.rb when the user runs
+  # rails g opro:install
+  # this functionality is added in `add_opro_routes` of
+  # lib/generators/opro/install_generator.rb

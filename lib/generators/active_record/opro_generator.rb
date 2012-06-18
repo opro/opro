@@ -7,7 +7,7 @@ module ActiveRecord
       include Rails::Generators::Migration
       source_root File.expand_path('../templates', __FILE__)
 
-      desc "add the migrations"
+      desc "add the migrations needed for opro oauth"
 
       def self.next_migration_number(path)
         unless @prev_migration_nr
