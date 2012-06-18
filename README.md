@@ -36,7 +36,7 @@ and don't forget
     $ rails g opro:install
 ```
 
-This will put a file in `initializers/opro.rb` and generate some migrations.
+This will put a file in `initializers/opro.rb` and generate some migrations, and add `mount_opro_oauth` to your routes.
 
 
 Now we're ready to migrate the database
@@ -45,11 +45,11 @@ Now we're ready to migrate the database
     $ rake db:migrate
 ````
 
-This will add `Oauth::AuthGrant` and `Oauth::ClientApp` to your database
+This will add `Oauth::AuthGrant` and `Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using Oauth as a ClientApp. Once created they could get authorization from users by going through the oauth flow, thus creating AuthGrants. In other words a ClientApp has many users through AuthGrants.
 
 ## Setup
 
-Go to `initializers/opro.rb` and configure your app for your authentication scheme.
+Go to `initializers/opro.rb` and configure your app for your authentication scheme, if you're not using devise see "Custom Auth" below.
 
 ```ruby
       Opro.setup do |config|
@@ -76,7 +76,7 @@ You can also disallow OAuth on specific actions. Disallowing will always over-ri
       end
 ```
 
-By default all OAuth access is blacklisted. To whitelist all access, add `allow_oauth!` to your `ApplicationController` (this is not recommended). The best practice is to add allow or disallow code to each controller.
+By default all OAuth access is blacklisted. To whitelist all access, add `allow_oauth!` to your `ApplicationController` (this is not recommended). The best practice is to add `allow_oauth!` or `disallow_oauth` to each and every controller.
 
 That should be all you need to do to get setup, congrats you're now able to authenticate users using OAuth!!
 
@@ -99,12 +99,12 @@ If you're not using devise you can manually configure your own auth strategy. In
 
 ## Permissions
 
-When a user auth's with a client they automatically are granting read permission to any action that you `allow_oauth!`. Read only clients are restricted to using GET requests. By default Opro will ask users for write permission on a client by client application. Client applications with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you allow using `allow_oauth!`.
+When a user auth's with a client they automatically are granting read permission to any action that you `allow_oauth!`. Read only clients are restricted to using GET requests. By default Opro will ask users for write permission on a client by client application. Client apps with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you whitelist using `allow_oauth!`.
 
 
 ### Custom Permissions
 
-To remove write permissions remove or comment out this line in the Opro initializer:
+To remove write permissions comment out this line in the Opro initializer:
 
       config.request_permissions = [:write]
 
@@ -128,9 +128,6 @@ The result is expected to be true or false.
 
 * You have a user model and that is what your authenticating
 * You're using Active::Record
-
-If you submit a _good_ pull request for other adapters, or for generalizing the resource we're authenticating, you'll make me pretty happy.
-
 
 ## About
 
