@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-06-18"
+  s.date = "2012-06-19"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -24,26 +24,26 @@ Gem::Specification.new do |s|
     "README.md",
     "Rakefile",
     "VERSION",
-    "app/controllers/oauth/auth_controller.rb",
-    "app/controllers/oauth/client_app_controller.rb",
-    "app/controllers/oauth/docs_controller.rb",
-    "app/controllers/oauth/tests_controller.rb",
-    "app/controllers/oauth/token_controller.rb",
+    "app/controllers/opro/oauth/auth_controller.rb",
+    "app/controllers/opro/oauth/client_app_controller.rb",
+    "app/controllers/opro/oauth/docs_controller.rb",
+    "app/controllers/opro/oauth/tests_controller.rb",
+    "app/controllers/opro/oauth/token_controller.rb",
     "app/controllers/opro_controller.rb",
     "app/models/oauth/auth_grant.rb",
     "app/models/oauth/client_app.rb",
-    "app/views/oauth/auth/new.html.erb",
-    "app/views/oauth/client_app/create.html.erb",
-    "app/views/oauth/client_app/index.html.erb",
-    "app/views/oauth/client_app/new.html.erb",
-    "app/views/oauth/docs/index.html.erb",
-    "app/views/oauth/docs/markdown/curl.md.erb",
-    "app/views/oauth/docs/markdown/oauth.md.erb",
-    "app/views/oauth/docs/markdown/permissions.md.erb",
-    "app/views/oauth/docs/markdown/quick_start.md.erb",
-    "app/views/oauth/docs/markdown/refresh_tokens.md.erb",
-    "app/views/oauth/docs/show.html.erb",
-    "app/views/oauth/tests/index.html.erb",
+    "app/views/opro/oauth/auth/new.html.erb",
+    "app/views/opro/oauth/client_app/create.html.erb",
+    "app/views/opro/oauth/client_app/index.html.erb",
+    "app/views/opro/oauth/client_app/new.html.erb",
+    "app/views/opro/oauth/docs/index.html.erb",
+    "app/views/opro/oauth/docs/markdown/curl.md.erb",
+    "app/views/opro/oauth/docs/markdown/oauth.md.erb",
+    "app/views/opro/oauth/docs/markdown/permissions.md.erb",
+    "app/views/opro/oauth/docs/markdown/quick_start.md.erb",
+    "app/views/opro/oauth/docs/markdown/refresh_tokens.md.erb",
+    "app/views/opro/oauth/docs/show.html.erb",
+    "app/views/opro/oauth/tests/index.html.erb",
     "config/routes.rb",
     "lib/generators/active_record/opro_generator.rb",
     "lib/generators/active_record/templates/auth_grants.rb",
