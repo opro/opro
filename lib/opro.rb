@@ -1,4 +1,6 @@
 module Opro
+  module Oauth
+  end
   module Controllers
     module Concerns
     end

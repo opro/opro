@@ -11,7 +11,7 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
     as_user(user).visit new_oauth_client_app_path
     assert_equal '/oauth_client_apps/new', current_path
 
-    fill_in 'oauth_client_app_name', :with => rand_name
+    fill_in 'opro_oauth_client_app_name', :with => rand_name
 
     click_button 'submitApp'
     assert_equal '/oauth_client_apps', current_path
