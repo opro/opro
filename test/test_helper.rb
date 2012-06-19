@@ -1,6 +1,10 @@
 # Configure Rails Envinronment
 ENV["RAILS_ENV"] = "test"
 
+if RUBY_VERSION >= "1.9"
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
 
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
