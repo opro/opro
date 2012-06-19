@@ -43,7 +43,7 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_equal 302, status
     follow_redirect!
     assert_equal @redirect_uri, path
-    auth_grant = Oauth::AuthGrant.find(auth_grant.id)
+    auth_grant = Opro::Oauth::AuthGrant.find(auth_grant.id)
 
     refute auth_grant.permissions.has_key?(permissions.keys.first)
   end

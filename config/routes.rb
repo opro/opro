@@ -3,3 +3,6 @@
   # rails g opro:install
   # this functionality is added in `add_opro_routes` of
   # lib/generators/opro/install_generator.rb
+Opro::Engine.routes.draw do
+  mount_opro_oauth
+end

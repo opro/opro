@@ -45,7 +45,7 @@ class RefreshTokenTest < ActionDispatch::IntegrationTest
     refute_equal json_hash['expires_in'],     @auth_grant.expires_in
 
 
-    auth_grant = Oauth::AuthGrant.find(@auth_grant.id)
+    auth_grant = Opro::Oauth::AuthGrant.find(@auth_grant.id)
     assert_equal json_hash['access_token'],   auth_grant.access_token
     assert_equal json_hash['refresh_token'],  auth_grant.refresh_token
     assert_equal json_hash['expires_in'],     auth_grant.expires_in

@@ -1,14 +1,14 @@
 # This controller is where clients can exchange
 # codes and refresh_tokens for access_tokens
 
-class Oauth::TokenController < OproController
+class Opro::Oauth::TokenController < OproController
   before_filter      :opro_authenticate_user!,    :except => [:create]
   skip_before_filter :verify_authenticity_token,  :only   => [:create]
 
 
   def create
     # Find the client application
-    application = Oauth::ClientApp.authenticate(params[:client_id], params[:client_secret])
+    application = Opro::Oauth::ClientApp.authenticate(params[:client_id], params[:client_secret])
 
     if application.nil?
       render :json => {:error => "Could not find application based on client_id=#{params[:client_id]}
@@ -18,9 +18,9 @@ class Oauth::TokenController < OproController
 
 
     if params[:code]
-      auth_grant = Oauth::AuthGrant.authenticate(params[:code], application.id)
+      auth_grant = Opro::Oauth::AuthGrant.authenticate(params[:code], application.id)
     else
-      auth_grant = Oauth::AuthGrant.refresh_tokens!(params[:refresh_token], application.id)
+      auth_grant = Opro::Oauth::AuthGrant.refresh_tokens!(params[:refresh_token], application.id)
     end
 
     if auth_grant.nil?

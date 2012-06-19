@@ -58,7 +58,7 @@ module Opro
       end
 
       def oauth_access_grant
-        @oauth_access_grant ||= Oauth::AuthGrant.find_for_token(params[:access_token])
+        @oauth_access_grant ||= Opro::Oauth::AuthGrant.find_for_token(params[:access_token])
       end
 
       def oauth_client_app

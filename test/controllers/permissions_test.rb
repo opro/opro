@@ -1,7 +1,7 @@
 require 'test_helper'
 
-class Oauth::TestsControllerTest < ActionController::TestCase
-  tests Oauth::TestsController
+class Opro::Oauth::TestsControllerTest < ActionController::TestCase
+  tests Opro::Oauth::TestsController
   include Devise::TestHelpers
 
   setup do

@@ -21,7 +21,7 @@ class CapybaraAuthControllerTest < ActiveSupport::IntegrationCase
       click_button 'oauthAuthorize'
     end
 
-    access_grant = Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
+    access_grant = Opro::Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
     assert_equal @redirect_uri, current_path
     assert access_grant.present?
     assert access_grant.can?(:write) # write access is checked by default
@@ -32,7 +32,7 @@ class CapybaraAuthControllerTest < ActiveSupport::IntegrationCase
 
     uncheck('permissions_write') # uncheck write access
     click_button 'oauthAuthorize'
-    access_grant = Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
+    access_grant = Opro::Oauth::AuthGrant.where(:user_id => @user.id, :application_id => @app.id).first
     refute access_grant.can?(:write)
   end
 end

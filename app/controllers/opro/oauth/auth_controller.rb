@@ -1,11 +1,11 @@
-class Oauth::AuthController < OproController
+class Opro::Oauth::AuthController < OproController
   before_filter      :opro_authenticate_user!
   before_filter      :ask_user!,                  :only   => [:create]
 
 
   def new
     @redirect_uri = params[:redirect_uri]
-    @client_app   = Oauth::ClientApp.find_by_app_id(params[:client_id])
+    @client_app   = Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
     @scopes       = scope_from_params(params)
   end
 
@@ -14,9 +14,9 @@ class Oauth::AuthController < OproController
   # :ask_user! is called before creating a new authorization, this allows us to redirect
   def create
     # find or create an auth_grant for a given user
-    application  =   Oauth::ClientApp.find_by_app_id(params[:client_id])
-    access_grant =   Oauth::AuthGrant.where( :user_id => current_user.id, :application_id => application.id).first
-    access_grant ||= Oauth::AuthGrant.create(:user => current_user,       :application => application)
+    application  =   Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
+    access_grant =   Opro::Oauth::AuthGrant.where( :user_id => current_user.id, :application_id => application.id).first
+    access_grant ||= Opro::Oauth::AuthGrant.create(:user => current_user,       :application => application)
 
 
     # add permission changes if there are any
@@ -41,14 +41,14 @@ class Oauth::AuthController < OproController
 
       # if the request did not come from a form within the application, render the user form
       @redirect_uri ||= params[:redirect_uri]
-      @client_app   ||= Oauth::ClientApp.find_by_app_id(params[:client_id])
+      @client_app   ||= Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
       redirect_to oauth_new_path(params)
     end
   end
 
   def user_granted_access_before?(user, params)
-    @client_app ||= Oauth::ClientApp.find_by_app_id(params[:client_id])
-    Oauth::AuthGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
+    @client_app ||= Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
+    Opro::Oauth::AuthGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
   end
 
 

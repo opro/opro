@@ -1,4 +1,4 @@
-class Oauth::AuthGrant < ActiveRecord::Base
+class Opro::Oauth::AuthGrant < ActiveRecord::Base
 
   self.table_name = :opro_auth_grants
 

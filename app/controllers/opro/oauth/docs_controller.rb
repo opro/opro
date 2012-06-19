@@ -1,10 +1,10 @@
 require 'erb'
 require 'bluecloth'
 
-OPRO_MD_ROOT=File.join(File.dirname(__FILE__), '../../views/oauth/docs/markdown/')
+OPRO_MD_ROOT=File.join(File.dirname(__FILE__), '../../../views/opro/oauth/docs/markdown/')
 
 
-class Oauth::DocsController < OproController
+class Opro::Oauth::DocsController < OproController
   helper_method :render_doc
 
   def index

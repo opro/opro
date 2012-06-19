@@ -59,7 +59,7 @@ end
 def create_client_app(options= {})
   user = options[:user] || create_user
   name = options[:name] || rand_name
-  Oauth::ClientApp.create_with_user_and_name(user, name)
+  Opro::Oauth::ClientApp.create_with_user_and_name(user, name)
 end
 
 def user_with_client_app
@@ -71,7 +71,7 @@ end
 def create_auth_grant_for_user(user = nil, app = nil)
   app  ||= create_client_app
   user ||= create_user
-  Oauth::AuthGrant.create(:user => user, :application => app)
+  Opro::Oauth::AuthGrant.create(:user => user, :application => app)
 end
 
 

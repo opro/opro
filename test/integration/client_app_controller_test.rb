@@ -16,7 +16,7 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
     click_button 'submitApp'
     assert_equal '/oauth_client_apps', current_path
 
-    last_client = Oauth::ClientApp.order(:created_at).last
+    last_client = Opro::Oauth::ClientApp.order(:created_at).last
     assert has_content?(last_client.name)
     assert has_content?(last_client.client_id)
     assert has_content?(last_client.client_secret)
