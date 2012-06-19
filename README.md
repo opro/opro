@@ -41,7 +41,7 @@ Now we're ready to migrate the database
     $ rake db:migrate
 ````
 
-This will add `Oauth::AuthGrant` and `Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using Oauth as a ClientApp. Once created they could get authorization from users by going through the oauth flow, thus creating AuthGrants. In other words a ClientApp has many users through AuthGrants.
+This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using Oauth as a ClientApp. Once created they could get authorization from users by going through the oauth flow, thus creating AuthGrants. In other words a ClientApp has many users through AuthGrants.
 
 ## Setup
 
@@ -79,7 +79,7 @@ That should be all you need to do to get setup, congrats you're now able to auth
 
 ## Use it
 
-Opro comes with built in documentation, so if you start your server you can view them at http://localhost:3000/oauth_docs. If you're reading this on Github you can jump right to the [Quick Start](https://github.com/schneems/opro/blob/master/app/views/oauth/docs/markdown/quick_start.md.erb) guide. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
+Opro comes with built in documentation, so if you start your server you can view them at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
 
 ## Custom Auth
 
