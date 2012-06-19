@@ -1,10 +1,6 @@
-## Stop, Read This
-
-If you want to use this, do so at your own risk. I'm vetting it on some development and production applications, when it is ready for consumption and contribution, I'll remove this. If you want to be notified when that happens let me know [@schneems](http://twitter.com/schneems). For now this should be considered a toy, and enjoyed as such :)
-
 ## Opro
 
-A Rails Engine that turns your app into an [Oauth2](http://oauth.net/2/) Provider.
+A production ready Rails Engine that turns your app into an [Oauth2](http://oauth.net/2/) Provider.
 
   * [Demo OAuth Provider app with Opro](http://opro-demo.herokuapp.com/) on Heroku
   * [Built in Opro docs](http://opro-demo.herokuapp.com/oauth_docs)
