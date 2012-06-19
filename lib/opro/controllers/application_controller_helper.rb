@@ -62,11 +62,13 @@ module Opro
       end
 
       def oauth_client_app
-        @oauth_client_app   ||= oauth_access_grant.client_application
+        return false      if oauth_access_grant.blank?
+        @oauth_client_app ||= oauth_access_grant.client_application
       end
 
       def oauth_user
-        @oauth_user         ||= oauth_access_grant.user
+        return false if oauth_access_grant.blank?
+        @oauth_user  ||= oauth_access_grant.user
       end
 
       def oauth_auth!
