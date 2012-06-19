@@ -20,7 +20,6 @@ class CapybaraOauthTest < ActiveSupport::IntegrationCase
     auth_grant   = create_auth_grant_for_user(user)
     access_token = auth_grant.access_token + "foo"
     visit "/?access_token=#{access_token}"
-    save_and_open_page
     assert has_content?('NO logged in users')
   end
 
