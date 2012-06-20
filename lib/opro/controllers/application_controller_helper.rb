@@ -57,6 +57,12 @@ module Opro
         allow_oauth? && params[:access_token].present?
       end
 
+      # Override with custom logic to exclude or allow applications from exchanging
+      # passwords for access_tokens
+      def oauth_valid_password_auth?(client_id, client_secret)
+        true
+      end
+
       def oauth_access_grant
         @oauth_access_grant ||= Opro::Oauth::AuthGrant.find_for_token(params[:access_token])
       end

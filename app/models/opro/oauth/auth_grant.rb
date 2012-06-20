@@ -50,8 +50,17 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     find_app_for_token.try(:user)
   end
 
-  def self.authenticate(code, application_id)
+  def self.auth_with_code!(code, application_id)
     auth_grant = self.where("code = ? AND application_id = ?", code, application_id).first
+  end
+
+  def self.auth_with_user!(user, applicaiton_id, permissions = ::Opro.request_permissions)
+    return false unless user
+    permissions_hash =   permissions.each_with_object({}) {|element, hash| hash[element] = true }
+    auth_grant  =   self.where(:user_id  => user.id, :application_id => applicaiton_id).first
+    auth_grant  ||= self.create(:user_id => user.id, :application_id => applicaiton_id)
+    auth_grant.update_attributes(:permissions => permissions_hash)
+    auth_grant
   end
 
   def self.refresh_tokens!(refresh_token, application_id)

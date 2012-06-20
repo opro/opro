@@ -25,6 +25,17 @@ module Opro
       login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
       logout_method            { |controller, current_user| controller.sign_out(current_user) }
       authenticate_user_method { |controller| controller.authenticate_user! }
+
+      find_user_for_auth do |controller, params|
+        find_params = params.each_with_object({}) {|(key,value), hash| hash[key] = value if Devise.authentication_keys.include?(key.to_sym) }
+        user        = User.where(find_params).first
+        if user && user.valid_password?(params[:password])
+          return_user = user
+        else
+          return_user = false
+        end
+        return_user
+      end
     else
       # nothing
     end
@@ -92,8 +103,24 @@ module Opro
     if block.present?
       @authenticate_user_method = block
     else
-      @authenticate_user_method or raise 'authenticate user method not set, please specify Opro auth_strategy'
+      @authenticate_user_method or raise 'authenticate_user_method not set, please specify Opro auth_strategy'
     end
+  end
+
+  def self.find_user_for_auth(&block)
+    if block.present?
+      @find_for_authentication = block
+    else
+      @find_for_authentication or raise 'find_for_authentication not set, please specify Opro auth_strategy'
+    end
+  end
+
+  def self.password_exchange_enabled=(password_exchange_enabled)
+    @password_exchange_enabled = password_exchange_enabled
+  end
+
+  def self.password_exchange_enabled?
+    @password_exchange_enabled
   end
 end
 

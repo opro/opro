@@ -16,17 +16,20 @@ class Opro::Oauth::TokenController < OproController
       return
     end
 
-
     if params[:code]
-      auth_grant = Opro::Oauth::AuthGrant.authenticate(params[:code], application.id)
-    else
+      auth_grant = Opro::Oauth::AuthGrant.auth_with_code!(params[:code], application.id)
+    elsif params[:refresh_token]
       auth_grant = Opro::Oauth::AuthGrant.refresh_tokens!(params[:refresh_token], application.id)
+    elsif params[:password] || passwords[:auth_grant] == "password"
+      user       = ::Opro.find_user_for_auth.call(self, params) if Opro.password_exchange_enabled? && oauth_valid_password_auth?(params[:client_id], params[:client_secret])
+      auth_grant = Opro::Oauth::AuthGrant.auth_with_user!(user, application.id) if user.present?
     end
 
-    if auth_grant.nil?
-      msg = "Could not find a user that belongs to this application & "
-      msg << " has a refresh_token=#{params[:refresh_token]}" if params[:refresh_token]
-      msg << " has been granted a code=#{params[:code]}"      if params[:code]
+    if auth_grant.blank?
+      msg = "Could not find a user that belongs to this application"
+      msg << " & has a refresh_token=#{params[:refresh_token]}" if params[:refresh_token]
+      msg << " & has been granted a code=#{params[:code]}"      if params[:code]
+      msg << " using username and password"                   if params[:password]
       render :json => {:error => msg }, :status => :unauthorized
       return
     end
