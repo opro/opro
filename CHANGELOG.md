@@ -1,3 +1,7 @@
+## 0.2.0
+
+- Allow password exchange for access_token using `config.allow_password_exchange = true`
+
 ## 0.1.0
 
 - Refresh Token Support
