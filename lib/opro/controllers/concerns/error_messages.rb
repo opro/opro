@@ -3,7 +3,7 @@ module Opro::Controllers::Concerns::ErrorMessages
 
   def generate_oauth_error_message!
     msg = ""
-    msg << ' - No OAuth Token Provided!'    if params[:access_token].blank?
+    msg << ' - No OAuth Token Provided!'    if oauth_access_token.blank?
     msg << ' - Allow OAuth set to false!'   if allow_oauth? == false
     msg << ' - OAuth user not found!'       if oauth_user.blank?
     msg = generate_oauth_permissions_error_message!(msg)

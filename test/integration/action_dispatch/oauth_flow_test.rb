@@ -30,5 +30,20 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
     assert json_hash["refresh_token"], auth_grant.refresh_token
   end
 
+
+  test 'header authorization token' do
+    auth_grant   = create_auth_grant_for_user(@user)
+    auth_grant.update_attributes(:permissions => {:write => true})
+
+    # curl -H "Authorization: token OAUTH-TOKEN" http://localhost:3000
+    # sets request.env["HTTP_AUTHORIZATION"] to "token OAUTH-TOKEN"
+    access_token = auth_grant.access_token
+
+    headers = {"HTTP_AUTHORIZATION" => "token #{access_token}"}
+    post oauth_tests_path, {}, headers
+
+    assert_equal 200, status
+  end
+
 end
 

@@ -53,8 +53,19 @@ module Opro
         @use_oauth = true
       end
 
+      def oauth_access_token
+        params[:access_token] || oauth_access_token_from_header
+      end
+
+      def oauth_access_token_from_header
+        auth_header = request.env["HTTP_AUTHORIZATION"]||""
+        match       = auth_header.match(/^token\s(.*)/)
+        return match[1] if match.present?
+        false
+      end
+
       def oauth?
-        allow_oauth? && params[:access_token].present?
+        allow_oauth? && oauth_access_token.present?
       end
 
       # Override with custom logic to exclude or allow applications from exchanging
@@ -64,7 +75,7 @@ module Opro
       end
 
       def oauth_access_grant
-        @oauth_access_grant ||= Opro::Oauth::AuthGrant.find_for_token(params[:access_token])
+        @oauth_access_grant ||= Opro::Oauth::AuthGrant.find_for_token(oauth_access_token)
       end
 
       def oauth_client_app
