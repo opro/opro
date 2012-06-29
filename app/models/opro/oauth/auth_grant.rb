@@ -18,15 +18,6 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     permissions[value.to_s]
   end
 
-  def self.prune!
-    return false unless ::Opro.require_refresh_within.present?
-
-    time_to_expire = ::Opro.require_refresh_within.ago.in_time_zone
-    find_each(:conditions => ["created_at < ?", time_to_expire]) do |grant|
-      # grant.
-    end
-  end
-
   def expired?
     return false unless ::Opro.require_refresh_within.present?
     return expires_in < 0
