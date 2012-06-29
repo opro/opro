@@ -31,6 +31,7 @@ module Opro::Controllers::Concerns::Permissions
   # oauth_client_can_:method? so to over-write a default check for
   # :write permission, you would need to define oauth_client_can_write?
   def oauth_client_has_permissions?
+    return false unless oauth_access_grant.present?
     permissions_valid_array = []
     oauth_required_permissions.each do |permission|
       permissions_valid_array << oauth_client_has_permission?(permission)
@@ -53,6 +54,7 @@ module Opro::Controllers::Concerns::Permissions
   # Returns boolean
   # if client has been granted write permissions or request is a 'GET' returns true
   def oauth_client_can_write?
+    return false unless oauth_access_grant.present?
     return true if env['REQUEST_METHOD'] == 'GET'
     return true if oauth_access_grant.can?(:write)
     false

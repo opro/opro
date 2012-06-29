@@ -17,7 +17,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   attr_accessible :code, :access_token, :refresh_token, :access_token_expires_at, :permissions, :user_id, :user, :application_id, :application
 
   def can?(value)
-    permissions[value.to_s]
+    HashWithIndifferentAccess.new(permissions)[value]
   end
 
   def expired?
