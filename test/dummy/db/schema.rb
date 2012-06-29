@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120514060323) do
+ActiveRecord::Schema.define(:version => 20120618085752) do
 
   create_table "opro_access_grants", :force => true do |t|
     t.string   "code"
@@ -25,7 +25,29 @@ ActiveRecord::Schema.define(:version => 20120514060323) do
     t.datetime "updated_at",              :null => false
   end
 
+  create_table "opro_auth_grants", :force => true do |t|
+    t.string   "code"
+    t.string   "access_token"
+    t.string   "refresh_token"
+    t.text     "permissions"
+    t.datetime "access_token_expires_at"
+    t.integer  "user_id"
+    t.integer  "application_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
   create_table "opro_client_applications", :force => true do |t|
+    t.string   "name"
+    t.string   "app_id"
+    t.string   "app_secret"
+    t.text     "permissions"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "opro_client_apps", :force => true do |t|
     t.string   "name"
     t.string   "app_id"
     t.string   "app_secret"

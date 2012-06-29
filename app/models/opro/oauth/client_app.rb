@@ -12,6 +12,7 @@ class Opro::Oauth::ClientApp < ActiveRecord::Base
 
   serialize :permissions, Hash
 
+  attr_accessible :user, :name, :app_id, :client_secret, :app_secret, :secret
 
 
   def self.authenticate(app_id, app_secret)
