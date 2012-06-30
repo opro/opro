@@ -129,13 +129,15 @@ The result is expected to be true or false.
 
 ## Refresh Tokens
 
-For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implemeting the refresh_token functionality in a client can be quite difficult. There is built in documentation for refresh tokens, but the short version is this. A client app can refresh a token by sending a user back through the OAuth flow, or by sending the refresh token back to the correct token url. By default refresh tokens are disabled, you can enable them in your application and set the timeout period of the tokens by adding this line to your configuration.
+For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implemeting the refresh_token functionality in a client can be quite difficult.
+
+By default refresh tokens are disabled, you can enable them in your application and set the timeout period of the tokens by adding this line to your configuration.
 
 
     config.require_refresh_within = 1.month
 
 
-## Password Token Passing
+## Password Token Exchange
 
 If a client application has a user's password and username/email they can exchange these for a token. This is much safer than storing username and password on a local device, but does not offer the traditional OAuth "Flow". Because of this all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
 
