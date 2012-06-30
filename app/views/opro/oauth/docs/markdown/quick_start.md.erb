@@ -63,6 +63,11 @@ Try it out for yourself open up a browser and go to
 
 You should see a successful result ( again don't forget to replace the example access token with yours ). Not all urls will support OAuth authentication.
 
+You can also use a header to pass the oauth token
+
+    <%= %Q{ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "#{request.base_url}/oauth_test/show_me_the_money" } %>
+
+
 ## Security
 
 Don't share your client application's secret or any user's access_token with unknown or untrusted parties. Always use https when available and don't write any of these values to your application's logs.
