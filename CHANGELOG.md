@@ -2,6 +2,7 @@
 
 - Properly set attr_accessible for those apps that are requiring all attributes to be whitelisted.
 - Allow access_token to be passed in header `curl -H "Authorization: token iAmAOaUthToken" http://localhost:3000`
+- Default `config.allow_password_exchange' to true
 
 ## 0.2.0
 

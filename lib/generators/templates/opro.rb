@@ -21,6 +21,6 @@ Opro.setup do |config|
   # password, etc. for an access token.
   # Caution: This bypasses the traditional OAuth flow
   # as a result users cannot opt out of client permissions, all permissions are granted
-  config.allow_password_exchange = false
+  config.allow_password_exchange = true
 
 end
