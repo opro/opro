@@ -20,8 +20,8 @@ class Opro::Oauth::TokenController < OproController
       auth_grant = Opro::Oauth::AuthGrant.auth_with_code!(params[:code], application.id)
     elsif params[:refresh_token]
       auth_grant = Opro::Oauth::AuthGrant.refresh_tokens!(params[:refresh_token], application.id)
-    elsif params[:password] || passwords[:auth_grant] == "password"
-      user       = ::Opro.find_user_for_auth.call(self, params) if Opro.password_exchange_enabled? && oauth_valid_password_auth?(params[:client_id], params[:client_secret])
+    elsif params[:password] || params[:auth_grant] == "password"
+      user       = ::Opro.find_user_for_all_auths!(self, params) if Opro.password_exchange_enabled? && oauth_valid_password_auth?(params[:client_id], params[:client_secret])
       auth_grant = Opro::Oauth::AuthGrant.auth_with_user!(user, application.id) if user.present?
     end
 

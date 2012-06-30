@@ -57,5 +57,25 @@ class PasswordTokenTest < ActionDispatch::IntegrationTest
     assert json_hash['access_token'].blank?
   end
 
+
+  test "Allow multiple definitions of find_user_for_auth (no password)" do
+    Opro.setup do |config|
+      config.find_user_for_auth do |controller, params|
+        return false if params[:special_key].blank?
+        user = User.last if params[:special_key] == "fooBarzyrhaz"
+        user
+      end
+    end
+
+    params = {:client_id      => @client_app.client_id ,
+              :client_secret  => @client_app.client_secret,
+              :special_key    => "fooBarzyrhaz",
+              :auth_grant     => 'password' }
+
+    post oauth_token_path(params)
+    json_hash = JSON.parse(response.body)
+    assert json_hash['access_token'].present?
+  end
+
 end
 

@@ -126,6 +126,45 @@ You can also skip permissions using `skip_oauth_permissions`. By default permiss
 
 The result is expected to be true or false.
 
+
+## Refresh Tokens
+
+For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implemeting the refresh_token functionality in a client can be quite difficult. There is built in documentation for refresh tokens, but the short version is this. A client app can refresh a token by sending a user back through the OAuth flow, or by sending the refresh token back to the correct token url. By default refresh tokens are disabled, you can enable them in your application and set the timeout period of the tokens by adding this line to your configuration.
+
+
+    config.require_refresh_within = 1.month
+
+
+## Password Token Passing
+
+If a client application has a user's password and username/email they can exchange these for a token. This is much safer than storing username and password on a local device, but does not offer the traditional OAuth "Flow". Because of this all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
+
+    config.allow_password_exchange = true
+
+If you have this feature enabled you can further control what applications can use the feature. Some providers may wish to have "Blessed" client applications that have this ability while restricting all other clients. To accomplish this you can create a method in your ApplicationController called `oauth_valid_password_auth?` that accepts a client_id and client_secret, and returns a true or false based on whether that application can use password auth
+
+    def oauth_valid_password_auth?(client_id, client_secret)
+      BLESSED_APP_IDS.include?(client_id)
+    end
+
+
+ If you are using this password functionality without a supported authorization engine (like devise), you will need to add an additional method that supports validating whether or not a user's credentials are valid. The method for this is called `find_user_for_auth` and accepts a controller and the parameters. The output is expected to be a user. Add this to your config like you did to the other required methods in the Custom Auth section.
+
+    config.find_user_for_auth do |controller, params|
+      # user = User.find(params[:something])
+      # return user.valid_password?(params[:password]) ? user : false
+    end
+
+If you're authenticating exchanging something other than a password (such as a facebook auth token) client's can still enable this functionality by setting `params[:auth_grant] == 'password'` in their initial request. You can then use `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
+
+
+    config.find_user_for_auth do |controller, params|
+      return false if params[:fb_token].blank?
+      User.where(:fb_token => params[:fb_token]).first
+    end
+
+
+
 ## Assumptions
 
 * You have a user model and that is what your authenticating

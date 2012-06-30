@@ -27,14 +27,12 @@ module Opro
       authenticate_user_method { |controller| controller.authenticate_user! }
 
       find_user_for_auth do |controller, params|
+        return false if params[:password].blank?
         find_params = params.each_with_object({}) {|(key,value), hash| hash[key] = value if Devise.authentication_keys.include?(key.to_sym) }
-        user        = User.where(find_params).first
-        if user && user.valid_password?(params[:password])
-          return_user = user
-        else
-          return_user = false
-        end
-        return_user
+        user        = User.where(find_params).first if find_params.present?
+        return false unless user.present?
+        return false unless user.valid_password?(params[:password])
+        user
       end
     else
       # nothing
@@ -107,9 +105,30 @@ module Opro
     end
   end
 
+  # calls all of the different auths made available,
+  def self.find_user_for_all_auths!(controller, params)
+    @user = false
+    find_user_for_auth.each do |auth_block|
+      break if @user.present?
+      @user = auth_block.call(controller, params)
+    end
+    @user
+  end
+
+
+  # Grossssss, don't use, needed to support `return` from the blocks provided to `find_user_for_auth`
+  def self.convert_to_lambda &block
+    obj = Object.new
+    obj.define_singleton_method(:_, &block)
+    return obj.method(:_).to_proc
+  end
+
+  # holds an Array of authentication blocks is called by find_user_for_all_auths! in token controller
+  # can be used for finding users using multiple methods (password, facebook, twitter, etc.)
   def self.find_user_for_auth(&block)
     if block.present?
-      @find_for_authentication = block
+      @find_for_authentication ||= []
+      @find_for_authentication << convert_to_lambda(&block)
     else
       @find_for_authentication or raise 'find_for_authentication not set, please specify Opro auth_strategy'
     end
