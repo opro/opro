@@ -6,6 +6,10 @@
 
 With curl we're able to arbitrarily add parameters to our requests and to send using arbitrary HTTP status codes (GET/POST/DELETE) that are difficult to simulate in the browser. If you need to `POST` data to a url doing so with curl is much easier than constructing a form for testing.
 
+# Hurl
+
+[Hurl](http://hurl.it/) is an open sourced browser based `curl` implementation. If you're going to do quite a few curl requests, using it can be easier than the command line.
+
 ## How do I use it?
 
 On the command line you should be able to get get help by typing `man curl` if your system supports man pages. Below are some simple and common use cases
@@ -32,11 +36,21 @@ You can ask for the headers of a request by adding the `-I` flag to a curl comma
     X-Frame-Options: SAMEORIGIN
     Transfer-Encoding: chunked
 
+### Set Headers
+
+You can set a request header by using `-H` for example if you wanted to send an access_token in a header you could issue this request (assuming your access token is '9693accessTokena7ca570bbaf')
+
+    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
 
 
-# Hurl
+### HTTP Verb
 
-[Hurl](http://hurl.it/) is an open sourced browser based `curl` implementation. If you're going to do quite a few curl requests, using it can be easier than the command line.
+You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by specifying `-X`. For example if you wanted to POST to the /products url at localhost:3000/products you could do so like this:
+
+    $ curl -X POST http://localhost:3000
+
+
+
 
 
 
