@@ -2,12 +2,12 @@
 
 - Properly set attr_accessible for those apps that are requiring all attributes to be whitelisted.
 - Allow access_token to be passed in header `curl -H "Authorization: token iAmAOaUthToken" http://localhost:3000`
-- Default `config.allow_password_exchange' to true
+- Default `config.password_exchange_enabled' to true
 - Allow multiple `find_user_for_auth` calls in setup to allow custom finders for facebook, etc.
 
 ## 0.2.0
 
-- Allow password exchange for access_token using `config.allow_password_exchange = true`
+- Allow password exchange for access_token using `config.password_exchange_enabled = true`
 
 ## 0.1.0
 

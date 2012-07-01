@@ -141,7 +141,7 @@ By default refresh tokens are disabled, you can enable them in your application 
 
 If a client application has a user's password and username/email they can exchange these for a token. This is much safer than storing username and password on a local device, but does not offer the traditional OAuth "Flow". Because of this all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
 
-    config.allow_password_exchange = true
+    config.password_exchange_enabled = true
 
 If you have this feature enabled you can further control what applications can use the feature. Some providers may wish to have "Blessed" client applications that have this ability while restricting all other clients. To accomplish this you can create a method in your ApplicationController called `oauth_valid_password_auth?` that accepts a client_id and client_secret, and returns a true or false based on whether that application can use password auth
 
