@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.3.0.pre"
+  s.version = "0.3.0.pre1"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-06-30"
+  s.date = "2012-07-01"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
