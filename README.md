@@ -166,6 +166,24 @@ If you're authenticating exchanging something other than a password (such as a f
     end
 
 
+## Rate Limiting
+
+If your API becomes a runaway success and people starte abusing your api, you might chose to limit the rate that client applications can access your API. It is common for popular read only API's to have an hourly, or daily rate limit to help prevent abuse. If you want this type of functionality you can use Opro's built in hooks, one to record the number of times a client application has accessed your api. And another to let the application know if the Client app has gone over it's alloted rate.
+
+To record the number of times an application has accessed your site add this method to your ApplicationController:
+
+    def oauth_client_record_access!(client_id, params)
+      # implement your rate counting mechanism here
+    end
+
+Then to let our server know if a given client has reached add this method, the output is expected to be true if the client has gone over their limit, and false if they have not:
+
+    def oauth_client_rate_limited?(client_id, params)
+      # implement your own custom rate limiting logic here
+    end
+
+Rate limited clients will receive an "unsuccessful" response to any query with a message letting them know they've been rate limited. Using redis with a rotating key generator based on (hour, daty, etc.) is one very common way to count rate, and implement the rate limits. Since there are so many different ways to implement this, we decided to give you a blank slate and implement it however you like. The default is that apps are not rate limited, and in general unlimited API access is the way to go, but if you do find abusive behavior you can always easily add in a rate limit.
+
 
 ## Assumptions
 

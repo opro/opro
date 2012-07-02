@@ -143,6 +143,7 @@ module Opro
   end
 end
 
+require 'opro/controllers/concerns/rate_limits'
 require 'opro/controllers/concerns/error_messages'
 require 'opro/controllers/concerns/permissions'
 require 'opro/controllers/application_controller_helper'

@@ -7,6 +7,7 @@ module Opro
 
       include Opro::Controllers::Concerns::Permissions
       include Opro::Controllers::Concerns::ErrorMessages
+      include Opro::Controllers::Concerns::RateLimits
 
       included do
         around_filter      :oauth_auth!
@@ -32,13 +33,18 @@ module Opro
 
       protected
 
+      def oauth_fail_request!
+        render :json => {:errors => generate_oauth_error_message! }, :status => :unauthorized
+        false
+      end
+
       def allow_oauth?
         @use_oauth ||= false
       end
 
-      # returns boolean if oauth request
+
       def valid_oauth?
-        oauth? && oauth_user.present? && oauth_client_not_expired? && oauth_client_has_permissions?
+        oauth? && oauth_user.present? && oauth_client_not_expired? && oauth_client_has_permissions? && oauth_client_under_rate_limit?
       end
 
       def oauth_client_not_expired?
@@ -57,6 +63,7 @@ module Opro
         params[:access_token] || oauth_access_token_from_header
       end
 
+      # grabs access_token from header if one is present
       def oauth_access_token_from_header
         auth_header = request.env["HTTP_AUTHORIZATION"]||""
         match       = auth_header.match(/^token\s(.*)/)

@@ -4,6 +4,7 @@
 - Allow access_token to be passed in header `curl -H "Authorization: token iAmAOaUthToken" http://localhost:3000`
 - Default `config.password_exchange_enabled' to true
 - Allow multiple `find_user_for_auth` calls in setup to allow custom finders for facebook, etc.
+- You can now Rate limit incoming client applications.
 
 ## 0.2.0
 
