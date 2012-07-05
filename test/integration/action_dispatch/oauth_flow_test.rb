@@ -42,6 +42,11 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
     post oauth_tests_path, {}, headers
 
     assert_equal 200, status
+
+    headers = {"HTTP_AUTHORIZATION" => "Bearer #{access_token}"}
+    post oauth_tests_path, {}, headers
+
+    assert_equal 200, status
   end
 
 end

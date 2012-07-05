@@ -2,6 +2,7 @@
 
 - Properly set attr_accessible for those apps that are requiring all attributes to be whitelisted.
 - Allow access_token to be passed in header `curl -H "Authorization: token iAmAOaUthToken" http://localhost:3000`
+- [#6] Implement Bearer scheme curl -H "Authorization: Bearer iAmAOaUthToken" http://localhost:3000
 - Default `config.password_exchange_enabled' to true
 - Allow multiple `find_user_for_auth` calls in setup to allow custom finders for facebook, etc.
 - You can now rate limit incoming client applications.
