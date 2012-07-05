@@ -18,7 +18,7 @@ module Opro::Controllers::Concerns::RateLimits
 
   # override to implement custom rate limits
   def oauth_client_over_rate_limit?
-    return oauth_client_rate_limited?(oauth_client_app.id, params) if oauth_client_app.blank?
+    return oauth_client_rate_limited?(oauth_client_app.id, params) unless oauth_client_app.blank?
     false
   end
 
