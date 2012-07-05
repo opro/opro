@@ -9,13 +9,18 @@
   <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
   <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
   <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
+
   <% if ::Opro.request_permissions.present? %>
     <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
   <% end %>
+
   <% if ::Opro.require_refresh_within.present? %>
     <li><%= link_to 'Refresh Tokens',  oauth_doc_path(:refresh_tokens) %></li>
   <% end %>
 
+  <% if ::Opro.password_exchange_enabled? %>
+    <li><%= link_to 'Password Exchange',  oauth_doc_path(:password_exchange) %></li>
+  <% end %>
 
 </ul>
 
