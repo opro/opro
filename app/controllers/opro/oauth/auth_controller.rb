@@ -48,7 +48,8 @@ class Opro::Oauth::AuthController < OproController
 
   def user_granted_access_before?(user, params)
     @client_app ||= Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
-    @client_app && user && Opro::Oauth::AuthGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
+    return false if user.blank? || @client_app.blank?
+    Opro::Oauth::AuthGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
   end
 
 
