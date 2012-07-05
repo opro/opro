@@ -12,8 +12,7 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
 
 
   test "exchange a code for a token" do
-    user         = create_user
-    auth_grant   = create_auth_grant_for_user(user)
+    auth_grant   = create_auth_grant_for_user(@user)
     client       = auth_grant.application
     params = {:code           => auth_grant.code,
               :client_id      => client.client_id,
@@ -24,10 +23,10 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
 
     json_hash = JSON.parse(response.body)
     assert json_hash["access_token"]
-    assert json_hash["access_token"], auth_grant.access_token
+    assert_equal json_hash["access_token"], auth_grant.access_token
 
     assert json_hash["refresh_token"]
-    assert json_hash["refresh_token"], auth_grant.refresh_token
+    assert_equal json_hash["refresh_token"], auth_grant.refresh_token
   end
 
 
