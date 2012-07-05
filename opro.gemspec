@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.3.0.pre1"
+  s.version = "0.3.0.pre2"
 
   s.required_rubygems_version = Gem::Requirement.new("> 1.3.1") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-07-01"
+  s.date = "2012-07-05"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -39,6 +39,7 @@ Gem::Specification.new do |s|
     "app/views/opro/oauth/docs/index.html.erb",
     "app/views/opro/oauth/docs/markdown/curl.md.erb",
     "app/views/opro/oauth/docs/markdown/oauth.md.erb",
+    "app/views/opro/oauth/docs/markdown/password_exchange.md.erb",
     "app/views/opro/oauth/docs/markdown/permissions.md.erb",
     "app/views/opro/oauth/docs/markdown/quick_start.md.erb",
     "app/views/opro/oauth/docs/markdown/refresh_tokens.md.erb",
@@ -54,6 +55,7 @@ Gem::Specification.new do |s|
     "lib/opro/controllers/application_controller_helper.rb",
     "lib/opro/controllers/concerns/error_messages.rb",
     "lib/opro/controllers/concerns/permissions.rb",
+    "lib/opro/controllers/concerns/rate_limits.rb",
     "lib/opro/engine.rb",
     "lib/opro/rails/routes.rb",
     "opro.gemspec",
@@ -105,6 +107,7 @@ Gem::Specification.new do |s|
     "test/integration/action_dispatch/auth_controller_test.rb",
     "test/integration/action_dispatch/oauth_flow_test.rb",
     "test/integration/action_dispatch/password_token_test.rb",
+    "test/integration/action_dispatch/rate_limits_test.rb",
     "test/integration/action_dispatch/refresh_token_test.rb",
     "test/integration/auth_controller_test.rb",
     "test/integration/client_app_controller_test.rb",
