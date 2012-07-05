@@ -29,7 +29,7 @@ class Opro::Oauth::TokenController < OproController
       msg = "Could not find a user that belongs to this application"
       msg << " & has a refresh_token=#{params[:refresh_token]}" if params[:refresh_token]
       msg << " & has been granted a code=#{params[:code]}"      if params[:code]
-      msg << " using username and password"                   if params[:password]
+      msg << " using username and password"                     if params[:password]
       render :json => {:error => msg }, :status => :unauthorized
       return
     end
