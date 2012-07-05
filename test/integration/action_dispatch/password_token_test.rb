@@ -70,7 +70,7 @@ class PasswordTokenTest < ActionDispatch::IntegrationTest
     params = {:client_id      => @client_app.client_id ,
               :client_secret  => @client_app.client_secret,
               :special_key    => "fooBarzyrhaz",
-              :auth_grant     => 'password' }
+              :grant_type     => 'password' }
 
     post oauth_token_path(params)
     json_hash = JSON.parse(response.body)

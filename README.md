@@ -157,7 +157,7 @@ If you have this feature enabled you can further control what applications can u
       # return user.valid_password?(params[:password]) ? user : false
     end
 
-If you're authenticating exchanging something other than a password (such as a facebook auth token) client's can still enable this functionality by setting `params[:auth_grant] == 'password'` in their initial request. You can then use `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
+If you're authenticating exchanging something other than a password (such as a facebook auth token) client's can still enable this functionality by setting `params[:grant_type] == 'password'` in their initial request. You can then use `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
 
 
     config.find_user_for_auth do |controller, params|
