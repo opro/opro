@@ -27,6 +27,28 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
     assert_equal @redirect_uri, path
   end
 
+  # Tests against common OAuth Security issue
+  # http://homakov.blogspot.com/2012/07/saferweb-most-common-oauth2.html
+  # still relies on client to submit :status param
+  test "oauth auth jacking is can be avoided by clients" do
+    auth_grant  = create_auth_grant_for_user(@user, @client_app)
+    state = SecureRandom.hex(16)
+    params = { :client_id     => @client_app.client_id ,
+               :client_secret => @client_app.client_secret,
+               :redirect_uri  => @redirect_uri,
+               :state         => state }
+
+    as_user(@user).post oauth_authorize_path(params)
+
+    assert response["Location"].include?("state=#{state}")
+
+    assert_equal 302, status
+    follow_redirect!
+
+    assert_equal @redirect_uri, path
+    assert_equal 200, status
+  end
+
 
   test "AUTHORIZE: app cannot force permissions change for previously authed user" do
     auth_grant  = create_auth_grant_for_user(@user, @client_app)

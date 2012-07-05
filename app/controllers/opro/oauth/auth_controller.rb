@@ -15,14 +15,14 @@ class Opro::Oauth::AuthController < OproController
   def create
     # find or create an auth_grant for a given user
     application  =   Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
-    access_grant =   Opro::Oauth::AuthGrant.where( :user_id => current_user.id, :application_id => application.id).first
-    access_grant ||= Opro::Oauth::AuthGrant.create(:user => current_user,       :application => application)
+    auth_grant =   Opro::Oauth::AuthGrant.where( :user_id => current_user.id, :application_id => application.id).first
+    auth_grant ||= Opro::Oauth::AuthGrant.create(:user => current_user,       :application => application)
 
 
     # add permission changes if there are any
-    access_grant.update_attributes(:permissions => params[:permissions]) if access_grant.permissions != params[:permissions]
+    auth_grant.update_attributes(:permissions => params[:permissions]) if auth_grant.permissions != params[:permissions]
 
-    redirect_to access_grant.redirect_uri_for(params[:redirect_uri])
+    redirect_to auth_grant.redirect_uri_for(params[:redirect_uri], params[:state])
   end
 
 

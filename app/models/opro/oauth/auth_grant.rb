@@ -81,11 +81,13 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), SecureRandom.hex(16), SecureRandom.hex(16)
   end
 
-  def redirect_uri_for(redirect_uri)
+  def redirect_uri_for(redirect_uri, state = nil)
     if redirect_uri =~ /\?/
-      redirect_uri + "&code=#{code}&response_type=code"
+      redirect_uri << "&code=#{code}&response_type=code"
     else
-      redirect_uri + "?code=#{code}&response_type=code"
+      redirect_uri << "?code=#{code}&response_type=code"
     end
+    redirect_uri << "&state=#{state}" if state.present?
+    redirect_uri
   end
 end
