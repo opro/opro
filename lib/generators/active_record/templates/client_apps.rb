@@ -8,5 +8,9 @@ class CreateOproClientApps < ActiveRecord::Migration
       t.integer :user_id
       t.timestamps
     end
+
+    add_index :opro_client_apps, :app_id, :unique => true
+    add_index :opro_client_apps, [:app_id, :app_secret], :unique => true
+
   end
 end
