@@ -78,7 +78,27 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   end
 
   def generate_tokens!
-    self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), SecureRandom.hex(16), SecureRandom.hex(16)
+    self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), generate_access_token, generate_refresh_token
+  end
+
+  def generate_access_token
+    access_token     = SecureRandom.hex(16)
+    auth_grant = Opro::Oauth::AuthGrant.where(:access_token => access_token).first
+    if auth_grant.present?
+      generate_access_token
+    else
+      return access_token
+    end
+  end
+
+  def generate_refresh_token
+    refresh_token     = SecureRandom.hex(16)
+    auth_grant = Opro::Oauth::AuthGrant.where(:refresh_token => refresh_token).first
+    if auth_grant.present?
+      generate_refresh_token
+    else
+      return refresh_token
+    end
   end
 
   def redirect_uri_for(redirect_uri, state = nil)
