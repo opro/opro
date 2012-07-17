@@ -11,5 +11,9 @@ class CreateOproAuthGrants < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :opro_auth_grants, :access_token, :unique => true
+    add_index :opro_auth_grants, :refresh_token, :unique => true
+
   end
 end
