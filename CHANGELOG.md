@@ -1,3 +1,7 @@
+## 0.3.1
+
+- [#7] Bugfix: Verify access_token, refresh_token, and code are unique before attempting to save (@twinge)
+
 ## 0.3.0
 
 - Properly set attr_accessible for those apps that are requiring all attributes to be whitelisted.

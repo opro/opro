@@ -78,6 +78,8 @@ def create_auth_grant_for_user(user = nil, app = nil)
   Opro::Oauth::AuthGrant.create(:user => user, :application => app)
 end
 
+alias :create_auth_grant :create_auth_grant_for_user
+
 
 # Will run the given code as the user passed in
 def as_user(user=nil, &block)

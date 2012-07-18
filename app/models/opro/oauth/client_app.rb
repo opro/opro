@@ -20,16 +20,12 @@ class Opro::Oauth::ClientApp < ActiveRecord::Base
   end
 
   def self.create_with_user_and_name(user, name)
-    create(:user => user, :name => name, :app_id => generate_id, :app_secret => SecureRandom.hex(16))
+    create(:user => user, :name => name, :app_id => generate_unique_app_id, :app_secret => SecureRandom.hex(16))
   end
 
-  def self.generate_id
-    app_id     = SecureRandom.hex(16)
+  def self.generate_unique_app_id(app_id = SecureRandom.hex(16))
     client_app = where(:app_id => app_id)
-    if client_app.present?
-      generate_id
-    else
-      return app_id
-    end
+    return app_id if client_app.blank?
+    generate_unique_app_id
   end
 end

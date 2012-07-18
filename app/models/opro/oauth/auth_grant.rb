@@ -9,6 +9,8 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
 
 
   validates :application_id, :uniqueness => {:scope => :user_id, :message => "Application is already authed for this user"}, :presence => true
+  validates :code,           :uniqueness => true
+  validates :access_token,   :uniqueness => true
 
   before_create :generate_tokens!, :generate_expires_at!
 
@@ -78,27 +80,15 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   end
 
   def generate_tokens!
-    self.code, self.access_token, self.refresh_token = SecureRandom.hex(16), generate_access_token, generate_refresh_token
+    self.code, self.access_token, self.refresh_token = unique_token_for(:refresh_token), unique_token_for(:access_token), unique_token_for(:refresh_token)
   end
 
-  def generate_access_token
-    access_token     = SecureRandom.hex(16)
-    auth_grant = Opro::Oauth::AuthGrant.where(:access_token => access_token).first
-    if auth_grant.present?
-      generate_access_token
-    else
-      return access_token
-    end
-  end
-
-  def generate_refresh_token
-    refresh_token     = SecureRandom.hex(16)
-    auth_grant = Opro::Oauth::AuthGrant.where(:refresh_token => refresh_token).first
-    if auth_grant.present?
-      generate_refresh_token
-    else
-      return refresh_token
-    end
+  # used to guarantee that we are generating unique codes, access_tokens and refresh_tokens
+  def unique_token_for(field, secure_token  = SecureRandom.hex(16))
+    raise "bad field" unless self.respond_to?(field)
+    auth_grant = self.class.where(field => secure_token).first    
+    return secure_token if auth_grant.blank?
+    unique_token_for(field)
   end
 
   def redirect_uri_for(redirect_uri, state = nil)
