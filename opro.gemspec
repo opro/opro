@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-07-05"
+  s.date = "2012-07-18"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -114,6 +114,8 @@ Gem::Specification.new do |s|
     "test/integration/docs_controller_test.rb",
     "test/integration/oauth_test.rb",
     "test/integration/refresh_token_test.rb",
+    "test/models/opro/oauth/auth_grant_test.rb",
+    "test/models/opro/oauth/client_app_test.rb",
     "test/opro_test.rb",
     "test/support/integration_case.rb",
     "test/test_helper.rb"
