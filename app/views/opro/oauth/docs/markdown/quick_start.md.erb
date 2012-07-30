@@ -5,7 +5,7 @@ This site is providing OAuth through [Opro](http://github.com/schneems/opro). If
 
 ## Step 1: Register your Application
 
-Sign in as a registered user then visit the [new client application page](/oauth_client_applications/new). Enter in the name of your application for this example we can use `foo`, you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`, these behave like a username and password for your OAuth application.
+Sign in as a registered user then visit the [new client application page](/oauth_client_apps/new). Enter in the name of your application for this example we can use `foo`, you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`, these behave like a username and password for your OAuth application.
 
 
     Name:       foo
@@ -58,14 +58,14 @@ Now we've gone through all the hard work of getting this token, you can use it t
 
 Try it out for yourself open up a browser and go to
 
-    <%= "#{request.base_url}/oauth_test/show_me_the_money?access_token=9693accessTokena7ca570bbaf" %>
+    <%= "#{request.base_url}/oauth_tests/show_me_the_money?access_token=9693accessTokena7ca570bbaf" %>
 
 
 You should see a successful result ( again don't forget to replace the example access token with yours ). Not all urls will support OAuth authentication.
 
 You can also use a header to pass the oauth token
 
-    <%= %Q{ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "#{request.base_url}/oauth_test/show_me_the_money" } %>
+    <%= %Q{ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "#{request.base_url}/oauth_tests/show_me_the_money" } %>
 
 
 ## Security
