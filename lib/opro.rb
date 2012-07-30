@@ -34,7 +34,7 @@ module Opro
         if find_params.blank? && params[:username].present?
           find_params = { Devise.authentication_keys.first => params[:username] }
         end
-        user        = User.where(find_params).first if find_params.present?
+        user = User.where(find_params).first if find_params.present?
         return false unless user.present?
         return false unless user.valid_password?(params[:password])
         user
