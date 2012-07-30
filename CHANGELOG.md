@@ -1,3 +1,7 @@
+## 0.3.2
+
+- Attempt to find user based on params[:username] from client in devise default find_user_for_auth
+
 ## 0.3.1
 
 - [#7] Bugfix: Verify access_token, refresh_token, and code are unique before attempting to save (@twinge)
