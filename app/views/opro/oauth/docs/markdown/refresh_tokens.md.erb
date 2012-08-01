@@ -9,7 +9,11 @@ Refresh tokens can be used to refresh an expiring `access_token`. When you recei
 If a token has expired or you simply wish to receive a new `access_token` you can send your `refresh_token` along with your `app_id` and `app_secret` to `/oauth/token` and your access_token will be refreshed.
 
 
-    $ curl '<%= "#{request.base_url}/oauth/token?" %>?client_id=3234myClientId5678&client_secret=14321myClientSecret8765&refresh_token=4857goldfish827423'
+
+    $ curl '<%= oauth_token_url(:protocol      => @protocol,
+                                :client_id     => "3234myClientId5678",
+                                :client_secret => "14321myClientSecret8765",
+                                :refresh_token => "4857goldfish827423") %>'
 
 You'll want to make sure to replace `client_id`, `client_secret`, and `refresh_token` with your values.
 

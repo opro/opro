@@ -3,24 +3,26 @@
 
 # Permissions
 
-Permissions give the user a way to control the scope of access that a client application has to their data. This is similar to how Facebook will ask users what actions an app can take on their part.
+Permissions give the user a way to control the scope of access that a client application has to their data. This is similar to how Facebook will ask users what actions an application can take on their behalf.
 
 
 <% if ::Opro.request_permissions.present? && ::Opro.request_permissions.map(&:to_s).include?("write") %>
 
 ## Write Access
 
-To perform any type of request other than a GET ([HTTP Request methods](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods)), your application must have `write` access to the user. You can specify this scope (see Request Scope below) or by default all permissions will be requested.
+To perform any type of request other than a [GET](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol#Request_methods) request, your application must have `write` access from the user. Your application can request this permission with `scope` (see Request Scope below). By default all permissions will be requested.
 
 <% end %>
 
 ## Request Scope
 
-As a client app you can request specific scopes while you are authing a user, if no scope is specified all permissions will be requested.
+As a client application you can request specific scopes while you are authorizing a user, if no scope is specified all permissions will be requested. This is an example of an application with client id of `3234myClientId5678` specifying that they want `write` access for their app:
 
-      <%= "#{request.base_url}/oauth/authorize?" %>scope[]=write&#... %>
 
-While authorizing your app a user can choose to accept or deny individual permissions.
+    <%= oauth_authorize_url(:client_id => "3234myClientId5678", :protocol => @protocol) + "&scope[]=write" %>
+
+
+While authorizing your application a user can choose to grant or reject individual permissions.
 
 
 ## Available Permissions/Scopes

@@ -1,6 +1,6 @@
 # Curl
 
-[Curl](http://curl.haxx.se/) is a command line tool for transfering data with a url syntax. Most systems should have curl installed. Open up terminal on OS X or command prompt on windows and type in `curl`. There are parts of the OAuth process that were not intended for direct human interaction such as exchanging the code from the Provider for an access_token. Because of this, it can be easier to use `curl` to talk to a server directly instead of using a web browser.
+[Curl](http://curl.haxx.se/) is a command line tool for transferring data with a url syntax. Most systems should have curl installed. Open up terminal on OS X or command prompt on windows and type in `curl`. There are parts of the OAuth process that were not intended for direct human interaction such as exchanging the code from the Provider for an access_token. Because of this, it can be easier to use `curl` to talk to a server directly instead of using a web browser.
 
 ## What is it good for?
 
@@ -39,17 +39,13 @@ You can ask for the headers of a request by adding the `-I` flag to a curl comma
 
 You can set a request header by using `-H` for example if you wanted to send an access_token in a header you could issue this request (assuming your access token is '9693accessTokena7ca570bbaf')
 
-    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_tests/show_me_the_money"
+    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_test_url(:show_me_the_money, :protocol => @protocol)%>"
 
 
 ### HTTP Verb
 
-You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by specifying `-X`. For example if you wanted to POST to the /products url at localhost:3000/products you could do so like this:
+You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by using `-X`. For example if you wanted to POST to the /products url at localhost:3000/products you could do so like this:
 
-    $ curl -X POST http://localhost:3000
-
-
-
-
+    $ curl -X POST <%= root_url %>
 
 

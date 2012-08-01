@@ -8,9 +8,11 @@ class Opro::Oauth::DocsController < OproController
   helper_method :render_doc
 
   def index
+    @protocol = protocol
   end
 
   def show
+    @protocol = protocol
     @doc = params[:id]
   end
 
@@ -22,6 +24,10 @@ class Opro::Oauth::DocsController < OproController
   end
 
   private
+
+  def protocol
+    Rails.env.production? ? "https" : "http"
+  end
 
   def parse_erb(str)
     ERB.new(str).result(binding)
