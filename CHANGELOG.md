@@ -1,3 +1,7 @@
+## 0.3.3
+
+- [#8] Fix Doc urls (@robe5)
+
 ## 0.3.2
 
 - Attempt to find user based on params[:username] from client in devise default find_user_for_auth
