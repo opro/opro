@@ -47,6 +47,12 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
     post oauth_tests_path, {}, headers
 
     assert_equal 200, status
+
+    headers = {"HTTP_AUTHORIZATION" => "token=\"#{access_token}\""}
+    post oauth_tests_path, {}, headers
+
+    Opro.setup {|config| config.header_auth_regex = /Zoro\s(.*)/ }
+
   end
 
 end

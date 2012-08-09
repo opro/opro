@@ -66,7 +66,7 @@ module Opro
       # grabs access_token from header if one is present
       def oauth_access_token_from_header
         auth_header = request.env["HTTP_AUTHORIZATION"]||""
-        match       = auth_header.match(/^token\s(.*)/) || auth_header.match(/^Bearer\s(.*)/)
+        match       = auth_header.match(/token\W*([^\W]*)/) || auth_header.match(/^Bearer\s(.*)/)
         return match[1] if match.present?
         false
       end
