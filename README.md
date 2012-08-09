@@ -1,15 +1,17 @@
-## Opro
+## oPRO
 
 A production ready Rails Engine that turns your app into an [Oauth2](http://oauth.net/2/) Provider.
 
-  * [Demo OAuth Provider app with Opro](http://opro-demo.herokuapp.com/) on Heroku
-  * [Built in Opro docs](http://opro-demo.herokuapp.com/oauth_docs)
+  * [Demo OAuth Provider app with oPRO](http://opro-demo.herokuapp.com/) on Heroku
+  * [Built in oPRO docs](http://opro-demo.herokuapp.com/oauth_docs)
+
+oPRO is short for (O)Auth (Pro)vider and is pronounced "oh proh". Not to be confused with [Oprah](http://www.oprah.com/index.html), who does not support or endorse this ruby gem in any way.
 
 ## Why would I use this?
 
 Lets say you've built a Rails app, awesome. Now you want to build a mobile app on say, the iPhone... cool. You start throwing around `#to_json` like nobody's business, but then you realize you need to authenticate users somehow. "Basic Auth!!", you exclaim, but then you realize that's not the most secure solution. You also realize that some users already signed up with Facebook & Twitter so they don't have a username/password combo. What ever shall you do?
 
-Wouldn't it be great if we could have a token exchange where the user goes to a mobile web view and grants permission, and then we return back an auth token just like the big boys (Facebook, Twitter, *cough* Foursquare *cough*). With Opro, we can add this functionality pretty easily. We'll use your existing authentication strategy and provide some integration end points for your clients to use out of the box.
+Wouldn't it be great if we could have a token exchange where the user goes to a mobile web view and grants permission, and then we return back an auth token just like the big boys (Facebook, Twitter, *cough* Foursquare *cough*). With oPRO, we can add this functionality pretty easily. We'll use your existing authentication strategy and provide some integration end points for your clients to use out of the box.
 
 
 ## Install
@@ -79,12 +81,12 @@ That should be all you need to do to get setup, congrats you're now able to auth
 
 ## Use it
 
-Opro comes with built in documentation, so if you start your server you can view them at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
+oPRO comes with built in documentation, so if you start your server you can view them at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
 
 
 # Advanced Setup
 
-Opro is simple by default, but easily configurable for a number of common use cases. Check out the options below.
+oPRO is simple by default, but easily configurable for a number of common use cases. Check out the options below.
 
 
 ## Custom Auth
@@ -100,12 +102,12 @@ If you're not using devise you can manually configure your own auth strategy. In
 
 ## Permissions
 
-When a user auth's with a client they automatically are granting read permission to any action that you `allow_oauth!`. Read only clients are restricted to using GET requests. By default Opro will ask users for write permission on a client by client application. Client apps with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you whitelist using `allow_oauth!`.
+When a user auth's with a client they automatically are granting read permission to any action that you `allow_oauth!`. Read only clients are restricted to using GET requests. By default oPRO will ask users for write permission on a client by client application. Client apps with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you whitelist using `allow_oauth!`.
 
 
 ### Custom Permissions
 
-To remove write permissions comment out this line in the Opro initializer:
+To remove write permissions comment out this line in the oPRO initializer:
 
       config.request_permissions = [:write]
 
@@ -168,7 +170,7 @@ If you're authenticating exchanging something other than a password (such as a f
 
 ## Rate Limiting
 
-If your API becomes a runaway success and people starte abusing your api, you might chose to limit the rate that client applications can access your API. It is common for popular read only API's to have an hourly, or daily rate limit to help prevent abuse. If you want this type of functionality you can use Opro's built in hooks, one to record the number of times a client application has accessed your api. And another to let the application know if the Client app has gone over it's alloted rate.
+If your API becomes a runaway success and people starte abusing your api, you might chose to limit the rate that client applications can access your API. It is common for popular read only API's to have an hourly, or daily rate limit to help prevent abuse. If you want this type of functionality you can use oPRO's built in hooks, one to record the number of times a client application has accessed your api. And another to let the application know if the Client app has gone over it's alloted rate.
 
 To record the number of times an application has accessed your site add this method to your ApplicationController:
 

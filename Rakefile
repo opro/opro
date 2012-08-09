@@ -26,7 +26,7 @@ task :default => :test
 
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
-  rdoc.title    = 'Opro'
+  rdoc.title    = 'oPRO'
   rdoc.options << '--line-numbers' << '--inline-source'
   rdoc.rdoc_files.include('README.rdoc')
   rdoc.rdoc_files.include('lib/**/*.rb')
@@ -47,7 +47,7 @@ Jeweler::Tasks.new do |gem|
   gem.name        = "opro"
   gem.homepage    = "http://github.com/schneems/opro"
   gem.license     = "MIT"
-  gem.summary     = %Q{ Opro turns your Rails application into an OAuth Provider }
+  gem.summary     = %Q{ oPRO turns your Rails application into an OAuth Provider }
   gem.description = %Q{ Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you}
   gem.email       = "richard.schneeman@gmail.com"
   gem.authors     = ["schneems"]
