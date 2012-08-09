@@ -121,6 +121,18 @@ module Opro
   end
 
 
+  # default to no match
+  def self.header_auth_regex
+    @header_auth_regex || /$^/
+  end
+
+  # Allows a user to set define a custom authorization regular expression
+  def self.header_auth_regex=(regexstring)
+    raise "not a regex" unless regexstring.is_a? Regexp
+    @header_auth_regex = regexstring
+  end
+
+
   # Grossssss, don't use, needed to support `return` from the blocks provided to `find_user_for_auth`
   def self.convert_to_lambda &block
     obj = Object.new

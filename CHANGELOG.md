@@ -1,3 +1,7 @@
+## 0.4.0
+
+- Enable configurable authorization headers based on regex.
+
 ## 0.3.3
 
 - [#8] Fix Doc urls (@robe5)

@@ -9,7 +9,7 @@ A production ready Rails Engine that turns your app into an [Oauth2](http://oaut
 
 Lets say you've built a Rails app, awesome. Now you want to build a mobile app on say, the iPhone... cool. You start throwing around `#to_json` like nobody's business, but then you realize you need to authenticate users somehow. "Basic Auth!!", you exclaim, but then you realize that's not the most secure solution. You also realize that some users already signed up with Facebook & Twitter so they don't have a username/password combo. What ever shall you do?
 
-Wouldn't it be great if we could have a token exchange where the user goes to a mobile web view and grants permission, and then we return back an auth token just like the big boys (Facebook, Twitter, *cough* Foursquare *cough*). With Opro, we can add this functionality pretty easily. We'll use your existing authentication strategy and provide some end integration points for your clients to use out of the box.
+Wouldn't it be great if we could have a token exchange where the user goes to a mobile web view and grants permission, and then we return back an auth token just like the big boys (Facebook, Twitter, *cough* Foursquare *cough*). With Opro, we can add this functionality pretty easily. We'll use your existing authentication strategy and provide some integration end points for your clients to use out of the box.
 
 
 ## Install
@@ -91,13 +91,12 @@ Opro is simple by default, but easily configurable for a number of common use ca
 
 If you're not using devise you can manually configure your own auth strategy. In the future I plan on adding more auth strategies, ping me or submit a pull request for your desired authentication scheme.
 
-```ruby
+
       Opro.setup do |config|
         config.login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
         config.logout_method            { |controller, current_user| controller.sign_out(current_user) }
         config.authenticate_user_method { |controller| controller.authenticate_user! }
       end
-```
 
 ## Permissions
 
@@ -129,12 +128,13 @@ The result is expected to be true or false.
 
 ## Refresh Tokens
 
-For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implemeting the refresh_token functionality in a client can be quite difficult.
+For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implementing the `refresh_token` functionality in a client can be more difficult.
 
-By default refresh tokens are disabled, you can enable them in your application and set the timeout period of the tokens by adding this line to your configuration.
-
+By default refresh tokens are enabled, you can disable them in your application and set the timeout period of the tokens by adding this line to your configuration.
 
     config.require_refresh_within = 1.month
+
+
 
 
 ## Password Token Exchange
@@ -183,6 +183,29 @@ Then to let our server know if a given client has reached add this method, the o
     end
 
 Rate limited clients will receive an "unsuccessful" response to any query with a message letting them know they've been rate limited. Using redis with a rotating key generator based on (hour, daty, etc.) is one very common way to count rate, and implement the rate limits. Since there are so many different ways to implement this, we decided to give you a blank slate and implement it however you like. The default is that apps are not rate limited, and in general unlimited API access is the way to go, but if you do find abusive behavior you can always easily add in a rate limit.
+
+
+## Configurable Authorization Header
+
+By default oPRO allows clients to send their authorization token in a header. For example someone using an auth token of `9693accessTokena7ca570bbaf` could set the `Authorization` header in a request like this:
+
+    $ curl -H "Authorization: Bearer 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
+
+By default oPRO will accept `Bearer` and `token` in the authorization header, but if your client needs to send a custom auth header, you can add a custom extra regular expression to parse parse and return the token. For example if a client was setting the auth header like this:
+
+    $ curl -H "Authorization: cUsTomAuthHeader 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
+
+You could pull out the auth token using this regular expression `/cUsTomAuthHeader\s(.*)/`. If you're not great with regular expressions I highly recommend using [Rubular](http://rubular.com) to test regex matches. It is very important that we are "capturing" data with in between the `()` characters. The data returned inside of the parens are expected to be the auth token with no spaces or special characters such as new lines or quotes. To set parse this auth header in oPRO, you can specify the `header_auth_regex` in an initializer like this:
+
+
+      Opro.setup do |config|
+        config.auth_strategy = :devise
+
+        config.header_auth_regex = /cUsTomAuthHeader\s(.*)/
+      end
+
+Now when a client sends your custom auth header it will be parsed correctly. Custom authorization headers should not be used for security through obscurity. They may be exposed in the docs or tests in a later iteration of oPRO, if you have strong feelings against this, then please open a pull request or send me a message stating your case.
+
 
 
 ## Assumptions
