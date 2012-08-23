@@ -81,7 +81,7 @@ That should be all you need to do to get set up. Congrats, you're now able to au
 
 ## Use it
 
-oPRO comes with built in documentation, so if you start your server you can view them at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
+oPRO comes with built in documentation, so if you start your server you can view the docs at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
 
 
 # Advanced Setup
@@ -152,14 +152,14 @@ If you have this feature enabled, you can further control what applications can 
     end
 
 
- If you are using this password functionality without a supported authorization engine (like devise), you will need to add an additional method that supports validating whether or not a user's credentials are valid. The method for this is called `find_user_for_auth` and accepts a controller and the parameters. The output is expected to be a user. Add this to your config like you did to the other required methods in the Custom Auth section.
+ If you are using this password functionality without a supported authorization engine (like devise), you will need to add an additional method that supports validating whether or not a user's credentials are valid. The method for this is called `find_user_for_auth` and accepts a controller and the parameters. The output is expected to be a user. Add this to your config like you did to the other required methods in the "Custom Auth" section:
 
     config.find_user_for_auth do |controller, params|
       # user = User.find(params[:something])
       # return user.valid_password?(params[:password]) ? user : false
     end
 
-If you're authenticating exchanging something other than a password (such as a facebook auth token) client's can still enable this functionality by setting `params[:grant_type] == 'password'` in their initial request. You can then use `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
+If you're authenticating by exchanging something other than a password (such as a facebook auth token), clients can still enable this functionality by setting `params[:grant_type] == 'password'` in their initial request. You can then use the `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
 
 
     config.find_user_for_auth do |controller, params|
@@ -170,7 +170,7 @@ If you're authenticating exchanging something other than a password (such as a f
 
 ## Rate Limiting
 
-If your API becomes a runaway success and people starte abusing your api, you might chose to limit the rate that client applications can access your API. It is common for popular read only API's to have an hourly, or daily rate limit to help prevent abuse. If you want this type of functionality you can use oPRO's built in hooks, one to record the number of times a client application has accessed your api. And another to let the application know if the Client app has gone over it's alloted rate.
+If your API becomes a runaway success and people start abusing your API, you might choqse to limit the rate that client applications can access your API. It is common for popular read-only APIs to have an hourly or daily rate limit to help prevent abuse. If you want this type of functionality, you can use oPRO's built in hooks: one to record the number of times a client application has accessed your API and another to let the application know if the Client app has gone over its allotted rate.
 
 To record the number of times an application has accessed your site add this method to your ApplicationController:
 
@@ -178,13 +178,13 @@ To record the number of times an application has accessed your site add this met
       # implement your rate counting mechanism here
     end
 
-Then to let our server know if a given client has reached add this method, the output is expected to be true if the client has gone over their limit, and false if they have not:
+Then to let our server know if a given client has reached its limit, add the method below. The output is expected to be true if the client has gone over their limit and false if they have not:
 
     def oauth_client_rate_limited?(client_id, params)
       # implement your own custom rate limiting logic here
     end
 
-Rate limited clients will receive an "unsuccessful" response to any query with a message letting them know they've been rate limited. Using redis with a rotating key generator based on (hour, daty, etc.) is one very common way to count rate, and implement the rate limits. Since there are so many different ways to implement this, we decided to give you a blank slate and implement it however you like. The default is that apps are not rate limited, and in general unlimited API access is the way to go, but if you do find abusive behavior you can always easily add in a rate limit.
+Rate limited clients will receive an "unsuccessful" response to any query with a message letting them know they've been rate limited. Using redis with a rotating key generator based on (hour, day, etc.) is one very common way to count accesses and implement the rate limits. Since there are so many different ways to implement this, we decided to give you a blank slate and let you implement it however you would like. The default is that apps are not rate limited, and in general unlimited API access is the way to go, but if you do find abusive behavior you can always easily add in a rate limit.
 
 
 ## Configurable Authorization Header
@@ -197,7 +197,7 @@ By default, oPRO will accept `Bearer` and `token` in the authorization header, b
 
     $ curl -H "Authorization: cUsTomAuthHeader 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
 
-You could pull out the auth token using this regular expression `/cUsTomAuthHeader\s(.*)/`. If you're not great with regular expressions I highly recommend using [Rubular](http://rubular.com) to test regex matches. It is very important that we are "capturing" data with in between the `()` characters. The data returned inside of the parens are expected to be the auth token with no spaces or special characters such as new lines or quotes. To set parse this auth header in oPRO, you can specify the `header_auth_regex` in an initializer like this:
+You could pull out the auth token using the regular expression `/cUsTomAuthHeader\s(.*)/`. If you're not great with regular expressions, I highly recommend using [Rubular](http://rubular.com) to test regex matches. It is very important that we are "capturing" data in between the `()` characters. The data returned inside of the parens is expected to be the auth token with no spaces or special characters such as new lines or quotes. To parse this auth header in oPRO, you can specify the `header_auth_regex` in an initializer like this:
 
 
       Opro.setup do |config|
@@ -212,7 +212,7 @@ Now when a client sends your custom auth header, it will be parsed correctly. Cu
 
 ## Assumptions
 
-* You have a user model and that is what your authenticating
+* You have a user model and that is what you're authenticating
 * You're using Active::Record
 
 ## About

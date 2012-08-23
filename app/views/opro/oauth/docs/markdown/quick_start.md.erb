@@ -28,7 +28,7 @@ Once you've registered an app successfully we can start to build an OAuth applic
 
 ## Step 2: As a user, grant access to your app
 
-Now that you have a client application, you'll want to give it access to a user account. Open a new browser window with your currently logged in account, then give your application permission by visiting the url below (swap out '3234myClientId5678' for your client id and '14321myClientSecret8765' for your client secret)
+Now that you have a client application, you'll want to give it access to a user account. Open a new browser window and log in with a user account, then give your application permission by visiting the url below (swap out '3234myClientId5678' for your client id and '14321myClientSecret8765' for your client secret)
 
     <%= oauth_authorize_url(:protocol => @protocol, :redirect_uri => "/", :client_id => "3234myClientId5678", :client_secret => "14321myClientSecret8765" ) %>
 
@@ -46,9 +46,9 @@ In the url above, the `code` would be `4857goldfish827423`. This code can be use
 
 ## Step 3: Get an Access Token for a User with Curl
 
-We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of getting an access for our first user, you'll likely use http client libraries in your actual applications, but most systems come with curl and it is a fairly easy way to get started. If you've never used it before read our [curl documentation](<%= oauth_doc_path(:curl) %>)
+We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of getting an access token for our first user. You'll likely use http client libraries in your actual application, but most systems come with curl, and it is a fairly easy way to get started. If you've never used it before, read our [curl documentation](<%= oauth_doc_path(:curl) %>)
 
-(Note in all code examples the $ character indicates we are on the command line, it does not need to be coppied)
+(Note in all code examples the $ character indicates we are on the command line, it does not need to be copied)
 
 You'll want to make sure to replace `client_id`, `client_secret`, and `code` with your values.
 
@@ -69,7 +69,7 @@ If not, double check the previous steps and ensure you are using the correct val
 
 ## Step 4: Use the access token
 
-Now we've gone through all the hard work of getting an access token, you can use it to make authenticated requests to the server. You'll need to include the correct `access_token` parameter in your query and you'll be logged in as that user for that request.
+Now that we've gone through all the hard work of getting an access token, you can use it to make authenticated requests to the server. If you include the correct `access_token` parameter in your query, you'll be logged in as that user for that request.
 
 Try it out for yourself. Replace the access token below with the one you received and run this curl command:
 
