@@ -4,7 +4,7 @@
 
 ## What is it good for?
 
-With curl we're able to arbitrarily add parameters to our requests and to send using arbitrary HTTP status codes (GET/POST/DELETE) that are difficult to simulate in the browser. If you need to `POST` data to a url doing so with curl is much easier than constructing a form for testing.
+With curl, we're able to arbitrarily add parameters to our requests and send using arbitrary HTTP verbs (GET/POST/DELETE) that are difficult to simulate in the browser. If you need to `POST` data to a url, doing so with curl is much easier than constructing a form for testing.
 
 # Hurl
 
@@ -12,18 +12,18 @@ With curl we're able to arbitrarily add parameters to our requests and to send u
 
 ## How do I use it?
 
-On the command line you should be able to get get help by typing `man curl` if your system supports man pages. Below are some simple and common use cases
+On the command line, you should be able to get get help by typing `man curl` if your system supports man pages. Below are some simple and common use cases.
 
 ### Get Webpage
 
-You can get the entire contents of a web document by simply issuing curl to that url
+You can get the entire contents of a web document by simply calling curl with that url:
 
     $ curl https://www.google.com
 
 ### Get Headers
 
 
-You can ask for the headers of a request by adding the `-I` flag to a curl command
+You can ask for the headers of a request by adding the `-I` flag to a curl command:
 
     $ curl https://www.google.com -I
     HTTP/1.1 200 OK
@@ -37,14 +37,14 @@ You can ask for the headers of a request by adding the `-I` flag to a curl comma
 
 ### Set Headers
 
-You can set a request header by using `-H` for example if you wanted to send an access_token in a header you could issue this request (assuming your access token is '9693accessTokena7ca570bbaf')
+You can set a request header by using `-H`. For example, if you wanted to send an access_token in a header, you could issue this request (assuming your access token is '9693accessTokena7ca570bbaf'):
 
     $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_test_url(:show_me_the_money, :protocol => @protocol)%>"
 
 
 ### HTTP Verb
 
-You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by using `-X`. For example if you wanted to POST to the /products url at localhost:3000/products you could do so like this:
+You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by using `-X`. For example, if you wanted to POST to the /products path at <%= root_url %>, you could do so like this:
 
     $ curl -X POST <%= root_url %>
 

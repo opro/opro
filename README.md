@@ -34,7 +34,7 @@ and don't forget
     $ rails g opro:install
 ```
 
-This will put a file in `initializers/opro.rb` and generate some migrations, and add `mount_opro_oauth` to your routes.
+This will put a file in `initializers/opro.rb`, generate some migrations, and add `mount_opro_oauth` to your routes.
 
 
 Now we're ready to migrate the database
@@ -47,7 +47,7 @@ This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your data
 
 ## Setup
 
-Go to `initializers/opro.rb` and configure your app for your authentication scheme, if you're not using devise see "Custom Auth" below.
+Go to `initializers/opro.rb` and configure your app for your authentication scheme. If you're not using devise, see "Custom Auth" below.
 
 ```ruby
       Opro.setup do |config|
@@ -74,9 +74,9 @@ You can also disallow OAuth on specific actions. Disallowing will always over-ri
       end
 ```
 
-By default all OAuth access is blacklisted. To whitelist all access, add `allow_oauth!` to your `ApplicationController` (this is not recommended). The best practice is to add `allow_oauth!` or `disallow_oauth` to each and every controller.
+By default, all OAuth access is blacklisted. To whitelist all access, add `allow_oauth!` to your `ApplicationController` (this is not recommended). The best practice is to add `allow_oauth!` or `disallow_oauth` to each and every controller.
 
-That should be all you need to do to get setup, congrats you're now able to authenticate users using OAuth!!
+That should be all you need to do to get set up. Congrats, you're now able to authenticate users using OAuth!!
 
 
 ## Use it
@@ -91,7 +91,7 @@ oPRO is simple by default, but easily configurable for a number of common use ca
 
 ## Custom Auth
 
-If you're not using devise you can manually configure your own auth strategy. In the future I plan on adding more auth strategies, ping me or submit a pull request for your desired authentication scheme.
+If you're not using devise, you can manually configure your own auth strategy. In the future I plan on adding more auth strategies; ping me or submit a pull request for your desired authentication scheme.
 
 
       Opro.setup do |config|
@@ -102,12 +102,12 @@ If you're not using devise you can manually configure your own auth strategy. In
 
 ## Permissions
 
-When a user auth's with a client they automatically are granting read permission to any action that you `allow_oauth!`. Read only clients are restricted to using GET requests. By default oPRO will ask users for write permission on a client by client application. Client apps with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you whitelist using `allow_oauth!`.
+When a user authenticates with a client, they are automatically granting read permission to any action that you `allow_oauth!`. Read-only clients are restricted to using GET requests. By default, oPRO will ask users for write permission on a client by the client application. Client apps with `:write` permission can use all HTTP verbs including POST, PATCH, PUT, DESTROY on any url you whitelist using `allow_oauth!`.
 
 
 ### Custom Permissions
 
-To remove write permissions comment out this line in the oPRO initializer:
+To remove write permissions, comment out this line in the oPRO initializer:
 
       config.request_permissions = [:write]
 
@@ -115,11 +115,11 @@ You can add custom permissions by adding to the array:
 
       config.request_permissions = [:write, :email, :picture, :whatever]
 
-You can then restrict access using the custom permissions by calling `require_oauth_permissions` which takes the same arguments as `before_filter`
+You can then restrict access using the custom permissions by calling `require_oauth_permissions`, which takes the same arguments as `before_filter`:
 
       require_oauth_permissions :email, :only => :index
 
-You can also skip permissions using `skip_oauth_permissions`. By default permissions will just check to see if a client has the permission, and will allow the action if it is present. If you want to implement custom permission checks you can write custom methods using the pattern `oauth_client_can_#{permission}?` for example if you were restricting the `:email` permission, you would create a method.
+You can also skip permissions using `skip_oauth_permissions`. By default, permissions will just check to see if a client has the permission and will allow the action if it is present. If you want to implement custom permission checks, you can write custom methods using the pattern `oauth_client_can_#{permission}?`. For example, if you were restricting the `:email` permission, you would create a method:
 
       def oauth_client_can_email?
         # ...
@@ -130,9 +130,9 @@ The result is expected to be true or false.
 
 ## Refresh Tokens
 
-For added security you can require access_tokens be refreshed by client applications. This will help to mitigate risk of a leaked access_token, and enable an all around more secure system. This security comes at a price however, since implementing the `refresh_token` functionality in a client can be more difficult.
+For added security, you can require access_tokens to be refreshed by client applications. This will help to mitigate the risk of a leaked access_token and enable an all around more secure system. This security comes at a price, however, since implementing the `refresh_token` functionality in a client can be more difficult.
 
-By default refresh tokens are enabled, you can disable them in your application and set the timeout period of the tokens by adding this line to your configuration.
+By default, refresh tokens are enabled. You can disable them in your application and set the timeout period of the tokens by adding this line to your configuration:
 
     config.require_refresh_within = 1.month
 
@@ -141,11 +141,11 @@ By default refresh tokens are enabled, you can disable them in your application 
 
 ## Password Token Exchange
 
-If a client application has a user's password and username/email they can exchange these for a token. This is much safer than storing username and password on a local device, but does not offer the traditional OAuth "Flow". Because of this all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
+If a client application has a user's password and username/email, they can exchange these for a token. This is much safer than storing the username and password on a local device, but it does not offer the traditional OAuth "Flow". Because of this, all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
 
     config.password_exchange_enabled = true
 
-If you have this feature enabled you can further control what applications can use the feature. Some providers may wish to have "Blessed" client applications that have this ability while restricting all other clients. To accomplish this you can create a method in your ApplicationController called `oauth_valid_password_auth?` that accepts a client_id and client_secret, and returns a true or false based on whether that application can use password auth
+If you have this feature enabled, you can further control what applications can use the feature. Some providers may wish to have "Blessed" client applications that have this ability while restricting all other clients. To accomplish this, you can create a method in your ApplicationController called `oauth_valid_password_auth?` that accepts a client_id and client_secret and returns true or false based on whether that application can use password auth:
 
     def oauth_valid_password_auth?(client_id, client_secret)
       BLESSED_APP_IDS.include?(client_id)
@@ -189,11 +189,11 @@ Rate limited clients will receive an "unsuccessful" response to any query with a
 
 ## Configurable Authorization Header
 
-By default oPRO allows clients to send their authorization token in a header. For example someone using an auth token of `9693accessTokena7ca570bbaf` could set the `Authorization` header in a request like this:
+By default, oPRO allows clients to send their authorization token in a header. For example, someone using an auth token of `9693accessTokena7ca570bbaf` could set the `Authorization` header in a request like this:
 
     $ curl -H "Authorization: Bearer 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
 
-By default oPRO will accept `Bearer` and `token` in the authorization header, but if your client needs to send a custom auth header, you can add a custom extra regular expression to parse parse and return the token. For example if a client was setting the auth header like this:
+By default, oPRO will accept `Bearer` and `token` in the authorization header, but if your client needs to send a custom auth header, you can add a custom extra regular expression to parse and return the token. For example, if a client was setting the auth header like this:
 
     $ curl -H "Authorization: cUsTomAuthHeader 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
 
@@ -206,7 +206,7 @@ You could pull out the auth token using this regular expression `/cUsTomAuthHead
         config.header_auth_regex = /cUsTomAuthHeader\s(.*)/
       end
 
-Now when a client sends your custom auth header it will be parsed correctly. Custom authorization headers should not be used for security through obscurity. They may be exposed in the docs or tests in a later iteration of oPRO, if you have strong feelings against this, then please open a pull request or send me a message stating your case.
+Now when a client sends your custom auth header, it will be parsed correctly. Custom authorization headers should not be used for security through obscurity. They may be exposed in the docs or tests in a later iteration of oPRO. If you have strong feelings against this, then please open a pull request or send me a message stating your case.
 
 
 
@@ -217,6 +217,6 @@ Now when a client sends your custom auth header it will be parsed correctly. Cus
 
 ## About
 
-If you have a question file an issue or, find me on the Twitters [@schneems](http://twitter.com/schneems). Another good library for turning your app into an OAuth provider is [Doorkeeper](https://github.com/applicake/doorkeeper), if this project doesn't meet your needs let me know why and use them :)
+If you have a question file an issue or find me on the Twitters [@schneems](http://twitter.com/schneems). Another good library for turning your app into an OAuth provider is [Doorkeeper](https://github.com/applicake/doorkeeper), if this project doesn't meet your needs let me know why and use them :)
 
 This project rocks and uses MIT-LICENSE.

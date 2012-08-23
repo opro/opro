@@ -15,7 +15,7 @@ module Opro::Controllers::Concerns::ErrorMessages
     if !oauth_client_has_permissions?
       msg << ' - OAuth client not permitted'
       oauth_required_permissions.each do |permission|
-        msg << "- #{permission} permission required;" unless oauth_client_has_permission?(permission)
+        msg << "- #{permission} permission required" unless oauth_client_has_permission?(permission)
       end
     end
     msg

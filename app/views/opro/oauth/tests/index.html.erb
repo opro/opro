@@ -1,15 +1,15 @@
 <h2>OAuth Test</h2>
 
-<p>Use this url scheme to test your OAuth application</p>
+<p>Use this url scheme to test your OAuth application.</p>
 
 <h2>Test OAuth Allow</h2>
 
 <p>
-  If you send a valid OAuth request to any oauth_test url such as <%= link_to oauth_test_path(:show_me_the_money), oauth_test_path(:show_me_the_money) %> you should see a response like this
+  If you send a valid OAuth request to any oauth_test url such as <%= link_to oauth_test_path(:show_me_the_money), oauth_test_path(:show_me_the_money) %>, you should see a response like this:
 </p>
   <pre><code><%= {:status => 200, :message => 'OAuth Worked!! ', :params => {:id => 'show_me_the_money', :access_token => '3948fuAlo10gnsu'} }.to_json %></code></pre>
 <p>
-  If the request is not valid you will receive a message detailing the errors.
+  If the request is not valid, you will receive a message detailing the errors.
 </p>
 
 <h2>Test OAuth Disallow</h2>
@@ -19,5 +19,5 @@
   <pre><code><%= {:status => 401, :message => 'OAuth is disabled on this action; this is the correct result!', :params => {:id => 'show_me_the_money', :access_token => '3948fuAlo10gnsu'}}.to_json %></code></pre>
 
 <p>
-  If you get a 200 result, then there is something configured incorrectly on the server, please contact the administrator.
+  If you get a 200 result, then there is something configured incorrectly on the server; please contact the administrator.
 </p>
