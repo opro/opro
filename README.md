@@ -1,6 +1,6 @@
 ## oPRO
 
-A production ready Rails Engine that turns your app into an [Oauth2](http://oauth.net/2/) Provider.
+A production ready Rails Engine that turns your app into an [OAuth2](http://oauth.net/2/) Provider.
 
   * [Demo OAuth Provider app with oPRO](http://opro-demo.herokuapp.com/) on Heroku
   * [Built in oPRO docs](http://opro-demo.herokuapp.com/oauth_docs)
@@ -43,7 +43,7 @@ Now we're ready to migrate the database
     $ rake db:migrate
 ````
 
-This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using Oauth as a ClientApp. Once created they could get authorization from users by going through the oauth flow, thus creating AuthGrants. In other words a ClientApp has many users through AuthGrants.
+This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using OAuth as a ClientApp. Once created they could get authorization from users by going through the OAuth flow, thus creating AuthGrants. In other words, a ClientApp has many users through AuthGrants.
 
 ## Setup
 

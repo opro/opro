@@ -44,7 +44,7 @@ class Opro::Oauth::TestsController < OproController
     result = if valid_oauth?
       {:status => 200, :message => 'OHNO!!! OAuth is Disabled on this Action, this is bad', :params => params}
     else
-      {:status => :unauthorized, :message => "Oauth is Disabled on this Action, this is the correct result!", :params => params}
+      {:status => :unauthorized, :message => "OAuth is disabled on this action; this is the correct result!", :params => params}
     end
 
     respond_to do |format|
