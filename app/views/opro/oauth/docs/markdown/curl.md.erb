@@ -39,13 +39,13 @@ You can ask for the headers of a request by adding the `-I` flag to a curl comma
 
 You can set a request header by using `-H`. For example, if you wanted to send an access_token in a header, you could issue this request (assuming your access token is '9693accessTokena7ca570bbaf'):
 
-    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_test_url(:show_me_the_money, :protocol => @protocol)%>"
+    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_test_url(:show_me_the_money, :protocol => @protocol) %>"
 
 
 ### HTTP Verb
 
 You can specify the type of request you make in curl (GET, POST, PUT, DELETE, etc.) by using `-X`. For example, if you wanted to POST to the /products path at <%= root_url %>, you could do so like this:
 
-    $ curl -X POST <%= root_url %>
+    $ curl -X POST <%= root_url %>products
 
 

@@ -15,7 +15,7 @@ If you are building a client application and have direct access to a user's cred
 
 ## Step 1: Register your application
 
-Sign in as a registered user then visit the [new client application page](/oauth_client_apps/new). Enter in the name of your application for this example we can use `foo`, you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`, these behave like a username and password for your OAuth application.
+Sign in as a registered user then visit the [new client application page](<%= new_oauth_client_app_path %>). Enter in the name of your application. For this example, we will use `foo`; you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`. These behave like a username and password for your OAuth application.
 
 
     Name:       foo
@@ -23,7 +23,7 @@ Sign in as a registered user then visit the [new client application page](/oauth
     Secret:     14321myClientSecret8765
 
 
-Once you've registered an app successfully we can start to build an OAuth application. Don't continue until you've [registered a client app](/oauth_client_apps/new).
+Once you've registered an app successfully we can start to build an OAuth application. Don't continue until you've [registered a client app](<%= new_oauth_client_app_path %>).
 
 
 ## Step 2: As a user, grant access to your app
@@ -73,7 +73,7 @@ Now that we've gone through all the hard work of getting an access token, you ca
 
 Try it out for yourself. Replace the access token below with the one you received and run this curl command:
 
-    $ curl "<%= oauth_tests_url(:show_me_the_money, :access_token => '9693accessTokena7ca570bbaf') %>"
+    $ curl "<%= oauth_test_url(:show_me_the_money, :access_token => '9693accessTokena7ca570bbaf') %>"
 
 
 
@@ -81,7 +81,7 @@ You should see a successful result (again, don't forget to replace the example a
 
 You can also use a header to pass the OAuth token:
 
-    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_tests_url(:show_me_the_money) %>"
+    $ curl -H "Authorization: token 9693accessTokena7ca570bbaf" "<%= oauth_test_url(:show_me_the_money) %>"
 
 
 ## Security
