@@ -21,8 +21,8 @@ I Authorize <%= @client_app.name %> to:
     <% end %>
   </ul>
 
-  <%= f.submit 'Authorize This Application', :id => 'oauthAuthorize' %>
+  <%= f.submit 'Authorize this application', :id => 'oauthAuthorize' %>
 <%- end -%>
 
-<%= button_to 'Decline this Request', request.referrer||'/', :id => 'oauthNoAuthorize' %>
+<%= button_to 'Decline this request', request.referrer||'/', :id => 'oauthNoAuthorize' %>
 

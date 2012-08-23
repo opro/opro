@@ -1,6 +1,6 @@
 ## Quick Start Guide
 
-This site is providing OAuth 2 through [Opro](http://github.com/schneems/opro). If this is your first time using OAuth, please visit [What is OAuth](<%= oauth_doc_path(:oauth) %>) or follow along with this guide.
+This site is providing OAuth 2 through [oPRO](http://github.com/schneems/opro). If this is your first time using OAuth, please visit [What is OAuth](<%= oauth_doc_path(:oauth) %>) or follow along with this guide.
 
 <% if ::Opro.password_exchange_enabled? %>
 
@@ -13,13 +13,13 @@ If you are building a client application and have direct access to a user's cred
 # OAuth 2 Flow
 
 
-## Step 1: Register your Application
+## Step 1: Register your application
 
 Sign in as a registered user then visit the [new client application page](/oauth_client_apps/new). Enter in the name of your application for this example we can use `foo`, you can change this later if you desire. Hit enter and you should see a screen that has your application name along with a `client id` and a `secret`, these behave like a username and password for your OAuth application.
 
 
     Name:       foo
-    client id:  3234myClientId5678
+    Client id:  3234myClientId5678
     Secret:     14321myClientSecret8765
 
 
@@ -44,7 +44,7 @@ Once redirected to the home page, take a look in the address bar. We should see 
 In the url above, the `code` would be `4857goldfish827423`. This code can be used to obtain an access token for the user. Once you have a user's access token, you can perform actions for the user as if they were logged in. If you accidentally close this page, don't worry-- just visit the first url in Step 2 again and the application will show you the code again.
 
 
-## Step 3: Get an Access Token for a User with Curl
+## Step 3: Get an access token for a user with curl
 
 We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of getting an access token for our first user. You'll likely use http client libraries in your actual application, but most systems come with curl, and it is a fairly easy way to get started. If you've never used it before, read our [curl documentation](<%= oauth_doc_path(:curl) %>)
 

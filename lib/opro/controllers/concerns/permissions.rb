@@ -80,7 +80,7 @@ module Opro::Controllers::Concerns::Permissions
       permissions = args
       prepend_before_filter(options) do
         permissions.each do |permission|
-          raise "You must add #{permission.inspect} to the Opro request_permissions in an initializer" unless Opro.request_permissions.include?(permission)
+          raise "You must add #{permission.inspect} to the oPRO request_permissions setting in an initializer" unless Opro.request_permissions.include?(permission)
           controller.add_oauth_required_permission(permission)
         end
       end
