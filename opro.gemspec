@@ -124,7 +124,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = "1.8.10"
-  s.summary = "Opro turns your Rails application into an OAuth Provider"
+  s.summary = "oPRO turns your Rails application into an OAuth Provider"
 
   if s.respond_to? :specification_version then
     s.specification_version = 3

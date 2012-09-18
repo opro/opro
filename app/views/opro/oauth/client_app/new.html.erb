@@ -1,14 +1,14 @@
-<h2>Create An OAuth Client App</h2>
+<h2>Create An OAuth Client Application</h2>
 <div>
   <%= form_for @client_app, :url => oauth_client_apps_path do |f| %>
     <%= f.label :name %>
-    <%= f.text_field :name, :placeholder => 'App Name' %>
-    <%= f.submit 'Create OAuth Client', :id => 'submitApp' %>
+    <%= f.text_field :name, :placeholder => 'Application Name' %>
+    <%= f.submit 'Create OAuth Client Application', :id => 'submitApp' %>
     <p>(you can change this name later)</p>
   <%- end -%>
 </div>
 
 
 <div>
-  <%= link_to 'My Aplications', oauth_client_apps_path %>
+  <%= link_to 'My Applications', oauth_client_apps_path %>
 </div>

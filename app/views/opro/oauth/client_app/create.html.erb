@@ -1,15 +1,15 @@
-<h2>Success! Here is your OAuth Client's Credentials</h2>
+<h2>Success! Here are your OAuth Client's Credentials:</h2>
 <p>Copy these credentials down for use in your application</p>
 <table>
   <tr><td>Name:  </td><td><%= @client_app.name       %></td></tr>
   <tr><td>Client Id:    </td><td><%= @client_app.app_id     %></td></tr>
-  <tr><td>Secret:</td><td><%= @client_app.app_secret %></td></tr>
+  <tr><td>Client Secret:</td><td><%= @client_app.app_secret %></td></tr>
 </table>
 
 <hr />
 <p>
   Read the
   <%= link_to 'Quick Start Documentation', oauth_doc_path(:quick_start) %> or
-    <%= link_to 'Register Another Oauth Client App', new_oauth_client_app_path %>
+    <%= link_to 'Register Another OAuth Client App', new_oauth_client_app_path %>
 </p>
 

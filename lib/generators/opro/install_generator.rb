@@ -5,7 +5,7 @@ module Opro
     class InstallGenerator < Rails::Generators::Base
       source_root File.expand_path("../../templates", __FILE__)
 
-      desc "Creates a Opro initializer"
+      desc "Creates an oPRO initializer"
       class_option :orm
 
       def copy_initializer

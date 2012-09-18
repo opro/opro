@@ -2,7 +2,7 @@
 
 
 <p>
-<%= @client_app.name %>  would like to access your Data. Only accept if you know them, you will then be redirected back to: "<%= @redirect_uri %>".
+<%= @client_app.name %>  would like to access your data. Only accept if you trust this application. You will then be redirected back to: "<%= @redirect_uri %>".
 </p>
 
 <%= form_for @client_app, :url => oauth_authorize_path(:client_id => @client_app.client_id, :redirect_uri => @redirect_uri), :method => :post do |f| %>
@@ -21,8 +21,8 @@ I Authorize <%= @client_app.name %> to:
     <% end %>
   </ul>
 
-  <%= f.submit 'Authorize This Application', :id => 'oauthAuthorize' %>
+  <%= f.submit 'Authorize this application', :id => 'oauthAuthorize' %>
 <%- end -%>
 
-<%= button_to 'Decline this Request', request.referrer||'/', :id => 'oauthNoAuthorize' %>
+<%= button_to 'Decline this request', request.referrer||'/', :id => 'oauthNoAuthorize' %>
 
