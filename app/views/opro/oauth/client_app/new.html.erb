@@ -1,14 +1,16 @@
-<h2>Create An OAuth Client App</h2>
-<div>
-  <%= form_for @client_app, :url => oauth_client_apps_path do |f| %>
-    <%= f.label :name %>
-    <%= f.text_field :name, :placeholder => 'App Name' %>
-    <%= f.submit 'Create OAuth Client', :id => 'submitApp' %>
-    <p>(you can change this name later)</p>
-  <%- end -%>
-</div>
+<div class="opro">
+  <h2>Create An OAuth Client App</h2>
+  <div>
+    <%= form_for @client_app, :url => oauth_client_apps_path do |f| %>
+      <%= f.label :name %>
+      <%= f.text_field :name, :placeholder => 'App Name' %>
+      <%= f.submit 'Create OAuth Client', :id => 'submitApp' %>
+      <p>(you can change this name later)</p>
+    <%- end -%>
+  </div>
 
 
-<div>
-  <%= link_to 'My Aplications', oauth_client_apps_path %>
+  <div>
+    <%= link_to 'My Aplications', oauth_client_apps_path %>
+  </div>
 </div>
