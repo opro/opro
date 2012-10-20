@@ -80,7 +80,9 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   end
 
   def generate_tokens!
-    self.code, self.access_token, self.refresh_token = unique_token_for(:refresh_token), unique_token_for(:access_token), unique_token_for(:refresh_token)
+    self.code          = unique_token_for(:code)
+    self.access_token  = unique_token_for(:access_token)
+    self.refresh_token = unique_token_for(:refresh_token)
   end
 
   # used to guarantee that we are generating unique codes, access_tokens and refresh_tokens
