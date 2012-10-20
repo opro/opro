@@ -15,4 +15,12 @@ class OproAuthGrantTest < ActiveSupport::TestCase
     new_token = grant.unique_token_for(:access_token, token)
     assert_not_equal token, new_token
   end
+
+  test "no expiration without access_token expiration time" do
+    ::Opro.require_refresh_within = nil
+    grant = create_auth_grant
+    ::Opro.require_refresh_within = 1.day
+    expired = grant.expired?
+    assert !expired
+  end
 end
