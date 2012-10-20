@@ -26,7 +26,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
 
   def expired?
     return false unless ::Opro.require_refresh_within.present?
-    return expires_in < 0
+    return expires_in && expires_in < 0
   end
 
   def not_expired?
@@ -86,7 +86,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   # used to guarantee that we are generating unique codes, access_tokens and refresh_tokens
   def unique_token_for(field, secure_token  = SecureRandom.hex(16))
     raise "bad field" unless self.respond_to?(field)
-    auth_grant = self.class.where(field => secure_token).first    
+    auth_grant = self.class.where(field => secure_token).first
     return secure_token if auth_grant.blank?
     unique_token_for(field)
   end
