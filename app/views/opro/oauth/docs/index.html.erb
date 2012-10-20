@@ -1,27 +1,29 @@
-<h2>Oauth Docs</h2>
+<div class="opro">
+  <h2>Oauth Docs</h2>
 
 
-<p>Oauth shouldn't be hard, and neither should docs</p>
+  <p>Oauth shouldn't be hard, and neither should docs</p>
 
-<h2>Quick Links</h2>
+  <h2>Quick Links</h2>
 
-<ul>
-  <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
-  <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
-  <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
+  <ul>
+    <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
+    <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
+    <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
 
-  <% if ::Opro.request_permissions.present? %>
-    <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
-  <% end %>
+    <% if ::Opro.request_permissions.present? %>
+      <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
+    <% end %>
 
-  <% if ::Opro.require_refresh_within.present? %>
-    <li><%= link_to 'Refresh Tokens',  oauth_doc_path(:refresh_tokens) %></li>
-  <% end %>
+    <% if ::Opro.require_refresh_within.present? %>
+      <li><%= link_to 'Refresh Tokens',  oauth_doc_path(:refresh_tokens) %></li>
+    <% end %>
 
-  <% if ::Opro.password_exchange_enabled? %>
-    <li><%= link_to 'Password Exchange',  oauth_doc_path(:password_exchange) %></li>
-  <% end %>
+    <% if ::Opro.password_exchange_enabled? %>
+      <li><%= link_to 'Password Exchange',  oauth_doc_path(:password_exchange) %></li>
+    <% end %>
 
-</ul>
+  </ul>
 
-<%= render_doc(:quick_start) %>
+  <%= render_doc(:quick_start) %>
+</div>
