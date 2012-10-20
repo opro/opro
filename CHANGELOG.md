@@ -1,3 +1,6 @@
+## master
+- [#9] Bugfix: Allow developers to enable refresh tokens by setting `require_refresh_within` even if they were running without it previously. (@robe5)
+
 ## 0.4.0
 
 - Enable configurable authorization headers based on regex.
