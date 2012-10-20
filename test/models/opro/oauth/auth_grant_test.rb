@@ -20,7 +20,6 @@ class OproAuthGrantTest < ActiveSupport::TestCase
     ::Opro.require_refresh_within = nil
     grant = create_auth_grant
     ::Opro.require_refresh_within = 1.day
-    expired = grant.expired?
-    assert !expired
+    refute grant.expired?
   end
 end
