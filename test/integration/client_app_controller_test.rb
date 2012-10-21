@@ -39,4 +39,13 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
     assert has_content?(new_name)
   end
 
+  test 'index client applications' do
+    app = create_client_app
+    create_client_app(:user => app.user)
+    create_client_app(:user => app.user)
+
+    as_user(app.user).visit oauth_client_apps_path
+    assert_equal oauth_client_apps_path, current_path
+  end
+
 end
