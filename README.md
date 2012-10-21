@@ -4,6 +4,8 @@ A production ready Rails Engine that turns your app into an [OAuth2](http://oaut
 
   * [Demo OAuth Provider app with oPRO](http://opro-demo.herokuapp.com/) on Heroku
   * [Built in oPRO docs](http://opro-demo.herokuapp.com/oauth_docs)
+  * [Example iOS App](https://github.com/opro/opro_iphone_demo)
+  * [Would you like a Mobile app with that (oPRO tutorial)](http://schneems.com/post/33781154129/would-you-like-a-mobile-app-with-that)
 
 oPRO is short for (O)Auth (Pro)vider and is pronounced "oh proh". Not to be confused with [Oprah](http://www.oprah.com/index.html), who does not support or endorse this ruby gem in any way (yet).
 
