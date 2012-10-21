@@ -9,7 +9,9 @@
         <tr><td>Client Id:     </td><td> <%= client_app.app_id     %></td></tr>
         <tr><td>Client Secret: </td><td> <%= client_app.app_secret %></td></tr>
       </table>
+      <%= link_to "edit", edit_oauth_client_app_path(client_app) %>
       <hr />
+    <%- end -%>
   <%- end -%>
   <div>
     <%= link_to 'Register a new application', new_oauth_client_app_path %>
