@@ -1,0 +1,14 @@
+<div class="opro">
+  <h2>Edit your OAuth Client App</h2>
+  <ul>
+    <% @client_app.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
+
+  <%= form_for @client_app, :url => oauth_client_app_path(@client_app), :method => :put do |f| %>
+    <%= f.label :name %>
+    <%= f.text_field :name, :placeholder => 'App Name' %>
+    <%= f.submit 'Update your Client', :id => 'submitApp' %>
+  <%- end -%>
+</div>

@@ -1,5 +1,10 @@
 <div class="opro">
   <h2>Create An OAuth Client Application</h2>
+  <ul>
+    <% @client_app.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+  </ul>
   <div>
     <%= form_for @client_app, :url => oauth_client_apps_path do |f| %>
       <%= f.label :name %>
