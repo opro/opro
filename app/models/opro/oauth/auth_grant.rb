@@ -8,7 +8,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   belongs_to :client_app,         :class_name => "Opro::Oauth::ClientApp", :foreign_key => "application_id"
 
 
-  validates :application_id, :uniqueness => {:scope => :user_id, :message => "Application is already authed for this user"}, :presence => true
+  validates :application_id, :uniqueness => {:scope => :user_id, :message => "Application is already authorized for this user"}, :presence => true
   validates :code,           :uniqueness => true
   validates :access_token,   :uniqueness => true
 

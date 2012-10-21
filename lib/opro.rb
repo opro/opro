@@ -46,13 +46,13 @@ module Opro
 
   # Used by application controller to log user in
   def self.login(*args)
-    raise 'login method not set, please specify Opro auth_strategy' if login_method.blank?
+    raise 'login method not set; please specify an oPRO auth_strategy in config/initializers/opro.rb' if login_method.blank?
     login_method.call(*args)
   end
 
   # Used by application controller to log user out
   def self.logout(*args)
-    raise 'login method not set, please specify Opro auth_strategy' if login_method.blank?
+    raise 'logout method not set; please specify an oPRO auth_strategy in config/initializers/opro.rb' if login_method.blank?
     logout_method.call(*args)
   end
 
@@ -74,7 +74,7 @@ module Opro
     if block.present?
       @login_method = block
     else
-      @login_method or raise 'login method not set, please specify Opro auth_strategy'
+      @login_method or raise 'login method not set; please specify an oPRO auth_strategy in config/initializers/opro.rb'
     end
   end
 
@@ -98,7 +98,7 @@ module Opro
     if block.present?
       @logout_method = block
     else
-      @logout_method or raise 'login method not set, please specify Opro auth_strategy'
+      @logout_method or raise 'logout method not set; please specify an oPRO auth_strategy in config/initializers/opro.rb'
     end
   end
 
@@ -106,7 +106,7 @@ module Opro
     if block.present?
       @authenticate_user_method = block
     else
-      @authenticate_user_method or raise 'authenticate_user_method not set, please specify Opro auth_strategy'
+      @authenticate_user_method or raise 'authenticate_user_method not set, please specify an oPRO auth_strategy in config/initializers/opro.rb'
     end
   end
 
@@ -147,7 +147,7 @@ module Opro
       @find_for_authentication ||= []
       @find_for_authentication << convert_to_lambda(&block)
     else
-      @find_for_authentication or raise 'find_for_authentication not set, please specify Opro auth_strategy'
+      @find_for_authentication or raise 'find_for_authentication not set, please specify an oPRO auth_strategy in config/initializers/opro.rb'
     end
   end
 

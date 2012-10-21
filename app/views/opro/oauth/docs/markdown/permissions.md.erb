@@ -16,7 +16,7 @@ To perform any type of request other than a [GET](http://en.wikipedia.org/wiki/H
 
 ## Request Scope
 
-As a client application you can request specific scopes while you are authorizing a user, if no scope is specified all permissions will be requested. This is an example of an application with client id of `3234myClientId5678` specifying that they want `write` access for their app:
+As a client application, you can request specific scopes while you are authorizing a user. If no scope is specified, all permissions will be requested. This is an example of an application with client id of `3234myClientId5678` specifying that they want `write` access for their app:
 
 
     <%= oauth_authorize_url(:client_id => "3234myClientId5678", :protocol => @protocol) + "&scope[]=write" %>

@@ -1,15 +1,12 @@
 <div class="opro">
-  <h2>Oauth Docs</h2>
-
-
-  <p>Oauth shouldn't be hard, and neither should docs</p>
+  <h2>OAuth Docs</h2>
+  <p>OAuth shouldn't be hard, and neither should docs</p>
 
   <h2>Quick Links</h2>
-
   <ul>
     <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
-    <li><%= link_to 'Curl',   oauth_doc_path(:curl) %></li>
-    <li><%= link_to 'Oauth',  oauth_doc_path(:oauth) %></li>
+    <li><%= link_to 'Curl',         oauth_doc_path(:curl)        %></li>
+    <li><%= link_to 'OAuth',        oauth_doc_path(:oauth)       %></li>
 
     <% if ::Opro.request_permissions.present? %>
       <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>
