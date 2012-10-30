@@ -14,8 +14,11 @@ group :development, :test do
 
 
   gem "capybara", ">= 0.4.0"
-  gem "sqlite3"
+
   gem "launchy"
+
+  gem "sqlite3",      :platform => [:ruby, :mswin, :mingw]
+  gem "jdbc-sqlite3", :platform => :jruby
 end
 
 group :test do
