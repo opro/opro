@@ -14,6 +14,10 @@ class Opro::Oauth::DocsController < OproController
   def show
     @protocol = protocol
     @doc = params[:id]
+    if !File.exists?(doc_md_filename(@doc.to_s))
+      render :file => "#{Rails.root}/public/404", :status => 404
+      return
+    end
   end
 
   def render_doc(name)
@@ -37,8 +41,11 @@ class Opro::Oauth::DocsController < OproController
     BlueCloth.new(str).to_html
   end
 
+  def doc_md_filename(name)
+    OPRO_MD_ROOT + name + '.md.erb'
+  end
+
   def read_file(name)
-    name = OPRO_MD_ROOT + name
-    File.open(name + '.md.erb' ).read.to_s
+    File.open(doc_md_filename(name)).read.to_s
   end
 end
