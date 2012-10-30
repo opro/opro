@@ -138,10 +138,18 @@ For added security, you can require access_tokens to be refreshed by client appl
 
 By default, refresh tokens are enabled. You can disable them in your application and set the timeout period of the tokens by adding this line to your configuration:
 
-    config.require_refresh_within = 1.month
+    config.require_refresh_within = false
 
+# Toggling Refresh Tokens
 
+If you disable refresh tokens and then re-enable it you may have authorization grants that do not have a timeout listed, you can keep it like this or you can fix by iterating through all auth grants and setting their `access_token_expires_at` like this:
 
+    Opro::Oauth::AuthGrant.find_each(:conditions => "access_token_expires_at is null") do |grant|
+      grant.access_token_expires_at = Time.now + ::Opro.require_refresh_within
+      grant.save
+    end
+
+You may also need to inform clients that they need to update their credentials and start using refresh tokens.
 
 ## Password Token Exchange
 
