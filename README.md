@@ -217,7 +217,7 @@ Now when a client sends your custom auth header, it will be parsed correctly. Cu
 ## Assumptions
 
 * You have a user model and that is what you're authenticating
-* You're using Active::Record
+* You're using Active Record
 
 ## About
 
