@@ -1,23 +1,18 @@
 require 'erb'
 require 'bluecloth'
 
-OPRO_MD_ROOT=File.join(File.dirname(__FILE__), '../../../views/opro/oauth/docs/markdown/')
-
+OPRO_MD_ROOT = File.join(File.dirname(__FILE__), '../../../views/opro/oauth/docs/markdown/')
 
 class Opro::Oauth::DocsController < OproController
+  before_filter :set_protocol!
   helper_method :render_doc
 
   def index
-    @protocol = protocol
   end
 
   def show
-    @protocol = protocol
-    @doc = params[:id]
-    if !File.exists?(doc_md_filename(@doc.to_s))
-      render :file => "#{Rails.root}/public/404", :status => 404
-      return
-    end
+    @doc  = params[:id]
+    render :file => default_404, :status => 404 and return unless md_exists?(@doc)
   end
 
   def render_doc(name)
@@ -29,8 +24,12 @@ class Opro::Oauth::DocsController < OproController
 
   private
 
-  def protocol
-    Rails.env.production? ? "https" : "http"
+  def default_404
+    Rails.root.join("public", "404")
+  end
+
+  def set_protocol!
+    @protocol = Rails.env.production? ? "https" : "http"
   end
 
   def parse_erb(str)
@@ -43,6 +42,10 @@ class Opro::Oauth::DocsController < OproController
 
   def doc_md_filename(name)
     OPRO_MD_ROOT + name + '.md.erb'
+  end
+
+  def md_exists?(name)
+    !File.exists?(doc_md_filename(name.to_s))
   end
 
   def read_file(name)
