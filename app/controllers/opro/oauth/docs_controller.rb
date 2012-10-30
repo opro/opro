@@ -45,7 +45,7 @@ class Opro::Oauth::DocsController < OproController
   end
 
   def md_exists?(name)
-    !File.exists?(doc_md_filename(name.to_s))
+    File.exists?(doc_md_filename(name.to_s))
   end
 
   def read_file(name)
