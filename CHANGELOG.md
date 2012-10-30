@@ -1,6 +1,13 @@
 ## master
+
+
+## 0.4.1
+
 - [#9] Bugfix: Allow developers to enable refresh tokens by setting `require_refresh_within` even if they were running without it previously. (@robe5)
+- [#10] Bugfix check the correct field when generating unique tokens (@carols10cents)
 - [#12] Bugfix: client app names are now changeable
+- All oPRO related html is wrapped with `opro` class (@carols10cents)
+
 
 ## 0.4.0
 
