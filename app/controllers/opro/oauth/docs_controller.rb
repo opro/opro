@@ -1,5 +1,5 @@
 require 'erb'
-require 'bluecloth'
+require 'redcarpet'
 
 OPRO_MD_ROOT = File.join(File.dirname(__FILE__), '../../../views/opro/oauth/docs/markdown/')
 
@@ -37,7 +37,7 @@ class Opro::Oauth::DocsController < OproController
   end
 
   def parse_markdown(str)
-    BlueCloth.new(str).to_html
+    Redcarpet::Markdown.new(Redcarpet::Render::HTML).render(str)
   end
 
   def doc_md_filename(name)
