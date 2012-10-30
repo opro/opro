@@ -1,9 +1,12 @@
 # Configure Rails Envinronment
 ENV["RAILS_ENV"] = "test"
 
-if RUBY_VERSION >= "1.9"
-  require 'simplecov'
-  SimpleCov.start 'rails'
+begin
+  if RUBY_VERSION >= "1.9"
+    require 'simplecov'
+    SimpleCov.start 'rails'
+  end
+rescue LoadError => e
 end
 
 ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
