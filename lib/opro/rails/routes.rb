@@ -10,9 +10,18 @@ module ActionDispatch::Routing
       match 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
       match 'oauth/token'        => 'opro/oauth/token#create',      :as => 'oauth_token'
 
-      resources :oauth_docs,        :controller => controllers[:oauth_docs]       ||'opro/oauth/docs',       :only => [:index, :show]                    unless skip_routes.include?(:docs)
-      resources :oauth_tests,       :controller => controllers[:oauth_tests]      ||'opro/oauth/tests',      :only => [:index, :show, :create, :destroy] unless skip_routes.include?(:tests)
-      resources :oauth_client_apps, :controller => controllers[:oauth_client_apps]||'opro/oauth/client_app', :only => [:new, :index, :create]            unless skip_routes.include?(:client_apps)
+      unless skip_routes.include?(:client_apps)
+        oauth_client_apps = controllers[:oauth_client_apps]||'opro/oauth/client_app'
+        resources :oauth_client_apps, :controller => oauth_client_apps
+      end
+      unless skip_routes.include?(:docs)
+        oauth_docs = controllers[:oauth_docs]||'opro/oauth/docs'
+        resources :oauth_docs,        :controller => oauth_docs, :only => [:index, :show]
+      end
+      unless skip_routes.include?(:tests)
+        oauth_tests = controllers[:oauth_tests]      ||'opro/oauth/tests'
+        resources :oauth_tests,       :controller => oauth_tests, :only => [:index, :show, :create, :destroy]
+      end
     end
   end
 end
