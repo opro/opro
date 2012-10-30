@@ -7,7 +7,7 @@
 - [#10] Bugfix check the correct field when generating unique tokens (@carols10cents)
 - [#12] Bugfix: client app names are now changeable
 - All oPRO related html is wrapped with `opro` class (@carols10cents)
-- Switch from bluecloth to redcarpet gems for jRuby compatibility
+- Switch from bluecloth to kramdown gem for jRuby compatibility while parsing markdown
 
 
 ## 0.4.0

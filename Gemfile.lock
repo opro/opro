@@ -58,6 +58,7 @@ GEM
       rake
     journey (1.0.4)
     json (1.7.3)
+    kramdown (0.14.0)
     launchy (2.1.0)
       addressable (~> 2.2.6)
     mail (2.4.4)
@@ -98,7 +99,6 @@ GEM
     rcov (1.0.0)
     rdoc (3.12)
       json (~> 1.4)
-    redcarpet (2.2.2)
     rubyzip (0.9.7)
     selenium-webdriver (2.20.0)
       childprocess (>= 0.2.5)
@@ -136,11 +136,11 @@ DEPENDENCIES
   database_cleaner
   devise
   jeweler (~> 1.6.4)
+  kramdown
   launchy
   mocha
   rails (>= 3.1.0)
   rcov
-  redcarpet
   simplecov
   sqlite3
   timecop

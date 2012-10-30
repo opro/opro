@@ -4,7 +4,7 @@ gem "activesupport" , ">= 3.1.0"
 gem "rails"         , ">= 3.1.0"
 
 
-gem 'redcarpet'
+gem 'kramdown' # pure ruby markdown parser
 
 group :development, :test do
   gem 'mocha'

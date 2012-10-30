@@ -14,6 +14,7 @@ class DocsControllerTest < ActiveSupport::IntegrationCase
       doc_path = oauth_doc_path(:id => doc)
       visit doc_path
       assert_equal doc_path, current_path
+      refute has_content?("The page you were looking for doesn't exist")
     end
   end
 end
