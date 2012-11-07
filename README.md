@@ -220,6 +220,39 @@ You could pull out the auth token using the regular expression `/cUsTomAuthHeade
 
 Now when a client sends your custom auth header, it will be parsed correctly. Custom authorization headers should not be used for security through obscurity. They may be exposed in the docs or tests in a later iteration of oPRO. If you have strong feelings against this, then please open a pull request or send me a message stating your case.
 
+## Customizing Views & Controllers
+
+By default oPRO ships with views and controllers much like Devise. You can use the built in oPRO views, and change styles: all oPRO views should be wrapped with an `opro` class you can use for styling. For more control you can override oPRO views with your own views. To do this you will need to provide your own routes/controllers/views. You can override `oauth_docs_controller`, `oauth_docs_controller`, and `oauth_client_apps_controller`.
+
+
+Currently this is a manual process to give you control and understanding of what is happening behind the scenes, if you want to work on a generator, I will be happy to help you...ping me [@schneems](http://twitter.com/schneems). To make things a little more clear we are going to be referencing the [oPRO demo rails app](https://github.com/opro/opro_rails_demo).
+
+To start out overriding a controller we need to specify the new controller in your routes inside of `mount_opro_oauth`, for example if you wanted to over-ride the oauth_client_apps controller with a controller in `app/controllers/oauth/client_apps_controller.rb` you could specify it like this:
+
+
+    mount_opro_oauth :controllers => {:oauth_client_apps => 'oauth/client_apps'}
+
+
+You can see an example of [setting the routes](https://github.com/opro/opro_rails_demo/blob/master/config/routes.rb) in the [oPRO demo rails app](https://github.com/opro/opro_rails_demo). Of course you then need to create the controller, it needs to inherit from the original controller `Opro::Oauth::ClientAppController` like this:
+
+    class Oauth::ClientAppsController < Opro::Oauth::ClientAppController
+    end
+
+
+You can see an example of a: [custom oPRO controller](https://github.com/opro/opro_rails_demo/blob/master/app/controllers/oauth/client_apps_controller.rb). Once you've got your controller finished, you need to specify your [custom oPRO views](https://github.com/opro/opro_rails_demo/tree/master/app/views/oauth/client_apps).
+
+It may help to look at the [current oPRO controllers](https://github.com/opro/opro/tree/master/app/controllers/opro/oauth) and [current oPRO views](https://github.com/opro/opro/tree/master/app/views/opro/oauth). Again, if you get stuck take a look at the [oPRO demo rails app](https://github.com/opro/opro_rails_demo).
+
+
+
+## Skipping Views
+
+If you do not wish for test, docs, or client_apps views & controllers to be available, you can skip them using `except` in your `mount_opro_oauth` like this:
+
+    mount_opro_oauth :except => [:oauth_client_apps]
+
+We recommend against doing this, but we aren't your mother.
+
 
 
 ## Assumptions
