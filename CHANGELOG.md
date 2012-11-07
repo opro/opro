@@ -1,5 +1,7 @@
 ## master
 
+## 0.4.2
+- Fix jRuby compatibility in `Opro.convert_to_lambda`
 
 ## 0.4.1
 
