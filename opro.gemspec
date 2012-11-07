@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-10-30"
+  s.date = "2012-11-07"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -142,6 +142,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<launchy>, [">= 0"])
       s.add_development_dependency(%q<sqlite3>, [">= 0"])
       s.add_development_dependency(%q<activerecord-jdbcsqlite3-adapter>, [">= 0"])
+      s.add_development_dependency(%q<jdbc-sqlite3>, [">= 0"])
       s.add_development_dependency(%q<devise>, [">= 0"])
     else
       s.add_dependency(%q<activesupport>, [">= 3.1.0"])
@@ -155,6 +156,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<launchy>, [">= 0"])
       s.add_dependency(%q<sqlite3>, [">= 0"])
       s.add_dependency(%q<activerecord-jdbcsqlite3-adapter>, [">= 0"])
+      s.add_dependency(%q<jdbc-sqlite3>, [">= 0"])
       s.add_dependency(%q<devise>, [">= 0"])
     end
   else
@@ -169,6 +171,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<launchy>, [">= 0"])
     s.add_dependency(%q<sqlite3>, [">= 0"])
     s.add_dependency(%q<activerecord-jdbcsqlite3-adapter>, [">= 0"])
+    s.add_dependency(%q<jdbc-sqlite3>, [">= 0"])
     s.add_dependency(%q<devise>, [">= 0"])
   end
 end
