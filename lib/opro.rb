@@ -133,11 +133,16 @@ module Opro
   end
 
 
-  # Grossssss, don't use, needed to support `return` from the blocks provided to `find_user_for_auth`
+  # Needed to `return` from the blocks provided to `find_user_for_auth`
   def self.convert_to_lambda &block
-    obj = Object.new
-    obj.define_singleton_method(:_, &block)
-    return obj.method(:_).to_proc
+    if RUBY_ENGINE && RUBY_ENGINE == "jruby"
+      return lambda(&block)
+    else
+      # Grossssss, don't use
+      obj = Object.new
+      obj.define_singleton_method(:_, &block)
+      return obj.method(:_).to_proc
+    end
   end
 
   # holds an Array of authentication blocks is called by find_user_for_all_auths! in token controller
