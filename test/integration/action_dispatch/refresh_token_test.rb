@@ -25,7 +25,8 @@ class RefreshTokenTest < ActionDispatch::IntegrationTest
     params = {:client_id      => @client_app.client_id ,
               :client_secret  => @client_app.client_secret,
               :code           => @auth_grant.code}
-    as_user(@user).post oauth_token_path(params)
+
+    post oauth_token_path(params)
     json_hash = JSON.parse(response.body)
     assert_equal json_hash['expires_in'], @auth_grant.expires_in
   end
@@ -37,7 +38,7 @@ class RefreshTokenTest < ActionDispatch::IntegrationTest
 
     Timecop.travel(2.days.from_now)
 
-    as_user(@user).post oauth_token_path(params)
+    post oauth_token_path(params)
 
     json_hash = JSON.parse(response.body)
     refute_equal json_hash['access_token'],   @auth_grant.access_token
@@ -49,6 +50,39 @@ class RefreshTokenTest < ActionDispatch::IntegrationTest
     assert_equal json_hash['access_token'],   auth_grant.access_token
     assert_equal json_hash['refresh_token'],  auth_grant.refresh_token
     assert_equal json_hash['expires_in'],     auth_grant.expires_in
+  end
+
+  test "after expires in period, access_token is no longer valid" do
+    Timecop.freeze(@client_app.created_at)
+    params = {:client_id      => @client_app.client_id ,
+              :client_secret  => @client_app.client_secret,
+              :code           => @auth_grant.code}
+
+    post oauth_token_path(params)
+    json_hash    = JSON.parse(response.body)
+    expires_in   = json_hash['expires_in']
+    access_token = json_hash['access_token']
+
+    # should be valid
+    Timecop.travel(expires_in.seconds.from_now - 1.second)
+    get oauth_test_path(:show_me_the_money, access_token: access_token)
+    assert_equal 200, response.status
+
+    # should not be valid
+    Timecop.travel(expires_in.seconds.from_now + 1.second)
+    get oauth_test_path(:show_me_the_money, access_token: access_token)
+    refute_equal 200, response.status
+
+
+    params = {:client_id      => @client_app.client_id ,
+              :client_secret  => @client_app.client_secret,
+              :refresh_token  => @auth_grant.reload.refresh_token}
+
+    # make it valid again by refreshing the token
+    post oauth_token_path(params)
+    access_token = JSON.parse(response.body)['access_token']
+    get oauth_test_path(:show_me_the_money, access_token: access_token)
+    assert_equal 200, response.status
   end
 
 end

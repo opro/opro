@@ -12,7 +12,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   validates :code,           :uniqueness => true
   validates :access_token,   :uniqueness => true
 
-  before_create :generate_tokens!, :generate_expires_at!
+  before_create :refresh
 
   alias_attribute :token, :access_token
 
@@ -60,29 +60,21 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     auth_grant
   end
 
-  def self.refresh_tokens!(refresh_token, application_id)
-    auth_grant = self.where("refresh_token = ? AND application_id = ?", refresh_token, application_id).first
-    if auth_grant.present?
-      auth_grant.generate_tokens!
-      auth_grant.generate_expires_at!
-      auth_grant.save!
-    end
-    auth_grant
+  def self.find_for_refresh(refresh_token, application_id)
+    self.where("refresh_token = ? AND application_id = ?", refresh_token, application_id).first
   end
 
-  def generate_expires_at!
-    if ::Opro.require_refresh_within.present?
-      self.access_token_expires_at = Time.now + ::Opro.require_refresh_within
-    else
-      self.access_token_expires_at = nil
-    end
-    true
+  # generates tokens, expires_at and saves
+  def refresh!
+    refresh
+    save!
   end
 
-  def generate_tokens!
-    self.code          = unique_token_for(:code)
-    self.access_token  = unique_token_for(:access_token)
-    self.refresh_token = unique_token_for(:refresh_token)
+  # generates tokens, expires_at
+  def refresh
+    generate_tokens!
+    generate_expires_at!
+    self
   end
 
   # used to guarantee that we are generating unique codes, access_tokens and refresh_tokens
@@ -101,5 +93,23 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     end
     redirect_uri << "&state=#{state}" if state.present?
     redirect_uri
+  end
+
+  private
+  # use refresh instead
+  def generate_expires_at!
+    if ::Opro.require_refresh_within.present?
+      self.access_token_expires_at = Time.now + ::Opro.require_refresh_within
+    else
+      self.access_token_expires_at = nil
+    end
+    true
+  end
+
+  # use refresh instead
+  def generate_tokens!
+    self.code          = unique_token_for(:code)
+    self.access_token  = unique_token_for(:access_token)
+    self.refresh_token = unique_token_for(:refresh_token)
   end
 end

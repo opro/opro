@@ -1,5 +1,8 @@
 ## master
 
+## 0.4.3
+- [#20] Bugfix: expires_in not correctly recalculated after auth_grant refreshed (@nvh)
+
 ## 0.4.2
 - Fix jRuby compatibility in `Opro.convert_to_lambda`
 

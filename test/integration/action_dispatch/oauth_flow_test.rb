@@ -23,10 +23,10 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
 
     json_hash = JSON.parse(response.body)
     assert json_hash["access_token"]
-    assert_equal json_hash["access_token"], auth_grant.access_token
+    assert_equal json_hash["access_token"], auth_grant.reload.access_token
 
     assert json_hash["refresh_token"]
-    assert_equal json_hash["refresh_token"], auth_grant.refresh_token
+    assert_equal json_hash["refresh_token"], auth_grant.reload.refresh_token
   end
 
 

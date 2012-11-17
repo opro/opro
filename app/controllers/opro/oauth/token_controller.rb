@@ -11,34 +11,40 @@ class Opro::Oauth::TokenController < OproController
     application = Opro::Oauth::ClientApp.authenticate(params[:client_id], params[:client_secret])
 
     if application.nil?
-      render :json => {:error => "Could not find application based on client_id=#{params[:client_id]}
-                                  and client_secret=#{params[:client_secret]}"}, :status => :unauthorized
-      return
+      render :json => {:error => app_not_found_error(params)}, :status => :unauthorized and return
     end
 
     if params[:code]
       auth_grant = Opro::Oauth::AuthGrant.auth_with_code!(params[:code], application.id)
     elsif params[:refresh_token]
-      auth_grant = Opro::Oauth::AuthGrant.refresh_tokens!(params[:refresh_token], application.id)
+      auth_grant = Opro::Oauth::AuthGrant.find_for_refresh(params[:refresh_token], application.id)
     elsif params[:password].present? || params[:grant_type] == "password"|| params[:grant_type] == "bearer"
       user       = ::Opro.find_user_for_all_auths!(self, params) if Opro.password_exchange_enabled? && oauth_valid_password_auth?(params[:client_id], params[:client_secret])
       auth_grant = Opro::Oauth::AuthGrant.auth_with_user!(user, application.id) if user.present?
     end
 
     if auth_grant.blank?
-      msg = "Could not find a user that belongs to this application"
-      msg << " & has a refresh_token=#{params[:refresh_token]}" if params[:refresh_token]
-      msg << " & has been granted a code=#{params[:code]}"      if params[:code]
-      msg << " using username and password"                     if params[:password]
-      render :json => {:error => msg }, :status => :unauthorized
-      return
+      render :json => {:error => debug_error_msg(params) }, :status => :unauthorized and return
     end
 
-    auth_grant.generate_expires_at!
-    auth_grant.save
+    auth_grant.refresh!
     render :json => { :access_token   => auth_grant.access_token,
                       :refresh_token  => auth_grant.refresh_token,
                       :expires_in     => auth_grant.expires_in }
+  end
+
+  private
+
+  def debug_error_msg(options)
+    msg = "Could not find a user that belongs to this application"
+    msg << " & has a refresh_token=#{options[:refresh_token]}" if options[:refresh_token]
+    msg << " & has been granted a code=#{options[:code]}"      if options[:code]
+    msg << " using username and password"                      if options[:password]
+    msg
+  end
+
+  def app_not_found_error(options)
+    "Could not find application based on client_id=#{options[:client_id]} and client_secret=#{options[:client_secret]}"
   end
 
 end
