@@ -6,7 +6,8 @@ module ActionDispatch::Routing
       skip_routes = options[:except].is_a?(Array) ? options[:except] : [options[:except]]
       controllers = options[:controllers] || {}
 
-      match 'oauth/new'          => 'opro/oauth/auth#new',          :as => 'oauth_new'
+      oauth_new_controller = controllers[:oauth_new] || 'opro/oauth/auth'
+      match 'oauth/new'          => "#{oauth_new_controller}#new",  :as => 'oauth_new'
       match 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
       match 'oauth/token'        => 'opro/oauth/token#create',      :as => 'oauth_token'
 
@@ -25,4 +26,3 @@ module ActionDispatch::Routing
     end
   end
 end
-
