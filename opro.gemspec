@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "opro"
-  s.version = "0.4.2"
+  s.version = "0.4.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["schneems"]
-  s.date = "2012-11-07"
+  s.date = "2012-11-17"
   s.description = " Enable OAuth clients (iphone, android, web sites, etc.) to access and use your Rails application, what you do with it is up to you"
   s.email = "richard.schneeman@gmail.com"
   s.extra_rdoc_files = [
@@ -124,7 +124,7 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/schneems/opro"
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = "1.8.24"
+  s.rubygems_version = "1.8.10"
   s.summary = "oPRO turns your Rails application into an OAuth Provider"
 
   if s.respond_to? :specification_version then
