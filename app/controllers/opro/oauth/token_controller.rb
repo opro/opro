@@ -35,6 +35,7 @@ class Opro::Oauth::TokenController < OproController
     end
 
     auth_grant.generate_expires_at!
+    auth_grant.save
     render :json => { :access_token   => auth_grant.access_token,
                       :refresh_token  => auth_grant.refresh_token,
                       :expires_in     => auth_grant.expires_in }
