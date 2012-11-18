@@ -14,14 +14,11 @@ class Opro::Oauth::AuthController < OproController
   # :ask_user! is called before creating a new authorization, this allows us to redirect
   def create
     # find or create an auth_grant for a given user
-    application  =   Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
-    auth_grant =   Opro::Oauth::AuthGrant.where( :user_id => current_user.id, :application_id => application.id).first
-    auth_grant ||= Opro::Oauth::AuthGrant.create(:user => current_user,       :application => application)
-
+    application = Opro::Oauth::ClientApp.find_by_client_id(params[:client_id])
+    auth_grant  = Opro::Oauth::AuthGrant.find_or_create_by_user_app(current_user, application)
 
     # add permission changes if there are any
-    auth_grant.update_attributes(:permissions => params[:permissions]) if auth_grant.permissions != params[:permissions]
-
+    auth_grant.update_permissions(params[:permissions])
     redirect_to auth_grant.redirect_uri_for(params[:redirect_uri], params[:state])
   end
 
@@ -52,22 +49,6 @@ class Opro::Oauth::AuthController < OproController
     Opro::Oauth::AuthGrant.where(:application_id => @client_app.id, :user_id => user.id).present?
   end
 
-
-  # take params[:scope] = [:write, :read, :etc] or
-  # take params[:scope] = "write, read, etc"
-  # compare against available scopes ::Opro.request_permissions
-  # return the intersecting set. or the default scope if n
-  def scope_from_params(params)
-    default_scope   = ::Opro.request_permissions.map(&:to_s).map(&:downcase)
-    return default_scope if params[:scope].blank?
-
-    scope = params[:scope].is_a?(Array) ? params[:scope] : params[:scope].split(',')
-    raise "Params #{params[:scope]} improperly formatted " unless scope.is_a?(Array)
-    requested_scope = scope.map(&:downcase).map(&:strip)
-    return requested_scope & default_scope
-  end
-
-
   # Verifying that a post was made from our own site, indicating a user confirmed via form
   def user_authorizes_the_request?(request)
     request.post? && referrer_is_self?(request)
@@ -81,4 +62,19 @@ class Opro::Oauth::AuthController < OproController
     referrer_host == self_host
   end
 
+
+  # take params[:scope] = [:write, :read, :etc] or
+  # take params[:scope] = "write, read, etc"
+  # compare against available scopes ::Opro.request_permissions
+  # return the intersecting set. or the default scope
+  def scope_from_params(params)
+    return default_scope if params[:scope].blank?
+    scope = params[:scope].is_a?(Array) ? params[:scope] : params[:scope].split(',')
+    scope = scope.map(&:downcase).map(&:strip)
+    return requested_scope & default_scope
+  end
+
+  def default_scope
+    ::Opro.request_permissions.map(&:to_s).map(&:downcase)
+  end
 end

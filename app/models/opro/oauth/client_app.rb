@@ -14,6 +14,9 @@ class Opro::Oauth::ClientApp < ActiveRecord::Base
 
   attr_accessible :user, :name, :app_id, :client_secret, :app_secret, :secret
 
+  def self.find_by_client_id(client_id)
+    where(app_id: client_id).first
+  end
 
   def self.authenticate(app_id, app_secret)
     where(["app_id = ? AND app_secret = ?", app_id, app_secret]).first

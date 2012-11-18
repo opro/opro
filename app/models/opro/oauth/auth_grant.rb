@@ -51,13 +51,27 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     auth_grant = self.where("code = ? AND application_id = ?", code, application_id).first
   end
 
-  def self.auth_with_user!(user, applicaiton_id, permissions = ::Opro.request_permissions)
+  def self.auth_with_user!(user, app)
     return false unless user
-    permissions_hash =   permissions.each_with_object({}) {|element, hash| hash[element] = true }
-    auth_grant  =   self.where(:user_id  => user.id, :application_id => applicaiton_id).first
-    auth_grant  ||= self.create(:user_id => user.id, :application_id => applicaiton_id)
-    auth_grant.update_attributes(:permissions => permissions_hash)
+    auth_grant = self.find_or_create_by_user_app(user, app)
+    auth_grant.update_permissions(default_permissions)
     auth_grant
+  end
+
+  # turns array of permissions into a hash
+  # [:write, :read] => {write: true, read: true}
+  def self.default_permissions
+    ::Opro.request_permissions.each_with_object({}) {|element, hash| hash[element] = true }
+  end
+
+  def self.find_or_create_by_user_app(user, app)
+    app_id = app.is_a?(Integer) ? app : app.id
+    auth_grant  =   self.where(:user_id  => user.id, :application_id => app_id).first
+    auth_grant  ||= self.create(:user_id => user.id, :application_id => app_id)
+  end
+
+  def update_permissions(permissions)
+    self.permissions = permissions and save if self.permissions != permissions
   end
 
   def self.find_for_refresh(refresh_token, application_id)
