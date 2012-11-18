@@ -22,22 +22,11 @@ module Opro
   def self.set_login_logout_methods
     case auth_strategy
     when :devise
-      login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
-      logout_method            { |controller, current_user| controller.sign_out(current_user) }
-      authenticate_user_method { |controller| controller.authenticate_user! }
-
+      login_method             { |controller, current_user| AuthProvider::Devise.new(controller).login_method(current_user)}
+      logout_method            { |controller, current_user| AuthProvider::Devise.new(controller).logout_method(current_user)}
+      authenticate_user_method { |controller|               AuthProvider::Devise.new(controller).authenticate_user_method }
       find_user_for_auth do |controller, params|
-        return false if params[:password].blank?
-        find_params = params.each_with_object({}) {|(key,value), hash| hash[key] = value if Devise.authentication_keys.include?(key.to_sym) }
-        # Try to get fancy, some clients have :username hardcoded, if we have nothing in our find hash
-        # we can make an educated guess here
-        if find_params.blank? && params[:username].present?
-          find_params = { Devise.authentication_keys.first => params[:username] }
-        end
-        user = User.where(find_params).first if find_params.present?
-        return false unless user.present?
-        return false unless user.valid_password?(params[:password])
-        user
+        AuthProvider::Devise.new(controller).find_user_for_auth(params)
       end
     else
       # nothing
@@ -165,6 +154,8 @@ module Opro
   end
 end
 
+
+require 'opro/auth_provider/devise'
 require 'opro/controllers/concerns/rate_limits'
 require 'opro/controllers/concerns/error_messages'
 require 'opro/controllers/concerns/permissions'
