@@ -9,42 +9,47 @@ class Opro::Oauth::TokenController < OproController
   def create
     # Find the client application
     application = Opro::Oauth::ClientApp.authenticate(params[:client_id], params[:client_secret])
+    auth_grant  = auth_grant_for(application, params)
 
-    if application.nil?
-      render :json => {:error => app_not_found_error(params)}, :status => :unauthorized and return
+    if auth_grant.present?
+      auth_grant.refresh!
+      render :json => { access_token:  auth_grant.access_token,
+                        refresh_token: auth_grant.refresh_token,
+                        expires_in:    auth_grant.expires_in }
+    else
+      render_error debug_msg(params, application)
     end
-
-    if params[:code]
-      auth_grant = Opro::Oauth::AuthGrant.auth_with_code!(params[:code], application.id)
-    elsif params[:refresh_token]
-      auth_grant = Opro::Oauth::AuthGrant.find_for_refresh(params[:refresh_token], application.id)
-    elsif params[:password].present? || params[:grant_type] == "password"|| params[:grant_type] == "bearer"
-      user       = ::Opro.find_user_for_all_auths!(self, params) if Opro.password_exchange_enabled? && oauth_valid_password_auth?(params[:client_id], params[:client_secret])
-      auth_grant = Opro::Oauth::AuthGrant.auth_with_user!(user, application.id) if user.present?
-    end
-
-    if auth_grant.blank?
-      render :json => {:error => debug_error_msg(params) }, :status => :unauthorized and return
-    end
-
-    auth_grant.refresh!
-    render :json => { :access_token   => auth_grant.access_token,
-                      :refresh_token  => auth_grant.refresh_token,
-                      :expires_in     => auth_grant.expires_in }
   end
 
   private
 
-  def debug_error_msg(options)
+  def auth_grant_for(application, params)
+    if params[:code]
+      Opro::Oauth::AuthGrant.find_by_code_app(params[:code], application)
+    elsif params[:refresh_token]
+      Opro::Oauth::AuthGrant.find_by_refresh_app(params[:refresh_token], application)
+    elsif params[:password].present? || params[:grant_type] == "password"|| params[:grant_type] == "bearer"
+      return false unless Opro.password_exchange_enabled?
+      return false unless oauth_valid_password_auth?(params[:client_id], params[:client_secret])
+      user       = ::Opro.find_user_for_all_auths!(self, params)
+      return false unless user.present?
+      auth_grant = Opro::Oauth::AuthGrant.find_or_create_by_user_app(user, application)
+      auth_grant.update_permissions if auth_grant.present?
+      auth_grant
+    end
+  end
+
+  def debug_msg(options, app)
     msg = "Could not find a user that belongs to this application"
+    msg << " based on client_id=#{options[:client_id]} and client_secret=#{options[:client_secret]}" if app.blank?
     msg << " & has a refresh_token=#{options[:refresh_token]}" if options[:refresh_token]
     msg << " & has been granted a code=#{options[:code]}"      if options[:code]
     msg << " using username and password"                      if options[:password]
     msg
   end
 
-  def app_not_found_error(options)
-    "Could not find application based on client_id=#{options[:client_id]} and client_secret=#{options[:client_secret]}"
+  def render_error(msg)
+    render :json => {:error => msg }, :status => :unauthorized
   end
 
 end

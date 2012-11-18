@@ -47,20 +47,14 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     find_app_for_token.try(:user)
   end
 
-  def self.auth_with_code!(code, application_id)
-    auth_grant = self.where("code = ? AND application_id = ?", code, application_id).first
-  end
-
-  def self.auth_with_user!(user, app)
-    return false unless user
-    auth_grant = self.find_or_create_by_user_app(user, app)
-    auth_grant.update_permissions(default_permissions)
-    auth_grant
+  def self.find_by_code_app(code, app)
+    app_id = app.is_a?(Integer) ? app : app.id
+    auth_grant = self.where("code = ? AND application_id = ?", code, app_id).first
   end
 
   # turns array of permissions into a hash
   # [:write, :read] => {write: true, read: true}
-  def self.default_permissions
+  def default_permissions
     ::Opro.request_permissions.each_with_object({}) {|element, hash| hash[element] = true }
   end
 
@@ -70,11 +64,11 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
     auth_grant  ||= self.create(:user_id => user.id, :application_id => app_id)
   end
 
-  def update_permissions(permissions)
+  def update_permissions(permissions = default_permissions)
     self.permissions = permissions and save if self.permissions != permissions
   end
 
-  def self.find_for_refresh(refresh_token, application_id)
+  def self.find_by_refresh_app(refresh_token, application_id)
     self.where("refresh_token = ? AND application_id = ?", refresh_token, application_id).first
   end
 

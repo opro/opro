@@ -11,8 +11,7 @@ module Opro::Controllers::Concerns::RateLimits
   end
 
   def oauth_client_rate_limited?(client_id, params)
-
-
+    # implement your rate limiting algorithm here
   end
 
 
