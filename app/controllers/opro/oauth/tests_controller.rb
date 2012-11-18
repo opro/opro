@@ -8,26 +8,12 @@ class Opro::Oauth::TestsController < OproController
 
   def show
     result = oauth_result(params)
-    respond_to do |format|
-      format.html do
-        render :text => result.to_json, :status => result[:status], :layout => true
-      end
-      format.json do
-        render :json => result, :status => result[:status]
-      end
-    end
+    render_result(result)
   end
 
   def create
     result = oauth_result(params)
-    respond_to do |format|
-      format.html do
-        render :text => result.to_json, :status => result[:status], :layout => true
-      end
-      format.json do
-        render :json => result, :status => result[:status]
-      end
-    end
+    render_result(result)
   end
 
   def destroy
@@ -36,18 +22,21 @@ class Opro::Oauth::TestsController < OproController
     else
       {:status => :unauthorized, :message => "OAuth is disabled on this action; this is the correct result!", :params => params}
     end
+    render_result(result)
+  end
 
+  private
+
+  def render_result(result)
     respond_to do |format|
       format.html do
-        render :text => result.to_json,   :status => result[:status], :layout => true
+        render :text => result.to_json, :status => result[:status], :layout => true
       end
       format.json do
         render :json => result, :status => result[:status]
       end
     end
   end
-
-  private
 
   def oauth_result(options)
     if valid_oauth?
