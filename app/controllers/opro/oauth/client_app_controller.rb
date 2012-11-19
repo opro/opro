@@ -7,19 +7,19 @@ class Opro::Oauth::ClientAppController < OproController
 
   # Show all client applications belonging to the current user
   def index
-    @client_apps = Opro::Oauth::ClientApp.where(:user_id => current_user.id)
+    @client_apps = Opro::Oauth::ClientApp.where(user_id: current_user.id)
   end
 
   def show
-    @client_app = Opro::Oauth::ClientApp.where(:id => params[:id], :user_id => current_user.id).first
+    @client_app = Opro::Oauth::ClientApp.where(id: params[:id], user_id: current_user.id).first
   end
 
   def edit
-    @client_app = Opro::Oauth::ClientApp.where(:id => params[:id], :user_id => current_user.id).first
+    @client_app = Opro::Oauth::ClientApp.where(id: params[:id], user_id: current_user.id).first
   end
 
   def update
-    @client_app = Opro::Oauth::ClientApp.where(:id => params[:id], :user_id => current_user.id).first
+    @client_app = Opro::Oauth::ClientApp.where(id: params[:id], user_id: current_user.id).first
     @client_app.name = params[:opro_oauth_client_app][:name]
     if @client_app.save
       redirect_to oauth_client_app_path(@client_app)
