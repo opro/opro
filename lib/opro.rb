@@ -19,18 +19,19 @@ module Opro
     set_login_logout_methods
   end
 
+  # sets up defaults for common auth providers
   def self.set_login_logout_methods
-    case auth_strategy
+    klass = case auth_strategy
     when :devise
-      login_method             { |controller, current_user| AuthProvider::Devise.new(controller).login_method(current_user)}
-      logout_method            { |controller, current_user| AuthProvider::Devise.new(controller).logout_method(current_user)}
-      authenticate_user_method { |controller|               AuthProvider::Devise.new(controller).authenticate_user_method }
-      find_user_for_auth do |controller, params|
-        AuthProvider::Devise.new(controller).find_user_for_auth(params)
-      end
+      AuthProvider::Devise
     else
-      # nothing
+      auth_strategy if auth_strategy.is_a? Class
     end
+    return false unless klass.present?
+    login_method             { |controller, current_user| klass.new(controller).login_method(current_user)  }
+    logout_method            { |controller, current_user| klass.new(controller).logout_method(current_user) }
+    find_user_for_auth       { |controller, params|       klass.new(controller).find_user_for_auth(params)  }
+    authenticate_user_method { |controller|               klass.new(controller).authenticate_user_method    }
   end
 
   # Used by application controller to log user in
@@ -109,13 +110,12 @@ module Opro
     @user
   end
 
-
   # default to no match
   def self.header_auth_regex
     @header_auth_regex || /$^/
   end
 
-  # Allows a user to set define a custom authorization regular expression
+  # Allows a user to define a custom authorization regular expression
   def self.header_auth_regex=(regexstring)
     raise "not a regex" unless regexstring.is_a? Regexp
     @header_auth_regex = regexstring
@@ -141,7 +141,7 @@ module Opro
       @find_for_authentication ||= []
       @find_for_authentication << convert_to_lambda(&block)
     else
-      @find_for_authentication or raise 'find_for_authentication not set, please specify an oPRO auth_strategy in config/initializers/opro.rb'
+      @find_for_authentication or raise 'find_user_for_auth not set, please specify an oPRO auth_strategy in config/initializers/opro.rb'
     end
   end
 
@@ -155,9 +155,9 @@ module Opro
 end
 
 
-require 'opro/auth_provider/devise'
 require 'opro/controllers/concerns/rate_limits'
 require 'opro/controllers/concerns/error_messages'
 require 'opro/controllers/concerns/permissions'
 require 'opro/controllers/application_controller_helper'
+require 'opro/auth_provider/devise'
 require 'opro/engine'
