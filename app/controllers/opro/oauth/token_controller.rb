@@ -14,6 +14,8 @@ class Opro::Oauth::TokenController < OproController
     if auth_grant.present?
       auth_grant.refresh!
       render :json => { access_token:  auth_grant.access_token,
+                        # http://tools.ietf.org/html/rfc6749#section-5.1
+                        token_type:    'bearer',
                         refresh_token: auth_grant.refresh_token,
                         expires_in:    auth_grant.expires_in }
     else
