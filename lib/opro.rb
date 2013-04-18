@@ -115,6 +115,15 @@ module Opro
     @header_auth_regex || /$^/
   end
 
+
+  def self.token_type=(token_type)
+    @token_type = token_type
+  end
+
+  def self.token_type
+    @token_type
+  end
+
   # Allows a user to define a custom authorization regular expression
   def self.header_auth_regex=(regexstring)
     raise "not a regex" unless regexstring.is_a? Regexp

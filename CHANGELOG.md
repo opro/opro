@@ -1,5 +1,7 @@
 ## master
 
+- [#21] Add token_type return from TokenController (@cicloid)
+
 ## 0.4.3
 - [#20] Bugfix: expires_in not correctly recalculated after auth_grant refreshed (@nvh)
 
