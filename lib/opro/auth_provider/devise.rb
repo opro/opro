@@ -24,15 +24,13 @@ module Opro
         find_params = params.each_with_object({}) {|(key,value), hash| hash[key] = value if ::Devise.authentication_keys.include?(key.to_sym) }
         # Try to get fancy, some clients have :username hardcoded, if we have nothing in our find hash
         # we can make an educated guess here
-        debugger
         if find_params.blank? && params[:username].present?
           find_params = { ::Devise.authentication_keys.first => params[:username] }
-        elsif find_params[:login].present?
-          user = User.where(["lower(username) = :value OR lower(email) = :value", { :value => find_params[:login].downcase }]).first
+        elsif find_params["login"].present?
+          user = User.where(["lower(username) = :value OR lower(email) = :value", { :value => find_params["login"].downcase }]).first
         else
           user = User.where(find_params).first if find_params.present?
         end
-        debugger
         return false unless user.present?
         return false unless user.valid_password?(params[:password])
         user
