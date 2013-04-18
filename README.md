@@ -23,19 +23,19 @@ Wouldn't it be great if we could have a token exchange where the user goes to a 
 Gemfile
 
 ```ruby
-    gem 'opro'
+gem 'opro'
 ```
 
 Then run
 
 ```shell
-    $ bundle install
+$ bundle install
 ```
 
 and don't forget
 
 ```shell
-    $ rails g opro:install
+$ rails g opro:install
 ```
 
 This will put a file in `initializers/opro.rb`, generate some migrations, and add `mount_opro_oauth` to your routes.
@@ -44,8 +44,8 @@ This will put a file in `initializers/opro.rb`, generate some migrations, and ad
 Now we're ready to migrate the database
 
 ```shell
-    $ rake db:migrate
-````
+$ rake db:migrate
+```
 
 This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your database. An iPhone app would need to register for a `client_id` and `client_secret` before using OAuth as a ClientApp. Once created they could get authorization from users by going through the OAuth flow, thus creating AuthGrants. In other words, a ClientApp has many users through AuthGrants.
 
@@ -54,18 +54,18 @@ This will add `Opro::Oauth::AuthGrant` and `Opro::Oauth::ClientApp` to your data
 Go to `initializers/opro.rb` and configure your app for your authentication scheme. If you're not using devise, see "Custom Auth" below.
 
 ```ruby
-      Opro.setup do |config|
-        config.auth_strategy = :devise
-      end
+Opro.setup do |config|
+  config.auth_strategy = :devise
+end
 ```
 
 
 Now in your controllers you can allow OAuth access using the same syntax of the rails `before_filter`
 
 ```ruby
-      class UsersController < ApplicationController
-        allow_oauth!  :only => [:show]
-      end
+class UsersController < ApplicationController
+  allow_oauth!  :only => [:show]
+end
 ```
 
 
@@ -73,9 +73,9 @@ You can also disallow OAuth on specific actions. Disallowing will always over-ri
 
 
 ```ruby
-      class ProductsController < ApplicationController
-        disallow_oauth!   :only => [:create]
-      end
+class ProductsController < ApplicationController
+  disallow_oauth!   :only => [:create]
+end
 ```
 
 By default, all OAuth access is blacklisted. To whitelist all access, add `allow_oauth!` to your `ApplicationController` (this is not recommended). The best practice is to add `allow_oauth!` or `disallow_oauth` to each and every controller.
@@ -97,12 +97,13 @@ oPRO is simple by default, but easily configurable for a number of common use ca
 
 If you're not using devise, you can manually configure your own auth strategy. In the future I plan on adding more auth strategies; ping me or submit a pull request for your desired authentication scheme.
 
-
-      Opro.setup do |config|
-        config.login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
-        config.logout_method            { |controller, current_user| controller.sign_out(current_user) }
-        config.authenticate_user_method { |controller| controller.authenticate_user! }
-      end
+```ruby
+Opro.setup do |config|
+  config.login_method             { |controller, current_user| controller.sign_in(current_user, :bypass => true) }
+  config.logout_method            { |controller, current_user| controller.sign_out(current_user) }
+  config.authenticate_user_method { |controller| controller.authenticate_user! }
+end
+```
 
 ## Permissions
 
@@ -113,21 +114,29 @@ When a user authenticates with a client, they are automatically granting read pe
 
 To remove write permissions, comment out this line in the oPRO initializer:
 
-      config.request_permissions = [:write]
+```ruby
+config.request_permissions = [:write]
+```
 
 You can add custom permissions by adding to the array:
 
-      config.request_permissions = [:write, :email, :picture, :whatever]
+```ruby
+config.request_permissions = [:write, :email, :picture, :whatever]
+```
 
 You can then restrict access using the custom permissions by calling `require_oauth_permissions`, which takes the same arguments as `before_filter`:
 
-      require_oauth_permissions :email, :only => :index
+```ruby
+require_oauth_permissions :email, :only => :index
+```
 
 You can also skip permissions using `skip_oauth_permissions`. By default, permissions will just check to see if a client has the permission and will allow the action if it is present. If you want to implement custom permission checks, you can write custom methods using the pattern `oauth_client_can_#{permission}?`. For example, if you were restricting the `:email` permission, you would create a method:
 
-      def oauth_client_can_email?
-        # ...
-      end
+```ruby
+def oauth_client_can_email?
+  # ...
+end
+```
 
 The result is expected to be true or false.
 
@@ -138,16 +147,20 @@ For added security, you can require access_tokens to be refreshed by client appl
 
 By default, refresh tokens are enabled. You can disable them in your application and set the timeout period of the tokens by adding this line to your configuration:
 
-    config.require_refresh_within = false
+```ruby
+config.require_refresh_within = false
+```
 
 # Toggling Refresh Tokens
 
 If you disable refresh tokens and then re-enable it you may have authorization grants that do not have a timeout listed, you can keep it like this or you can fix by iterating through all auth grants and setting their `access_token_expires_at` like this:
 
-    Opro::Oauth::AuthGrant.find_each(:conditions => "access_token_expires_at is null") do |grant|
-      grant.access_token_expires_at = Time.now + ::Opro.require_refresh_within
-      grant.save
-    end
+```ruby
+Opro::Oauth::AuthGrant.find_each(:conditions => "access_token_expires_at is null") do |grant|
+  grant.access_token_expires_at = Time.now + ::Opro.require_refresh_within
+  grant.save
+end
+```
 
 You may also need to inform clients that they need to update their credentials and start using refresh tokens.
 
@@ -155,29 +168,37 @@ You may also need to inform clients that they need to update their credentials a
 
 If a client application has a user's password and username/email, they can exchange these for a token. This is much safer than storing the username and password on a local device, but it does not offer the traditional OAuth "Flow". Because of this, all available permissions will be granted to the client application. If you want to disable this feature you can set the configuration below to false:
 
-    config.password_exchange_enabled = true
+```ruby
+config.password_exchange_enabled = true
+```
 
 If you have this feature enabled, you can further control what applications can use the feature. Some providers may wish to have "Blessed" client applications that have this ability while restricting all other clients. To accomplish this, you can create a method in your ApplicationController called `oauth_valid_password_auth?` that accepts a client_id and client_secret and returns true or false based on whether that application can use password auth:
 
-    def oauth_valid_password_auth?(client_id, client_secret)
-      BLESSED_APP_IDS.include?(client_id)
-    end
+```ruby
+def oauth_valid_password_auth?(client_id, client_secret)
+  BLESSED_APP_IDS.include?(client_id)
+end
+```
 
 
  If you are using this password functionality without a supported authorization engine (like devise), you will need to add an additional method that supports validating whether or not a user's credentials are valid. The method for this is called `find_user_for_auth` and accepts a controller and the parameters. The output is expected to be a user. Add this to your config like you did to the other required methods in the "Custom Auth" section:
 
-    config.find_user_for_auth do |controller, params|
-      # user = User.find(params[:something])
-      # return user.valid_password?(params[:password]) ? user : false
-    end
+```ruby
+config.find_user_for_auth do |controller, params|
+  # user = User.find(params[:something])
+  # return user.valid_password?(params[:password]) ? user : false
+end
+```
 
 If you're authenticating by exchanging something other than a password (such as a facebook auth token), clients can still enable this functionality by setting `params[:grant_type] == 'password'` in their initial request. You can then use the `find_user_for_auth` method from above and implement your custom behavior. You can call `find_user_for_auth` multiple times and the application will try calling each auth method in order. It is suggested that you return from this block early if the params are missing a vital key like this:
 
 
-    config.find_user_for_auth do |controller, params|
-      return false if params[:fb_token].blank?
-      User.where(:fb_token => params[:fb_token]).first
-    end
+```ruby
+config.find_user_for_auth do |controller, params|
+  return false if params[:fb_token].blank?
+  User.where(:fb_token => params[:fb_token]).first
+end
+```
 
 
 ## Rate Limiting
@@ -186,15 +207,19 @@ If your API becomes a runaway success and people start abusing your API, you mig
 
 To record the number of times an application has accessed your site add this method to your ApplicationController:
 
-    def oauth_client_record_access!(client_id, params)
-      # implement your rate counting mechanism here
-    end
+```ruby
+def oauth_client_record_access!(client_id, params)
+  # implement your rate counting mechanism here
+end
+```
 
 Then to let our server know if a given client has reached its limit, add the method below. The output is expected to be true if the client has gone over their limit and false if they have not:
 
-    def oauth_client_rate_limited?(client_id, params)
-      # implement your own custom rate limiting logic here
-    end
+```ruby
+def oauth_client_rate_limited?(client_id, params)
+  # implement your own custom rate limiting logic here
+end
+```
 
 Rate limited clients will receive an "unsuccessful" response to any query with a message letting them know they've been rate limited. Using redis with a rotating key generator based on (hour, day, etc.) is one very common way to count accesses and implement the rate limits. Since there are so many different ways to implement this, we decided to give you a blank slate and let you implement it however you would like. The default is that apps are not rate limited, and in general unlimited API access is the way to go, but if you do find abusive behavior you can always easily add in a rate limit.
 
@@ -203,20 +228,26 @@ Rate limited clients will receive an "unsuccessful" response to any query with a
 
 By default, oPRO allows clients to send their authorization token in a header. For example, someone using an auth token of `9693accessTokena7ca570bbaf` could set the `Authorization` header in a request like this:
 
+```sh
     $ curl -H "Authorization: Bearer 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
+```
 
 By default, oPRO will accept `Bearer` and `token` in the authorization header, but if your client needs to send a custom auth header, you can add a custom extra regular expression to parse and return the token. For example, if a client was setting the auth header like this:
 
+```sh
     $ curl -H "Authorization: cUsTomAuthHeader 9693accessTokena7ca570bbaf" "http://localhost:3000/oauth_test/show_me_the_money"
+```
 
 You could pull out the auth token using the regular expression `/cUsTomAuthHeader\s(.*)/`. If you're not great with regular expressions, I highly recommend using [Rubular](http://rubular.com) to test regex matches. It is very important that we are "capturing" data in between the `()` characters. The data returned inside of the parens is expected to be the auth token with no spaces or special characters such as new lines or quotes. To parse this auth header in oPRO, you can specify the `header_auth_regex` in an initializer like this:
 
 
-      Opro.setup do |config|
-        config.auth_strategy = :devise
+```ruby
+Opro.setup do |config|
+  config.auth_strategy = :devise
 
-        config.header_auth_regex = /cUsTomAuthHeader\s(.*)/
-      end
+  config.header_auth_regex = /cUsTomAuthHeader\s(.*)/
+end
+```
 
 Now when a client sends your custom auth header, it will be parsed correctly. Custom authorization headers should not be used for security through obscurity. They may be exposed in the docs or tests in a later iteration of oPRO. If you have strong feelings against this, then please open a pull request or send me a message stating your case.
 
@@ -230,13 +261,17 @@ Currently this is a manual process to give you control and understanding of what
 To start out overriding a controller we need to specify the new controller in your routes inside of `mount_opro_oauth`, for example if you wanted to over-ride the oauth_client_apps controller with a controller in `app/controllers/oauth/client_apps_controller.rb` you could specify it like this:
 
 
-    mount_opro_oauth :controllers => {:oauth_client_apps => 'oauth/client_apps'}
+```ruby
+mount_opro_oauth :controllers => {:oauth_client_apps => 'oauth/client_apps'}
+```
 
 
 You can see an example of [setting the routes](https://github.com/opro/opro_rails_demo/blob/master/config/routes.rb) in the [oPRO demo rails app](https://github.com/opro/opro_rails_demo). Of course you then need to create the controller, it needs to inherit from the original controller `Opro::Oauth::ClientAppController` like this:
 
-    class Oauth::ClientAppsController < Opro::Oauth::ClientAppController
-    end
+```ruby
+class Oauth::ClientAppsController < Opro::Oauth::ClientAppController
+end
+```
 
 
 You can see an example of a: [custom oPRO controller](https://github.com/opro/opro_rails_demo/blob/master/app/controllers/oauth/client_apps_controller.rb). Once you've got your controller finished, you need to specify your [custom oPRO views](https://github.com/opro/opro_rails_demo/tree/master/app/views/oauth/client_apps).
@@ -249,7 +284,9 @@ It may help to look at the [current oPRO controllers](https://github.com/opro/op
 
 If you do not wish for test, docs, or client_apps views & controllers to be available, you can skip them using `except` in your `mount_opro_oauth` like this:
 
-    mount_opro_oauth :except => [:oauth_client_apps]
+```ruby
+mount_opro_oauth :except => [:oauth_client_apps]
+```
 
 We recommend against doing this, but we aren't your mother.
 
