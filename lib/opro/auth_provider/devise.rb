@@ -31,6 +31,7 @@ module Opro
         else
           user = User.where(find_params).first if find_params.present?
         end
+        debugger
         return false unless user.present?
         return false unless user.valid_password?(params[:password])
         user
