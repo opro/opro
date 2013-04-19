@@ -26,8 +26,11 @@ module Opro
         # we can make an educated guess here
         if find_params.blank? && params[:username].present?
           find_params = { ::Devise.authentication_keys.first => params[:username] }
+        elsif find_params["login"].present?
+          user = User.where(["lower(username) = :value OR lower(email) = :value", { :value => find_params["login"].downcase }]).first
+        else
+          user = User.where(find_params).first if find_params.present?
         end
-        user = User.where(find_params).first if find_params.present?
         return false unless user.present?
         return false unless user.valid_password?(params[:password])
         user

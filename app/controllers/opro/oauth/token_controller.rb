@@ -10,7 +10,6 @@ class Opro::Oauth::TokenController < OproController
     # Find the client application
     application = Opro::Oauth::ClientApp.authenticate(params[:client_id], params[:client_secret])
     auth_grant  = auth_grant_for(application, params)
-
     if auth_grant.present?
       auth_grant.refresh!
       render :json => { access_token:  auth_grant.access_token,
