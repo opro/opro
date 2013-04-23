@@ -7,9 +7,9 @@ module ActionDispatch::Routing
       controllers = options[:controllers] || {}
 
       oauth_new_controller = controllers[:oauth_new] || 'opro/oauth/auth'
-      match 'oauth/new'          => "#{oauth_new_controller}#new",  :as => 'oauth_new'
-      match 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
-      match 'oauth/token'        => 'opro/oauth/token#create',      :as => 'oauth_token'
+      get  'oauth/new'          => "#{oauth_new_controller}#new",  :as => 'oauth_new'
+      post 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
+      post 'oauth/token'        => 'opro/oauth/token#create',      :as => 'oauth_token'
 
       unless skip_routes.include?(:client_apps)
         oauth_client_apps = controllers[:oauth_client_apps] ||'opro/oauth/client_app'
