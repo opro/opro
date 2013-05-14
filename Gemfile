@@ -1,16 +1,33 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
-gem "activesupport" , ">= 3.1.0"
-gem "rails"         , ">= 3.1.0"
+rails_version = ENV["RAILS_VERSION"] || "default"
 
+rails = case rails_version
+when "master"
+  {github: "rails/rails"}
+when "default"
+  ">= 3.1.0"
+else
+  "~> #{rails_version}"
+end
+
+devise = case rails_version
+when "master"
+  {github: "plataformatec/devise"}
+when /pre/
+  {github: "plataformatec/devise", branch: "rails4"}
+when "3.1.0", "3.2.0", "default"
+  "~> 2.2"
+end
+
+gem "rails", rails
 
 gem 'kramdown' # pure ruby markdown parser
 
 group :development, :test do
-  gem 'mocha'
+  gem 'mocha', :require => false
   gem 'timecop'
   gem 'jeweler',  "~> 1.6.4"
-  gem "bundler",  ">= 1.1.3"
 
   gem "capybara", ">= 0.4.0"
 
@@ -20,7 +37,7 @@ group :development, :test do
   gem "activerecord-jdbcsqlite3-adapter", :platform => :jruby
   gem "jdbc-sqlite3",                     :platform => :jruby
 
-  gem 'devise'
+  gem "devise", devise if devise
 end
 
 group :test do

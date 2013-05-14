@@ -13,7 +13,7 @@ ENGINE_RAILS_ROOT=File.join(File.dirname(__FILE__), '../')
 require File.expand_path("../dummy/config/environment.rb",  __FILE__)
 require "rails/test_help"
 
-require 'mocha'
+require 'mocha/setup'
 require 'timecop'
 require 'database_cleaner'
 DatabaseCleaner.strategy = :truncation
