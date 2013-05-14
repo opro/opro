@@ -60,7 +60,12 @@ end
 
 
 def create_user(options = {})
-  User.create(:email => rand_name + '@bar.com', :password => 'password', :password_confirm => 'password')
+  user = User.new
+  user.email = rand_name + '@bar.com'
+  user.password              = 'password'
+  user.password_confirmation = 'password'
+  user.save
+  user
 end
 
 def create_client_app(options= {})
@@ -78,7 +83,11 @@ end
 def create_auth_grant_for_user(user = nil, app = nil)
   app  ||= create_client_app
   user ||= create_user
-  Opro::Oauth::AuthGrant.create(:user => user, :application => app)
+  auth_grant = Opro::Oauth::AuthGrant.new
+  auth_grant.user        = user
+  auth_grant.application = app
+  auth_grant.save
+  auth_grant
 end
 
 alias :create_auth_grant :create_auth_grant_for_user
