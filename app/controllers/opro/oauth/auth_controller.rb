@@ -2,14 +2,11 @@ class Opro::Oauth::AuthController < OproController
   before_filter      :opro_authenticate_user!
   before_filter      :ask_user!,                  :only   => [:create]
 
-
   def new
     @redirect_uri = params[:redirect_uri]
     @client_app   = Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
     @scopes       = scope_from_params(params)
   end
-
-
 
   # :ask_user! is called before creating a new authorization, this allows us to redirect
   def create
@@ -39,6 +36,7 @@ class Opro::Oauth::AuthController < OproController
       # if the request did not come from a form within the application, render the user form
       @redirect_uri ||= params[:redirect_uri]
       @client_app   ||= Opro::Oauth::ClientApp.find_by_app_id(params[:client_id])
+      params.delete("action").delete("controller")
       redirect_to oauth_new_path(params)
     end
   end

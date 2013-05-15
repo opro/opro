@@ -14,7 +14,7 @@ class RateLimitTest < ActionDispatch::IntegrationTest
     @params       = {:client_id      => @client_app.client_id ,
                      :client_secret  => @client_app.client_secret,
                      :access_token   => @auth_grant.access_token}
-    @auth_grant.update_attributes(:permissions => {:write => true})
+    @auth_grant.update_permissions(:write => true)
   end
 
   test "A rate limited app does not get a valid user" do

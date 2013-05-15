@@ -18,7 +18,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
 
   serialize :permissions, Hash
 
-  attr_accessible :code, :access_token, :refresh_token, :access_token_expires_at, :permissions, :user_id, :user, :application_id, :application
+  # attr_accessible :code, :access_token, :refresh_token, :access_token_expires_at, :permissions, :user_id, :user, :application_id, :application
 
   def can?(value)
     HashWithIndifferentAccess.new(permissions)[value]
@@ -61,7 +61,13 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   def self.find_or_create_by_user_app(user, app)
     app_id = app.is_a?(Integer) ? app : app.id
     auth_grant  =   self.where(:user_id  => user.id, :application_id => app_id).first
-    auth_grant  ||= self.create(:user_id => user.id, :application_id => app_id)
+    auth_grant  ||= begin
+      auth_grant                = self.new
+      auth_grant.user_id        = user.id
+      auth_grant.application_id = app_id
+      auth_grant.save
+      auth_grant
+    end
   end
 
   def update_permissions(permissions = default_permissions)

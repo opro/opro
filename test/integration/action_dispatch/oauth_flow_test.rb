@@ -32,7 +32,7 @@ class OauthTokenTest < ActionDispatch::IntegrationTest
 
   test 'header authorization token' do
     auth_grant   = create_auth_grant_for_user(@user)
-    auth_grant.update_attributes(:permissions => {:write => true})
+    auth_grant.update_permissions(:write => true)
 
     # curl -H "Authorization: token OAUTH-TOKEN" http://localhost:3000
     # sets request.env["HTTP_AUTHORIZATION"] to "token OAUTH-TOKEN"
