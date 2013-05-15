@@ -10,7 +10,7 @@ If a token has expired or you simply wish to receive a new `access_token` you ca
 
 
 
-    $ curl '<%= oauth_token_url(:protocol      => @protocol,
+    $ curl -X POST -d '' '<%= oauth_token_url(:protocol      => @protocol,
                                 :client_id     => "3234myClientId5678",
                                 :client_secret => "14321myClientSecret8765",
                                 :refresh_token => "4857goldfish827423") %>'

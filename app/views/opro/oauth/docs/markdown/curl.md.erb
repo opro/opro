@@ -6,9 +6,6 @@
 
 With curl, we're able to arbitrarily add parameters to our requests and send using arbitrary HTTP verbs (GET/POST/DELETE) that are difficult to simulate in the browser. If you need to `POST` data to a url, doing so with curl is much easier than constructing a form for testing.
 
-# Hurl
-
-[Hurl](http://hurl.it/) is an open source browser-based `curl` implementation. If you're going to do quite a few curl requests, using it can be easier than the command line.
 
 ## How do I use it?
 
@@ -26,6 +23,9 @@ You can get the entire contents of a web document by simply calling curl with th
 You can ask for the headers of a request by adding the `-I` flag to a curl command:
 
     $ curl https://www.google.com -I
+
+The response may look something like this:
+
     HTTP/1.1 200 OK
     Expires: -1
     Cache-Control: private, max-age=0
@@ -48,4 +48,6 @@ You can specify the type of request you make in curl (GET, POST, PUT, DELETE, et
 
     $ curl -X POST <%= root_url %>products
 
+# Hurl
 
+[Hurl](http://hurl.it/) is an open source browser-based `curl` implementation. If you're going to do quite a few curl requests, using it can be easier than the command line.

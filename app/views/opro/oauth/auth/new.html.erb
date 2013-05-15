@@ -20,7 +20,7 @@
       <% end %>
     </ul>
 
-    <%= f.submit 'Authorize This Application', :id => 'oauthAuthorize' %>
+    <%= f.submit 'Authorize This Application', :id => 'oauthAuthorize', :class => 'btn btn-primary' %>
   <%- end -%>
 
   <%= button_to 'Decline this Request', request.referrer||'/', :id => 'oauthNoAuthorize' %>

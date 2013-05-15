@@ -2,6 +2,8 @@
 
 - attr_accessible removed from models, replaced by explicitly assigning attributes where needed. Allows us to use the same code for Rails 3.X and 4.0 apps.
 
+- [#28] Set HTTP verbs to be compatiable with Rails4 (@chatgris)
+
 - [#21] Add token_type return from TokenController (@cicloid)
 
 ## 0.4.3
