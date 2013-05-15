@@ -7,3 +7,5 @@ test/dummy/tmp/
 .DS_Store
 .rvmrc
 coverage/
+
+Gemfile.lock
