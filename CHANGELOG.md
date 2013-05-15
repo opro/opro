@@ -1,4 +1,6 @@
-## master
+## 1.0.0.pre1
+
+## 0.5.0
 
 - attr_accessible removed from models, replaced by explicitly assigning attributes where needed. Allows us to use the same code for Rails 3.X and 4.0 apps.
 
