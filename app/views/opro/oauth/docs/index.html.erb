@@ -5,8 +5,8 @@
   <h2>Quick Links</h2>
   <ul>
     <li><%= link_to 'Quick Start',  oauth_doc_path(:quick_start) %></li>
-    <li><%= link_to 'Curl',         oauth_doc_path(:curl)        %></li>
     <li><%= link_to 'OAuth',        oauth_doc_path(:oauth)       %></li>
+    <li><%= link_to 'Curl',         oauth_doc_path(:curl)        %></li>
 
     <% if ::Opro.request_permissions.present? %>
       <li><%= link_to 'Permisions',  oauth_doc_path(:permissions) %></li>

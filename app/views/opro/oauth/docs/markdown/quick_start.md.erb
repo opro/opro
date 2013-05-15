@@ -30,7 +30,7 @@ Once you've registered an app successfully we can start to build an OAuth applic
 
 Now that you have a client application, you'll want to give it access to a user account. Open a new browser window and log in with a user account, then give your application permission by visiting the url below (swap out '3234myClientId5678' for your client id and '14321myClientSecret8765' for your client secret)
 
-    <%= oauth_authorize_url(:protocol => @protocol, :redirect_uri => "/", :client_id => "3234myClientId5678", :client_secret => "14321myClientSecret8765" ) %>
+    <%= oauth_new_url(:protocol => @protocol, :redirect_uri => "/", :client_id => "3234myClientId5678", :client_secret => "14321myClientSecret8765" ) %>
 
 
 This should land you on a page asking if you would like to grant permission to the application. If not, make sure you're logged in and you put the correct client id in the url.
@@ -53,10 +53,12 @@ We'll be using [Curl](<%= oauth_doc_path(:curl) %>) to go through the process of
 You'll want to make sure to replace `client_id`, `client_secret`, and `code` with your values.
 
 
-    $ curl '<%= oauth_token_url(:protocol      => @protocol,
+    $ curl -X POST -d '' '<%= oauth_token_url(
+                                :protocol      => @protocol,
                                 :client_id     => "3234myClientId5678",
                                 :client_secret => "14321myClientSecret8765",
-                                :code          => "4857goldfish827423") %>'
+                                :code          => "4857goldfish827423"
+                                :format        => "json") %>'
 
 
 You should get back a response that looks like this:
@@ -87,5 +89,7 @@ You can also use a header to pass the OAuth token:
 ## Security
 
 Don't share your client application's secret or any user's access_token with unknown or untrusted parties. Always use https when available and don't write any of these values to your application's logs.
+
+
 
 
