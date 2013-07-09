@@ -8,6 +8,7 @@ class Opro::Oauth::ClientAppController < OproController
   # Show all client applications belonging to the current user
   def index
     @client_apps = Opro::Oauth::ClientApp.where(user_id: current_user.id)
+    @all_apps_count = Opro::Oauth::ClientApp.count
   end
 
   def show

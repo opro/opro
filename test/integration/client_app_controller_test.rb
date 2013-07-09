@@ -48,4 +48,16 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
     assert_equal oauth_client_apps_path, current_path
   end
 
+  test 'index client applications for other users' do
+    app = create_client_app
+    create_client_app(:user => app.user)
+    create_client_app(:user => app.user)
+
+    another_user = create_user
+
+    as_user(another_user).visit oauth_client_apps_path
+    assert has_content?("You have no applications.")
+    assert has_content?("3 total applications")
+  end
+
 end
