@@ -57,7 +57,7 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
 
     as_user(another_user).visit oauth_client_apps_path
     assert has_content?("You have no applications.")
-    assert has_content?("3 total applications")
+    assert has_content?("3 total application(s)")
   end
 
 end
