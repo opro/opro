@@ -88,6 +88,8 @@ That should be all you need to do to get set up. Congrats, you're now able to au
 
 oPRO comes with built in documentation, so if you start your server you can view the docs at [http://localhost:3000/oauth_docs](http://localhost:3000/oauth_docs). Or you can [view the guide](http://opro-demo.herokuapp.com/oauth_docs) on the example app. This guide will walk you through creating your first OAuth client application, giving access to that app as a logged in user, getting an access token for that user, and using that token to access the server as an authenticated user!
 
+Keep in mind that the OAuth client application is associated to the user creating it.  If you have multiple administrators for oPRO, be aware that the web interface is currently only useful to the user that created it.
+
 
 # Advanced Setup
 

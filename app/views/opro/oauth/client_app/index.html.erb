@@ -1,6 +1,9 @@
 <div class="opro">
   <%- if @client_apps.blank? -%>
     <h2>You have no applications.</h2>
+    <%- if @all_apps_count > 0 %>
+      <h3>Maybe you created an application under a different user account?</h3>
+    <%- end -%>
   <%- else -%>
     <h2>Your Applications</h2>
     <% @client_apps.each do |client_app| %>
@@ -13,7 +16,6 @@
       <hr />
     <%- end -%>
   <%- end -%>
-  <h2>There are <%= @all_apps_count %> total application(s).</h2>
   <div>
     <%= link_to 'Register a new application', new_oauth_client_app_path %>
   </div>

@@ -46,6 +46,7 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
 
     as_user(app.user).visit oauth_client_apps_path
     assert_equal oauth_client_apps_path, current_path
+    assert !has_content?("Maybe you created an application under a different user account?")
   end
 
   test 'index client applications for other users' do
@@ -57,7 +58,7 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
 
     as_user(another_user).visit oauth_client_apps_path
     assert has_content?("You have no applications.")
-    assert has_content?("3 total application(s)")
+    assert has_content?("Maybe you created an application under a different user account?")
   end
 
 end
