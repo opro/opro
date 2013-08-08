@@ -69,7 +69,7 @@ class Opro::Oauth::AuthController < OproController
     return default_scope if params[:scope].blank?
     scope = params[:scope].is_a?(Array) ? params[:scope] : params[:scope].split(',')
     scope = scope.map(&:downcase).map(&:strip)
-    return requested_scope & default_scope
+    return scope & default_scope
   end
 
   def default_scope
