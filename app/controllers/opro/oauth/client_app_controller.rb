@@ -38,6 +38,12 @@ class Opro::Oauth::ClientAppController < OproController
     end
   end
 
+  def destroy
+    @client_app = client_app
+    @client_app.destroy
+    redirect_to oauth_client_apps_path
+  end
+
   def client_app
     Opro::Oauth::ClientApp.where(id: params[:id], user_id: current_user.id).first
   end

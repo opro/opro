@@ -10,6 +10,7 @@
         <tr><td>Client Secret: </td><td> <%= client_app.app_secret %></td></tr>
       </table>
       <%= link_to "edit", edit_oauth_client_app_path(client_app) %>
+      <%= link_to "delete", oauth_client_app_path(client_app), method: :delete, data: { confirm: "Are you sure?" } %>
       <hr />
     <%- end -%>
   <%- end -%>
