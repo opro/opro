@@ -48,4 +48,14 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
     assert_equal oauth_client_apps_path, current_path
   end
 
+  test 'delete existing client application' do
+    app = create_client_app
+    as_user(app.user).visit oauth_client_apps_path
+
+    click_link 'delete'
+
+    refute has_content?(app.name)
+    assert_equal oauth_client_apps_path, current_path
+  end
+
 end
