@@ -204,7 +204,7 @@ end
 
 ## Rate Limiting
 
-If your API becomes a runaway success and people start abusing your API, you might choqse to limit the rate that client applications can access your API. It is common for popular read-only APIs to have an hourly or daily rate limit to help prevent abuse. If you want this type of functionality, you can use oPRO's built in hooks: one to record the number of times a client application has accessed your API and another to let the application know if the Client app has gone over its allotted rate.
+If your API becomes a runaway success and people start abusing your API, you might choose to limit the rate that client applications can access your API. It is common for popular read-only APIs to have an hourly or daily rate limit to help prevent abuse. If you want this type of functionality, you can use oPRO's built in hooks: one to record the number of times a client application has accessed your API and another to let the application know if the Client app has gone over its allotted rate.
 
 To record the number of times an application has accessed your site add this method to your ApplicationController:
 
