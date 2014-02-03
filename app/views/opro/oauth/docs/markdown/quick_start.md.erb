@@ -28,9 +28,9 @@ Once you've registered an app successfully we can start to build an OAuth applic
 
 ## Step 2: As a user, grant access to your app
 
-Now that you have a client application, you'll want to give it access to a user account. Open a new browser window and log in with a user account, then give your application permission by visiting the url below (swap out '3234myClientId5678' for your client id and '14321myClientSecret8765' for your client secret)
+Now that you have a client application, you'll want to give it access to a user account. Open a new browser window and log in with a user account, then give your application permission by visiting the url below (swap out '3234myClientId5678' for your client id)
 
-    <%= oauth_new_url(:protocol => @protocol, :redirect_uri => "/", :client_id => "3234myClientId5678", :client_secret => "14321myClientSecret8765" ) %>
+    <%= oauth_new_url(:protocol => @protocol, :redirect_uri => "/", :client_id => "3234myClientId5678") %>
 
 
 This should land you on a page asking if you would like to grant permission to the application. If not, make sure you're logged in and you put the correct client id in the url.
