@@ -46,6 +46,19 @@ class ClientAppControllerTest < ActiveSupport::IntegrationCase
 
     as_user(app.user).visit oauth_client_apps_path
     assert_equal oauth_client_apps_path, current_path
+    assert !has_content?("Maybe you created an application under a different user account?")
+  end
+
+  test 'index client applications for other users' do
+    app = create_client_app
+    create_client_app(:user => app.user)
+    create_client_app(:user => app.user)
+
+    another_user = create_user
+
+    as_user(another_user).visit oauth_client_apps_path
+    assert has_content?("You have no applications.")
+    assert has_content?("Maybe you created an application under a different user account?")
   end
 
   test 'delete existing client application' do
