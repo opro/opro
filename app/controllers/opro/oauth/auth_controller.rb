@@ -9,14 +9,18 @@ class Opro::Oauth::AuthController < OproController
   end
 
   # :ask_user! is called before creating a new authorization, this allows us to redirect
-  def create
+  def create(&block)
     # find or create an auth_grant for a given user
     application = Opro::Oauth::ClientApp.find_by_client_id(params[:client_id])
-    auth_grant  = Opro::Oauth::AuthGrant.find_or_create_by_user_app(current_user, application)
+    @auth_grant  = Opro::Oauth::AuthGrant.find_or_create_by_user_app(current_user, application)
 
     # add permission changes if there are any
-    auth_grant.update_permissions(params[:permissions])
-    redirect_to auth_grant.redirect_uri_for(params[:redirect_uri], params[:state])
+    @auth_grant.update_permissions(params[:permissions])
+    if params[:redirect_uri]
+      redirect_to @auth_grant.redirect_uri_for(params[:redirect_uri], params[:state])
+    elsif block
+      block.call
+    end
   end
 
 
