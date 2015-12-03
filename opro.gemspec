@@ -133,6 +133,7 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rails>, [">= 3.1.0"])
       s.add_runtime_dependency(%q<kramdown>, [">= 0"])
+      s.add_runtime_dependency(%q<jbuilder>, ["~> 2.3"])
       s.add_development_dependency(%q<mocha>, [">= 0"])
       s.add_development_dependency(%q<timecop>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -145,6 +146,7 @@ Gem::Specification.new do |s|
     else
       s.add_dependency(%q<rails>, [">= 3.1.0"])
       s.add_dependency(%q<kramdown>, [">= 0"])
+      s.add_dependency(%q<jbuilder>, ["~> 2.3"])
       s.add_dependency(%q<mocha>, [">= 0"])
       s.add_dependency(%q<timecop>, [">= 0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
@@ -158,6 +160,7 @@ Gem::Specification.new do |s|
   else
     s.add_dependency(%q<rails>, [">= 3.1.0"])
     s.add_dependency(%q<kramdown>, [">= 0"])
+    s.add_dependency(%q<jbuilder>, ["~> 2.3"])
     s.add_dependency(%q<mocha>, [">= 0"])
     s.add_dependency(%q<timecop>, [">= 0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])

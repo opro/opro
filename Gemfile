@@ -24,6 +24,8 @@ gem "rails", rails
 
 gem 'kramdown' # pure ruby markdown parser
 
+gem 'jbuilder'
+
 group :development, :test do
   gem 'mocha', :require => false
   gem 'timecop'
