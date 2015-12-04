@@ -12,6 +12,7 @@ class Opro::Oauth::TokenController < OproController
 
     if application.present? && (@auth_grant = auth_grant_for(application, params)).present?
       @auth_grant.refresh!
+      render :create
     else
       render_error debug_msg(params, application)
     end
