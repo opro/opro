@@ -6,10 +6,13 @@ module ActionDispatch::Routing
       skip_routes = options[:except].is_a?(Array) ? options[:except] : [options[:except]]
       controllers = options[:controllers] || {}
 
-      oauth_new_controller = controllers[:oauth_new] || 'opro/oauth/auth'
+      unless skip_routes.include?(:auth)
+        oauth_new_controller = controllers[:oauth_new] || 'opro/oauth/auth'
+        get  'oauth/new'          => "#{oauth_new_controller}#new",  :as => 'oauth_new'
+        post 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
+      end
+
       oauth_token_controller = controllers[:oauth_token] || 'opro/oauth/token'
-      get  'oauth/new'          => "#{oauth_new_controller}#new",  :as => 'oauth_new'
-      post 'oauth/authorize'    => 'opro/oauth/auth#create',       :as => 'oauth_authorize'
       post 'oauth/token'        => "#{oauth_token_controller}#create",      :as => 'oauth_token', :defaults => { :format => 'json' }
 
       unless skip_routes.include?(:client_apps)
