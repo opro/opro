@@ -293,6 +293,15 @@ mount_opro_oauth :except => [:oauth_client_apps]
 
 We recommend against doing this, but we aren't your mother.
 
+If you don't need auth routes because you are only using "Password Token Exchange" you can use `except` like this:
+```ruby
+mount_opro_oauth :except => [:auth]
+```
+or if you don't need docs and tests too:
+```ruby
+mount_opro_oauth :except => [:auth, :docs, :tests]
+```
+
 
 
 ## Assumptions
