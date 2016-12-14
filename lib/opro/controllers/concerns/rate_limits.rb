@@ -2,8 +2,8 @@ module Opro::Controllers::Concerns::RateLimits
   extend ActiveSupport::Concern
 
   included do
-    before_filter :oauth_record_rate_limit!,  :if => :valid_oauth?
-    before_filter :oauth_fail_request!,       :if => :oauth_client_over_rate_limit?
+    before_action :oauth_record_rate_limit!,  :if => :valid_oauth?
+    before_action :oauth_fail_request!,       :if => :oauth_client_over_rate_limit?
   end
 
   def oauth_client_record_access!(client_id, params)

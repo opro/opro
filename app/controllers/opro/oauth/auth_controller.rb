@@ -1,6 +1,6 @@
 class Opro::Oauth::AuthController < OproController
-  before_filter      :opro_authenticate_user!
-  before_filter      :ask_user!,                  :only   => [:create]
+  before_action      :opro_authenticate_user!
+  before_action      :ask_user!,                  :only   => [:create]
 
   def new
     @redirect_uri = params[:redirect_uri]
