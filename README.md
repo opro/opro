@@ -290,6 +290,7 @@ If you do not wish for test, docs, or client_apps views & controllers to be avai
 ```ruby
 mount_opro_oauth :except => [:oauth_client_apps]
 ```
+
 We recommend against doing this, but we aren't your mother.
 
 If you don't need auth routes because you are only using "Password Token Exchange" you can use `except` like this:
