@@ -3,7 +3,7 @@
 
 class Opro::Oauth::TokenController < OproController
   before_filter      :opro_authenticate_user!,    :except => [:create]
-  skip_before_filter :verify_authenticity_token,  :only   => [:create]
+  skip_before_filter :verify_authenticity_token,  :only   => [:create], :raise => false
 
 
   def create

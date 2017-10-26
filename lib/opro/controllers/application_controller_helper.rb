@@ -11,7 +11,7 @@ module Opro
 
       included do
         around_filter      :oauth_auth!
-        skip_before_filter :verify_authenticity_token, :if => :valid_oauth?
+        skip_before_filter :verify_authenticity_token, :if => :valid_oauth?, :raise => false
       end
 
       def opro_authenticate_user!
