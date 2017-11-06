@@ -21,11 +21,11 @@ module Opro
 
       module ClassMethods
         def allow_oauth!(options = {})
-          prepend_before_filter :allow_oauth, options
+          prepend_before_action :allow_oauth, options
         end
 
         def disallow_oauth!(options = {})
-          prepend_before_filter :disallow_oauth,  options
+          prepend_before_action :disallow_oauth,  options
           skip_before_action    :allow_oauth,     options
         end
 
