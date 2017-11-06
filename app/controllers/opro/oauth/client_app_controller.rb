@@ -1,5 +1,5 @@
 class Opro::Oauth::ClientAppController < OproController
-  before_filter :opro_authenticate_user!
+  before_action :opro_authenticate_user!
 
   def new
     @client_app = Opro::Oauth::ClientApp.new
