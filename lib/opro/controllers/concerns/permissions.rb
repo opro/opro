@@ -55,7 +55,7 @@ module Opro::Controllers::Concerns::Permissions
   # if client has been granted write permissions or request is a 'GET' returns true
   def oauth_client_can_write?
     return false unless oauth_access_grant.present?
-    return true if env['REQUEST_METHOD'] == 'GET'
+    return true if request.env['REQUEST_METHOD'] == 'GET'
     return true if oauth_access_grant.can?(:write)
     false
   end
