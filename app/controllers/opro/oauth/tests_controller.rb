@@ -30,7 +30,7 @@ class Opro::Oauth::TestsController < OproController
   def render_result(result)
     respond_to do |format|
       format.html do
-        render :text => result.to_json, :status => result[:status], :layout => true
+        render :html => result.to_json, :status => result[:status], :layout => true
       end
       format.json do
         render :json => result, :status => result[:status]

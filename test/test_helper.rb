@@ -39,16 +39,19 @@ ActiveRecord::Base.logger = Logger.new(nil)
 ActiveRecord::Migrator.migrate File.expand_path("../dummy/db/migrate/", __FILE__)
 
 class ActiveSupport::TestCase
-  self.use_transactional_fixtures = true
+  # include Devise::Test::ControllerHelpers
+
+  self.use_transactional_tests = true
   self.use_instantiated_fixtures  = false
+end
+
+class ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
 end
 
 # Load support files
 Dir["#{File.dirname(__FILE__)}/support/**/*.rb"].each { |f| require f }
 
-
-
-include Devise::TestHelpers
 
 # gives us the login_as(@user) method when request object is not present
 include Warden::Test::Helpers
