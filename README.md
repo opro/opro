@@ -61,7 +61,7 @@ end
 ```
 
 
-Now in your controllers you can allow OAuth access using the same syntax of the rails `before_filter`
+Now in your controllers you can allow OAuth access using the same syntax of the rails `before_action`
 
 ```ruby
 class UsersController < ApplicationController
@@ -127,7 +127,7 @@ You can add custom permissions by adding to the array:
 config.request_permissions = [:write, :email, :picture, :whatever]
 ```
 
-You can then restrict access using the custom permissions by calling `require_oauth_permissions`, which takes the same arguments as `before_filter`:
+You can then restrict access using the custom permissions by calling `require_oauth_permissions`, which takes the same arguments as `before_action`:
 
 ```ruby
 require_oauth_permissions :email, :only => :index

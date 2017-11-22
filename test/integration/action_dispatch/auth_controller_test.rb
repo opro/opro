@@ -6,12 +6,13 @@
 require 'test_helper'
 
 class AuthControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
+
   setup do
     @user         = create_user
     @client_app   = create_client_app
     @redirect_uri = '/'
   end
-
 
   test "AUTHORIZE: previously authed user gets Authed immediately, permissions not changed" do
     auth_grant  = create_auth_grant_for_user(@user, @client_app)
@@ -69,7 +70,6 @@ class AuthControllerTest < ActionDispatch::IntegrationTest
 
     refute auth_grant.permissions.has_key?(permissions.keys.first)
   end
-
 
   test "AUTHORIZE: user gets redirected to new form if not already authed" do
     params = { :client_id     => @client_app.client_id ,

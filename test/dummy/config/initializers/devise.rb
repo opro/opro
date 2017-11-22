@@ -9,9 +9,6 @@ Devise.setup do |config|
   # Configure the class responsible to send e-mails.
   # config.mailer = "Devise::Mailer"
 
-  # Automatically apply schema changes in tableless databases
-  config.apply_schema = false
-
   # ==> ORM configuration
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
@@ -220,4 +217,7 @@ Devise.setup do |config|
   #   manager.intercept_401 = false
   #   manager.default_strategies(:scope => :user).unshift :some_external_strategy
   # end
+  #
+
+  config.secret_key = '056ed94d8fb2475bddc9bf3fe5bde8c807711f6cc37e4b9534e2bc022fe36eae1b13742d82acb412087ac833dd3baf19bda469f4304fef30239da4de3bacc3fe'
 end

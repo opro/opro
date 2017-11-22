@@ -55,7 +55,7 @@ module Opro::Controllers::Concerns::Permissions
   # if client has been granted write permissions or request is a 'GET' returns true
   def oauth_client_can_write?
     return false unless oauth_access_grant.present?
-    return true if env['REQUEST_METHOD'] == 'GET'
+    return true if request.env['REQUEST_METHOD'] == 'GET'
     return true if oauth_access_grant.can?(:write)
     false
   end
@@ -66,7 +66,7 @@ module Opro::Controllers::Concerns::Permissions
     def skip_oauth_permissions(*args)
       options     = args.last.is_a?(Hash) ? callbacks.pop : {}
       permissions = args
-      prepend_before_filter(options) do
+      prepend_before_action(options) do
         permissions.each do |permission|
           controller.skip_oauth_required_permission(permission)
         end
@@ -78,7 +78,7 @@ module Opro::Controllers::Concerns::Permissions
     def require_oauth_permissions(*args)
       options     = args.last.is_a?(Hash) ? args.pop : {}
       permissions = args
-      prepend_before_filter(options) do
+      prepend_before_action(options) do
         permissions.each do |permission|
           raise "You must add #{permission.inspect} to the oPRO request_permissions setting in an initializer" unless Opro.request_permissions.include?(permission)
           controller.add_oauth_required_permission(permission)

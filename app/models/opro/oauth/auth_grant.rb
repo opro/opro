@@ -71,6 +71,7 @@ class Opro::Oauth::AuthGrant < ActiveRecord::Base
   end
 
   def update_permissions(permissions = default_permissions)
+    permissions = permissions.to_h
     self.permissions = permissions and save if self.permissions != permissions
   end
 

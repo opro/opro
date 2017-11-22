@@ -4,7 +4,7 @@ require 'kramdown'
 OPRO_MD_ROOT = File.join(File.dirname(__FILE__), '../../../views/opro/oauth/docs/markdown/')
 
 class Opro::Oauth::DocsController < OproController
-  before_filter :set_protocol!
+  before_action :set_protocol!
   helper_method :render_doc
 
   def index

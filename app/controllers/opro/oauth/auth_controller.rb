@@ -1,6 +1,6 @@
 class Opro::Oauth::AuthController < OproController
-  before_filter      :opro_authenticate_user!
-  before_filter      :ask_user!,                  :only   => [:create]
+  before_action      :opro_authenticate_user!
+  before_action      :ask_user!,                  :only   => [:create]
 
   def new
     @redirect_uri = params[:redirect_uri]
@@ -24,6 +24,8 @@ class Opro::Oauth::AuthController < OproController
   # When a user is sent to authorize an application they must first accept the authorization
   # if they've already authed the app, they skip this section
   def ask_user!
+    params.permit!
+
     if user_granted_access_before?(current_user, params)
       # Re-Authorize the application, do not ask the user
       params.delete(:permissions) ## Delete permissions supplied by client app, this was a security hole
